@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/* Custom breakpoint for extra small devices */
+@custom-variant xs (@media (min-width: 400px));
+
+
+@font-face {
+  font-family: 'Dana';
+  src: url('../fonts/Dana/DanaVF.ttf') format('truetype'),
+}
+
+@font-face {
+  font-family: 'Rokh';
+  src: url('../fonts/Rokh/RokhVFGX.ttf') format('truetype'),
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('../fonts/PlusJakartaSans/PlusJakartaSans-VariableFont_wght.ttf') format('truetype'),
+}
+
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+*::selection {
+  /* you canActive this mode ...  */
+  background-color: #049cc2;
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+
+.PlusJakartaSans {
+  font-family: 'PlusJakartaSans' !important;
+}
+
+.yekanbakh {
+  font-family: 'yekanbakh';
+}
+
+.Dana {
+  font-family: 'Dana';
+}
+
+.Rokh {
+  font-family: 'Rokh';
+}
+
+p,
+span,
+a,
+li,
+button,
+input,
+div {
+  font-family: 'Dana' !important;
+  -moz-font-feature-settings: "ss02";
+  -webkit-font-feature-settings: "ss02";
+  font-feature-settings: "ss02";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Rokh' !important;
+}
+
+
+.animation-ip-down-700 {
+  animation: animation-ip-down-700 1.7s linear infinite alternate;
+}
+
+.animation-ip-down-500 {
+  animation: animation-ip-down-500 1.5s linear infinite alternate;
+}
+
+.animation-ip-down-300 {
+  animation: animation-ip-down-300 1.3s linear infinite alternate;
+}
+
+@keyframes animation-ip-down-700 {
+  from {
+    transform: translateY(-20px);
+  }
+
+  top {
+    transform: translateY(20px);
+  }
+}
+
+@keyframes animation-ip-down-500 {
+  from {
+    transform: translateY(-20px);
+  }
+
+  top {
+    transform: translateY(20px);
+  }
+}
+
+@keyframes animation-ip-down-300 {
+  from {
+    transform: translateY(-20px);
+  }
+
+  top {
+    transform: translateY(20px);
+  }
+}
+
+
+.magale-slider-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #E7EAF0;
+  opacity: 1;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.magale-slider-pagination .swiper-pagination-bullet-active {
+  width: 24px;
+  background: #53a7f5;
+  border-radius: 10px;
+}
+
+
+/* Tech Marquee */
+.tech-marquee-track {
+  display: flex;
+  animation: tech-scroll 25s linear infinite;
+  width: max-content;
+}
+
+.tech-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes tech-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.tech-scroll-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.tech-scroll {
+  display: flex;
+  animation: tech-scroll 20s linear infinite;
+}
+
+/* قرص‌ها (بدون تغییر اساسی) */
+.tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  margin: 0 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.tech-pill:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+/* انیمیشن پیوسته */
+@keyframes tech-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+.color{
+  color: #6191f8;
+}

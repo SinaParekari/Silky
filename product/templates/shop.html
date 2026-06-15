@@ -1,0 +1,438 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<br>
+
+    <!-- Add this style to your CSS or in a <style> tag for the custom float animation -->
+    <style>
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(6deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(8deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(6deg);
+            }
+        }
+
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+    </style>
+
+
+    <!-- Stats Bar - Modern Light Theme -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6" dir="rtl">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+            <!-- Stat 1 -->
+            <div
+                class="group bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md hover:border-violet-200 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div
+                    class="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    🚀</div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-0.5">ارسال سریع</p>
+                    <p class="text-sm font-bold text-slate-800">۲۴ ساعته</p>
+                </div>
+            </div>
+
+            <!-- Stat 2 -->
+            <div
+                class="group bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md hover:border-fuchsia-200 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div
+                    class="w-12 h-12 rounded-xl bg-fuchsia-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    🔒</div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-0.5">پرداخت</p>
+                    <p class="text-sm font-bold text-slate-800">امن و مطمئن</p>
+                </div>
+            </div>
+
+            <!-- Stat 3 -->
+            <div
+                class="group bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div
+                    class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    ♻️</div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-0.5">بازگشت کالا</p>
+                    <p class="text-sm font-bold text-slate-800">۷ روزه رایگان</p>
+                </div>
+            </div>
+
+            <!-- Stat 4 -->
+            <div
+                class="group bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md hover:border-indigo-200 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div
+                    class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    🎯</div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-0.5">پشتیبانی</p>
+                    <p class="text-sm font-bold text-slate-800">۲۴/۷</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Category Chips -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8" dir="rtl">
+        <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+            <button @click="selectCategory('همه')"
+                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300"
+                :class="selectedCategory === 'همه' ? 'bg-violet-600 text-white shadow-lg shadow-violet-200' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-violet-200'">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                    </path>
+                </svg>
+                همه محصولات
+            </button> 
+            {% comment %} todo: click and see category products {% endcomment %}
+            {% for cat in categories %}
+            <button
+                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold bg-white text-slate-600 border border-slate-200">
+
+                <span>{{ cat.name }}</span>
+
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-12" dir="rtl">
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-72 flex-shrink-0 hidden lg:block">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-24">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-base font-bold text-slate-800">فیلتر محصولات</h3>
+                        <button @click="resetFilters()"
+                            class="text-xs text-violet-600 hover:text-violet-700 font-medium bg-violet-50 px-3 py-1.5 rounded-lg transition-colors">پاک
+                            کردن</button>
+                    </div>
+
+                    <!-- Price Range (Redesigned with Inputs) -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-semibold text-slate-700 mb-4">محدوده قیمت (تومان)</h4>
+                        <div class="space-y-4">
+                            <!-- Number Inputs -->
+                            <div class="flex items-center gap-3">
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400 mb-1 block">از</label>
+                                    <input type="number" x-model.number="priceRange.min" @change="applyFilters()"
+                                        class="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-violet-200 focus:border-violet-500 outline-none transition-all">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400 mb-1 block">تا</label>
+                                    <input type="number" x-model.number="priceRange.max" @change="applyFilters()"
+                                        class="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-violet-200 focus:border-violet-500 outline-none transition-all">
+                                </div>
+                            </div>
+                            <!-- Range Sliders -->
+                            <div class="relative pt-2">
+                                <input type="range" min="0" max="10000000" step="100000" x-model="priceRange.min"
+                                    @input="applyFilters()"
+                                    class="w-full absolute top-0 pointer-events-none appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-violet-600 [&::-webkit-slider-thumb]:rounded-full z-20">
+                                <input type="range" min="0" max="10000000" step="100000" x-model="priceRange.max"
+                                    @input="applyFilters()"
+                                    class="w-full absolute top-0 pointer-events-none appearance-none bg-slate-200 h-1.5 rounded-full [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-violet-600 [&::-webkit-slider-thumb]:rounded-full z-30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-px bg-slate-100 mb-6"></div>
+
+                    <!-- Special Filters -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-semibold text-slate-700 mb-3">وضعیت محصول</h4>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" x-model="filterOnSale" @change="applyFilters()"
+                                    class="w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+                                <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">فقط
+                                    تخفیف‌دار</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" x-model="filterNew" @change="applyFilters()"
+                                    class="w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">محصولات
+                                    جدید</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" x-model="filterInStock" @change="applyFilters()"
+                                    class="w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+                                <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">موجود
+                                    در انبار</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Products Area -->
+            <main class="flex-1 min-w-0">
+                <!-- Toolbar -->
+                <div
+                    class="flex flex-wrap items-center justify-between mb-6 bg-white rounded-2xl p-4 border border-slate-100 shadow-sm gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-slate-500">
+                            <span class="font-bold text-slate-800" x-text="filteredProducts.length"></span> محصول یافت
+                            شد
+                        </span>
+                        <!-- Mobile Filter Button -->
+                        <button @click="mobileFilterOpen = !mobileFilterOpen"
+                            class="lg:hidden flex items-center gap-2 text-sm font-medium text-slate-600 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                            فیلتر
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <!-- Sort -->
+                        <!-- کانتینر اصلی با آلپاین جی‌اس -->
+                        <div x-data="{
+        isOpen: false,
+        sortBy: 'default',
+        options: {
+            'default': 'مرتب‌سازی: پیش‌فرض',
+            'price-asc': 'ارزان‌ترین',
+            'price-desc': 'گران‌ترین',
+            'rating': 'بهترین امتیاز',
+            'newest': 'جدیدترین'
+        },
+        applyFilters() {
+            // تابع شما در اینجا فراخوانی می‌شود
+            console.log('Selected:', this.sortBy);
+        }
+    }" class="relative w-full sm:w-64 font-sans" dir="rtl">
+
+                            <!-- دکمه اصلی (حالت گلس) -->
+                            <button @click="isOpen = !isOpen" type="button"
+                                class="w-full flex items-center justify-between px-4 py-3 bg-white/40 backdrop-blur-md border border-white/50 shadow-sm rounded-xl text-slate-700 font-medium transition-all duration-300 hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:bg-white/60">
+                                <span x-text="options[sortBy]"></span>
+
+                                <!-- آیکون فلش -->
+                                <svg :class="{'rotate-180': isOpen}"
+                                    class="w-5 h-5 text-slate-500 transition-transform duration-300" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <!-- منوی کشویی گزینه‌ها (حالت گلس) -->
+                            <div x-show="isOpen" @click.away="isOpen = false"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 translate-y-[-10px]"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 translate-y-[-10px]"
+                                class="absolute z-10 w-full mt-2 py-1 bg-white/50 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-xl overflow-hidden"
+                                style="display: none;">
+
+                                <template x-for="(label, value) in options" :key="value">
+                                    <div @click="sortBy = value; isOpen = false; applyFilters()"
+                                        class="px-4 py-2.5 cursor-pointer text-slate-700 hover:bg-white/60 hover:text-violet-700 transition-colors duration-200 text-sm font-medium"
+                                        :class="{'bg-white/60 text-violet-700': sortBy === value}">
+                                        <span x-text="label"></span>
+                                    </div>
+                                </template>
+
+                            </div>
+                        </div>
+
+                        <!-- View Toggle -->
+                        <div class="hidden sm:flex bg-slate-50 rounded-xl p-1 border border-slate-200">
+                            <button @click="viewMode = 'grid'" class="p-2 rounded-lg transition-all"
+                                :class="viewMode === 'grid' ? 'bg-white shadow-sm text-violet-600' : 'text-slate-400 hover:text-slate-600'">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zm-11 11h7v7H3v-7zm11 0h7v7h-7v-7z" />
+                                </svg>
+                            </button>
+                            <button @click="viewMode = 'list'" class="p-2 rounded-lg transition-all"
+                                :class="viewMode === 'list' ? 'bg-white shadow-sm text-violet-600' : 'text-slate-400 hover:text-slate-600'">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid View -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                        {% for product in page_obj %}
+                            {% include "product_card.html" with product=product %}
+                        {% empty %}
+                            <p>محصولی یافت نشد.</p>
+                        {% endfor %}
+                    </div>
+                    {% if is_paginated %}
+                    <div class="flex justify-center items-center gap-2 mt-10" dir="rtl">
+
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}"
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition">
+                                قبلی
+                            </a>
+                        {% endif %}
+
+                        {% if page_obj.number > 3 %}
+                            <a href="?page=1"
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50">
+                                1
+                            </a>
+
+                            {% if page_obj.number > 4 %}
+                                <span class="px-2">...</span>
+                            {% endif %}
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+
+                                {% if page_obj.number == num %}
+                                    <span class="px-4 py-2 bg-violet-600 text-white rounded-xl">
+                                        {{ num }}
+                                    </span>
+                                {% else %}
+                                    <a href="?page={{ num }}"
+                                    class="px-4 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50">
+                                        {{ num }}
+                                    </a>
+                                {% endif %}
+
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.number < page_obj.paginator.num_pages|add:"-2" %}
+
+                            {% if page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+                                <span class="px-2">...</span>
+                            {% endif %}
+
+                            <a href="?page={{ page_obj.paginator.num_pages }}"
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50">
+                                {{ page_obj.paginator.num_pages }}
+                            </a>
+
+                        {% endif %}
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}"
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition">
+                                بعدی
+                            </a>
+                        {% endif %}
+
+                    </div>
+                    {% endif %}
+
+                <!-- List View -->
+                <!-- ... (The list view follows the exact same pattern: change text colors to slate, replace background/emoji with <img> tag, and use violet accents for buttons) ... -->
+
+            </main>
+        </div>
+    </div>
+
+
+        <!-- Modern Light Hero Banner -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8" dir="rtl">
+        <!-- Main Container -->
+        <div
+            class="relative bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 flex flex-col lg:flex-row items-center justify-between p-8 lg:p-16 gap-12 group cursor-default">
+
+            <!-- Abstract Soft Backgrounds -->
+            <div
+                class="absolute top-0 right-0 w-96 h-96 bg-fuchsia-200/60 rounded-full mix-blend-multiply filter blur-[80px] animate-pulse">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-96 h-96 bg-violet-200/60 rounded-full mix-blend-multiply filter blur-[80px]">
+            </div>
+
+            <!-- Text Content (Right Side) -->
+            <div class="relative z-10 w-full lg:w-1/2 flex flex-col items-start text-right">
+
+                <!-- Modern Badge -->
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-100 text-violet-700 text-sm font-medium mb-6 hover:bg-violet-100 transition-colors">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                    </span>
+                    تخفیف‌های استثنایی این ماه
+                </div>
+
+                <!-- Typography -->
+                <h1
+                    class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight mb-6">
+                    آینده خرید آنلاین، <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-l from-violet-600 to-fuchsia-600">در دستان
+                        شماست.</span>
+                </h1>
+
+                <p class="text-slate-600 text-base sm:text-lg mb-10 max-w-md leading-relaxed font-light">
+                    تجربه‌ای متفاوت از کیفیت و سرعت. همین حالا به جمع هزاران کاربر راضی ما بپیوندید و از پیشنهادهای ویژه
+                    لذت ببرید.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+                    <button
+                        class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:-translate-y-1 transition-all duration-300 active:scale-95 flex justify-center items-center gap-2">
+                        شروع کنید
+                        <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+
+                    <button
+                        class="w-full sm:w-auto px-8 py-4 bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-semibold text-sm hover:bg-slate-100 hover:text-slate-900 transition-all duration-300 active:scale-95 text-center">
+                        مشاهده کاتالوگ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visual/Graphic Area (Left Side) -->
+            <div
+                class="relative z-10 w-full lg:w-5/12 h-64 sm:h-80 lg:h-96 hidden sm:flex justify-center items-center perspective-1000">
+                <!-- 3D Abstract Composition -->
+                <div
+                    class="relative w-full h-full transform transition-transform duration-700 ease-out group-hover:rotate-y-12 group-hover:rotate-x-12">
+                    <!-- Card 1 -->
+                    <div
+                        class="absolute inset-0 m-auto w-48 h-64 bg-gradient-to-tr from-violet-500 to-fuchsia-500 rounded-3xl backdrop-blur-md border border-white/50 shadow-2xl shadow-violet-500/20 transform rotate-6 hover:rotate-12 transition-transform duration-500 animate-float">
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="absolute inset-0 m-auto w-48 h-64 bg-white/70 rounded-3xl backdrop-blur-xl border border-white shadow-xl transform -rotate-12 hover:-rotate-6 transition-transform duration-500"
+                        style="animation: float 6s ease-in-out infinite reverse;"></div>
+                    <!-- Floating Icon -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl drop-shadow-xl">
+                        🚀
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

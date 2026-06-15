@@ -1,0 +1,22 @@
+    <div class="bg-gradient-to-l from-[#6294ff] to-[#a662ff79] py-2 px-4" x-data="{ showBanner: true }"
+        x-show="showBanner">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 flex-1 justify-center">
+                <span class="animate-pulse">🎉</span>
+                <p class="text-white text-[11px] sm:text-[13px] font-medium">تخفیف ویژه بهار! تا <span
+                        class="font-bold">7۰٪</span> تخفیف روی تمام لباس های بهاره</p>
+                <a href="#"
+                    class="hidden sm:inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white text-[11px] px-3 py-1 rounded-full transition-colors mr-2">
+                    مشاهده
+                    <svg class="w-3 h-3 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <button @click="showBanner = false" class="text-white/80 hover:text-white transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
