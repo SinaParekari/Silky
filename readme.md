@@ -157,6 +157,21 @@ http://127.0.0.1:8000/
 
 ![Products](screenshots/products.png)
 
+### Login and Register Page
+
+![Login](screenshots/login.png)
+![Register](screenshots/register.png)
+
+### Dashboard and Profile Page
+
+![Dashboard](screenshots/dash.png)
+![Profile](screenshots/Profile.png)
+
+### Contact us Page
+
+![Contact-us](screenshots/contact.png)
+
+
 ## Future Improvements
 
 * PostgreSQL Support
