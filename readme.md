@@ -18,11 +18,11 @@ Silky is an online digital store built with Django and Django REST Framework. Th
 * Responsive User Interface
 * Modular Django Architecture
 * contact us
+* Shopping Cart
+* Cart Management
 
 ### Upcoming Features
 
-* Shopping Cart
-* Cart Management
 * Order Processing
 * Payment Gateway Integration
 * Order History
