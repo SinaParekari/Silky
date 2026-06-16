@@ -22,7 +22,6 @@
                 <!-- بج‌ها -->
                 <div class="absolute top-4 right-4 flex flex-col gap-2">
                     {% if selected_variant %}
-                    <span class="bg-green-500 text-white text-xs font-700 px-3 py-1.5 rounded-full shadow-md">موجود ✅</span>
                     {% if selected_variant.stock <= 5 %}
                     <span class="bg-orange-500 text-white text-xs font-700 px-3 py-1.5 rounded-full shadow-md">آخرین موجودی!</span>
                     {% endif %}
@@ -107,16 +106,9 @@
                 <span class="text-xs font-600 text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-full">
                     {{ product.category.name }}
                 </span>
-                {% if selected_variant and selected_variant.stock > 0 %}
-                <span class="text-xs font-600 text-green-600 bg-green-50 px-3 py-1.5 rounded-full flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse"></span>
-                    موجود در انبار
+                <span class="text-xs font-600 text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-full">
+                    {{ brand }}
                 </span>
-                {% else %}
-                <span class="text-xs font-600 text-red-600 bg-red-50 px-3 py-1.5 rounded-full">
-                    ناموجود
-                </span>
-                {% endif %}
             </div>
 
             <!-- نام و توضیح -->
@@ -342,43 +334,46 @@
                 </div>
 
                 <!-- فرم نظر -->
-                <div x-show="reviewFormOpen" x-cloak
-                    class="bg-indigo-50 rounded-3xl p-6 border border-indigo-100">
+                <div x-show="reviewFormOpen" x-cloak class="bg-indigo-50 rounded-3xl p-6 border border-indigo-100">
                     <h4 class="font-700 text-gray-800 mb-4">نظر خود را بنویسید</h4>
-                    {% comment %} {% url 'add_review' product.slug %} {% endcomment %}
-                    <form method="POST" action="#">
+                    
+                    {% if request.user.is_authenticated %}
+                    <form method="POST" action="{% url 'add_review' product.slug %}">
                         {% csrf_token %}
                         <div class="space-y-4">
+
                             <!-- امتیاز -->
-                            <div>
+                            <div x-data="{ hoverRating: 0, selectedRating: {{ user_review.rating|default:0 }} }">
                                 <label class="text-sm font-600 text-gray-700 mb-2 block">امتیاز</label>
-                                <div class="flex gap-2" x-data="{ hoverRating: 0 }">
+                                <div class="flex gap-2">
                                     {% for i in "12345" %}
                                     <button type="button"
-                                        @click="newRating = {{ forloop.counter }}"
+                                        @click="selectedRating = {{ forloop.counter }}"
                                         @mouseenter="hoverRating = {{ forloop.counter }}"
                                         @mouseleave="hoverRating = 0"
                                         class="transition-transform hover:scale-125">
                                         <svg class="w-8 h-8"
-                                            :class="{{ forloop.counter }} <= (hoverRating || newRating) ? 'text-yellow-400' : 'text-gray-300'"
+                                            :class="{{ forloop.counter }} <= (hoverRating || selectedRating) ? 'text-yellow-400' : 'text-gray-300'"
                                             fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     </button>
                                     {% endfor %}
-                                    <input type="hidden" name="rating" :value="newRating">
+                                    <input type="hidden" name="rating" :value="selectedRating">
                                 </div>
                             </div>
+
+                            <!-- متن نظر -->
                             <div>
                                 <label class="text-sm font-600 text-gray-700 mb-1 block">متن نظر</label>
-                                <textarea name="comment" rows="3"
-                                    placeholder="تجربه خود از این محصول را بنویسید..."
-                                    class="w-full px-4 py-2.5 bg-white rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none"></textarea>
+                                {{ review_form.comment }}
                             </div>
+
+                            <!-- دکمه‌ها -->
                             <div class="flex gap-3">
                                 <button type="submit"
                                     class="px-6 py-2.5 bg-indigo-500 text-white rounded-xl text-sm font-600 hover:bg-indigo-600 transition-colors">
-                                    ارسال نظر
+                                    {% if user_review %}ویرایش نظر{% else %}ارسال نظر{% endif %}
                                 </button>
                                 <button type="button" @click="reviewFormOpen=false"
                                     class="px-6 py-2.5 bg-white text-gray-600 rounded-xl text-sm font-600 hover:bg-gray-50 transition-colors border border-gray-200">
@@ -387,6 +382,17 @@
                             </div>
                         </div>
                     </form>
+
+                    {% else %}
+                    <!-- کاربر لاگین نکرده -->
+                    <div class="text-center py-4">
+                        <p class="text-gray-500 text-sm mb-3">برای ثبت نظر ابتدا وارد شوید</p>
+                        <a href="{% url 'login' %}" 
+                            class="px-6 py-2.5 bg-indigo-500 text-white rounded-xl text-sm font-600 hover:bg-indigo-600 transition-colors">
+                            ورود به حساب
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- لیست نظرات -->

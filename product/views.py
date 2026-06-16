@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import Http404
 from django.views.generic import ListView
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Review, ProductAttributeValue
 from category.models import Category
 from django.db.models import Avg, Count
+from django.contrib.auth.decorators import login_required
+from .forms import ReviewForm
 
 # Create your views here.
 
@@ -61,6 +63,12 @@ def product_detail_view(request, *args, **kwargs):
         is_active=True
     ).exclude(id=product.id)[:10]
 
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(product=product, user=request.user).first()
+    brand = product.attribute_values.filter(attribute__name='brand').first()
+
+
     context = {
         'product': product,
         'images': images,
@@ -70,5 +78,30 @@ def product_detail_view(request, *args, **kwargs):
         'review_count': reviews.count(),
         'selected_variant': selected_variant,
         'related_products': related_products,
+        'review_form': ReviewForm(instance=user_review),
+        'user_review': user_review,
+        'brand' : brand.value if brand else None, 
     }
     return render(request, 'product_detial.html', context)
+
+@login_required(login_url='login')
+def add_review_view(request, slug):
+    product = Product.objects.get_product_by_slug(slug)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            # چک کن قبلاً نظر داده یا نه
+            if not Review.objects.filter(product=product, user=request.user).exists():
+                review = form.save(commit=False)
+                review.product = product
+                review.user = request.user
+                review.save()
+            else:
+                # اگه قبلاً نظر داده، آپدیت کن
+                Review.objects.filter(product=product, user=request.user).update(
+                    rating=form.cleaned_data['rating'],
+                    comment=form.cleaned_data['comment'],
+                )
+    
+    return redirect('product_detail', slug=slug)
