@@ -17,6 +17,7 @@ Silky is an online digital store built with Django and Django REST Framework. Th
 * Product Filtering
 * Responsive User Interface
 * Modular Django Architecture
+* contact us
 
 ### Upcoming Features
 
@@ -71,14 +72,17 @@ Responsible for:
 * User Registration
 * Authentication
 * User Management
+* User address
 
 ### Category App
 
 Responsible for:
 
 * Categories
+* Categories Attributes
 * Nested Categories
 * Product Classification
+* Category managment
 
 ### Product App
 
@@ -88,10 +92,13 @@ Responsible for:
 * Product Details
 * Product Ratings
 * Product Filtering
+* Product Review
 
 ### Core App
 
 Shared functionality and reusable components across the project.
+* Contact us Page managment
+* Contact form
 
 ## Installation
 
