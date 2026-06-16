@@ -313,7 +313,7 @@
             <div class="flex justify-between items-center gap-3">
                 <!-- Logo -->
                 <div class="flex-shrink-0 group">
-                    <a href="index.html" class="block">
+                    <a href="{% url "home" %}" class="block">
                         <img class="w-[80px] sm:w-[80px] md:w-[100px] transition-transform duration-300 group-hover:scale-105"
                             src="{% static 'assets/images/logo.png' %}" alt="سیلکی">
                     </a>
@@ -1334,8 +1334,7 @@
                             <span>درباره ما</span>
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/about/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
                         </a>
-{% comment %} {% url 'contact' %} {% endcomment %}
-                        <a href="#"
+                        <a href="{% url 'contact' %}"
                             class="relative text-[14px] {% if request.path == '/contact/' %}text-[#6294ff] font-medium{% else %}text-[#67788E] hover:text-[#6294ff]{% endif %} mx-[20px] transition-colors group py-2">
                             <span>تماس با ما</span>
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/contact/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
@@ -1484,7 +1483,7 @@
                 <div class="flex-1 px-4 py-4 space-y-1">
                     <p class="text-[11px] text-[#ACB8C4] font-medium mb-3 px-2">صفحات</p>
 
-                    <a href="./index.html"
+                    <a href="{% url "home" %}"
                         class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
                         :class="activeNav === 'home' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
@@ -1505,7 +1504,7 @@
                         </svg>
                     </a>
 
-                    <a href="./shop.html"
+                    <a href="{% url "shop" %}"
                         class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
                         :class="activeNav === 'shop' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
@@ -1582,7 +1581,7 @@
                         </svg>
                     </a>
 
-                    <a href="./contact.html"
+                    <a href="{% url "contact" %}"
                         class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
                         :class="activeNav === 'contact' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
