@@ -1,5 +1,5 @@
 from django import forms
-from user.models import User
+from user.models import User, Address
 from phonenumber_field.formfields import PhoneNumberField as PhoneNumberFormField
 
 class LoginForm(forms.Form):
@@ -133,3 +133,35 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError('رمز عبور و تکرار آن یکسان نیستند')
 
         return cleaned_data
+    
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['province', 'city', 'address', 'building_number', 'unit', 'postal_code', 'is_default']
+
+        widgets = {
+            'province': forms.Select(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm',
+                'id': 'province-select'
+            }),
+            'city': forms.Select(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm',
+                'id': 'city-select'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-violet-400 transition-colors',
+                'placeholder': 'آدرس کامل'
+            }),
+            'building_number': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-violet-400 transition-colors',
+                'placeholder': 'پلاک'
+            }),
+            'unit': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-violet-400 transition-colors',
+                'placeholder': 'واحد (اختیاری)'
+            }),
+            'postal_code': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-violet-400 transition-colors',
+                'placeholder': 'کد پستی'
+            }),
+        }

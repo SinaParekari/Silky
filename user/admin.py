@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Address
+from .models import User, Address, Province, City
 
 class AddressInline(admin.TabularInline):
     model = Address
@@ -40,5 +40,11 @@ class AddressAdmin(admin.ModelAdmin):
     }),
     )
 
+@admin.register(Province)
+class ProvinceAdmin(admin.ModelAdmin):
+    list_display = ["__str__"]
 
-
+@admin.register(City)
+class CityeAdmin(admin.ModelAdmin):
+    list_display = ["__str__"]
+    

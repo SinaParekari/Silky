@@ -16,6 +16,20 @@ def upload_image(instance : AbstractUser, filename):
     final_name = f'{instance.id}-{instance.username}-{rand_name}{ext}'
     return f'avatars/{final_name}'
 
+class Province(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name='cities')
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
 class User(AbstractUser):
     email = models.EmailField(unique=True) 
     phone_number = PhoneNumberField(unique=True, region="IR")
@@ -31,25 +45,30 @@ class User(AbstractUser):
 
 
 class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
-    province = models.CharField(max_length=50) #TODO : this field needs to be choice box
-    city = models.CharField(max_length=50) #TODO : this field needs to be choice box
-    address = models.CharField(max_length=100)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='addresses'
+    )
+
+    province = models.ForeignKey(Province, on_delete=models.PROTECT)
+    city = models.ForeignKey(City, on_delete=models.PROTECT)
+    address = models.CharField(max_length=255)
     building_number = models.CharField(max_length=10)
     unit = models.CharField(max_length=10, blank=True, null=True)
     postal_code = models.CharField(max_length=10)
+
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    #TODO: wallet
 
-    #this method stops two or more addresses is_default value in True for one user
     def save(self, *args, **kwargs):
         if self.is_default:
-            Address.objects.filter(user=self.user, is_default=True).exclude(pk=self.pk).update(is_default=False)
+            Address.objects.filter(
+                user=self.user,
+                is_default=True
+            ).exclude(pk=self.pk).update(is_default=False)
+
         super().save(*args, **kwargs)
 
-    class Meta:
-        db_table = 'Address'
-
     def __str__(self):
-        return f'{self.user.username} - {self.postal_code}'
+        return f"{self.city} - {self.address}"
