@@ -165,7 +165,7 @@ http://127.0.0.1:8000/
 ### Dashboard and Profile Page
 
 ![Dashboard](screenshots/dash.png)
-![Profile](screenshots/Profile.png)
+![Profile](screenshots/profile.png)
 
 ### Contact us Page
 
