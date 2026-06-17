@@ -38,11 +38,6 @@ class ProductListView(ListView):
         return context
 
 
-from django.db.models import Avg
-from django.http import Http404
-from django.shortcuts import render
-from .models import Product, ProductImage
-
 def product_detail_view(request, *args, **kwargs):
     slug = kwargs['slug']
     product = Product.objects.get_product_by_slug(slug)
