@@ -40,7 +40,7 @@ class CartItem(models.Model):
         return f"{self.product.name} - {self.variant.color}"
     
     def get_totoal_price(self):
-        return self.variant.color * self.quantity
+        return self.variant.price * self.quantity
     
 class Discount(models.Model):
     code = models.CharField(max_length=50, unique=True)

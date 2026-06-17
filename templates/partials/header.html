@@ -508,8 +508,14 @@
                                 <path d="M8.49451 12H8.50349" stroke="#4681ff" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <span
-                                class="text-[10px] sm:text-[12px] text-[#FFFFFF] bg-[#4681ff] rounded-[24px] absolute -right-[3px] sm:-right-[5px] -bottom-[8px] sm:-bottom-[10px] px-[7px] sm:px-[9px] py-[1px] sm:py-[2px]">۳</span>
+                            <span id="cart-count"
+                                class="text-[10px] sm:text-[12px] text-[#FFFFFF] bg-[#4681ff] rounded-[24px] absolute -right-[3px] sm:-right-[5px] -bottom-[8px] sm:-bottom-[10px] px-[7px] sm:px-[9px] py-[1px] sm:py-[2px]">
+                                {% if cart %}
+                                    {{ cart|length }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
                         </div>
 
                         <!-- Cart Dropdown Panel -->
@@ -540,173 +546,86 @@
                                     </svg>
                                     <span class="text-white text-[15px] font-semibold">سبد خرید</span>
                                 </div>
-                                <span class="bg-white/20 text-white text-[12px] px-3 py-1 rounded-full">۳ محصول</span>
+                                <span class="bg-white/20 text-white text-[12px] px-3 py-1 rounded-full">
+                                    {% if cart %}
+                                        {{ cart|length }} محصول
+                                    {% else %}
+                                        0 محصول
+                                    {% endif %}
+                                </span>                  
                             </div>
 
                             <!-- Cart Items -->
-                            <div class="max-h-[280px] overflow-y-auto p-4 space-y-3 scroll-smooth cart-scroll-container "
-                                style="scrollbar-width: thin; scrollbar-color: #6294ff #F3F4F6;">
-                                <!-- Item 1 -->
-                                <div
-                                    class="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-[16px] hover:bg-[#F3F4F6] transition-colors">
-                                    <img src="{% static 'assets/images/asus-laptop.webp' %}" alt=""
-                                        class="w-[60px] h-[60px] object-cover rounded-[12px]">
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-[13px] text-[#181E25] font-medium truncate">لپ تاپ ایسوز
+                            <div class="max-h-[280px] overflow-y-auto p-4 space-y-3">
 
-                                        </p>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <span class="text-[13px] text-[#6294ff] font-semibold">50,490,000
-                                                تومان</span>
-                                            <div x-data="{ count: 1 }"
-                                                class="flex items-center gap-1 bg-white rounded-[8px] border border-[#E7EAF0] px-2 py-1">
+                                {% if cart and cart.items.exists %}
 
-                                                <button @click="count > 1 && count--"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    −
-                                                </button>
+                                    {% for item in cart.items.all %}
 
-                                                <span x-text="count" class="text-[12px] text-[#181E25] w-5 text-center">
-                                                    ۱
+                                    <div class="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-[16px]">
+
+                                        <img src="{{ item.product.main_image.image.url }}"
+                                            class="w-[60px] h-[60px] object-cover rounded-[12px]">
+
+                                        <div class="flex-1 min-w-0">
+
+                                            <p class="text-[13px] text-[#181E25] font-medium truncate">
+                                                {{ item.product.name }}
+                                            </p>
+
+                                            <p class="text-[11px] text-gray-500">
+                                                {{ item.variant.color }}
+                                            </p>
+
+                                            <div class="flex items-center justify-between mt-1">
+
+                                                <span class="text-[13px] text-[#6294ff] font-semibold">
+                                                    {{ item.variant.price }} تومان
                                                 </span>
 
-                                                <button @click="count++"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    +
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button
-                                        class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors p-1">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M18.85 9.14L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79C6 22 5.91 20.78 5.8 19.21L5.15 9.14"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <!-- Item 2 -->
-                                <div
-                                    class="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-[16px] hover:bg-[#F3F4F6] transition-colors">
-                                    <img src="{% static 'assets/images/mouse-tesco.webp' %}" alt=""
-                                        class="w-[60px] h-[60px] object-cover rounded-[12px]">
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-[13px] text-[#181E25] font-medium truncate">موس تسکو
-                                        </p>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span class="text-[12px] text-[#ACB8C4] line-through">۷,۲۰۰,۰۰۰</span>
-                                            <span
-                                                class="text-[10px] text-white bg-[#FA5C64] rounded-[8px] px-2 py-0.5">۱۸٪</span>
-                                        </div>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <span class="text-[13px] text-[#6294ff] font-semibold">۵,۹۰۰,۰۰۰
-                                                تومان</span>
-                                            <div x-data="{ count: 1 }"
-                                                class="flex items-center gap-1 bg-white rounded-[8px] border border-[#E7EAF0] px-2 py-1">
-
-                                                <button @click="count > 1 && count--"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    −
-                                                </button>
-
-                                                <span x-text="count" class="text-[12px] text-[#181E25] w-5 text-center">
-                                                    ۱
+                                                <span class="text-[12px]">
+                                                    {{ item.quantity }} عدد
                                                 </span>
 
-                                                <button @click="count++"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    +
-                                                </button>
                                             </div>
+
                                         </div>
+
+                                        <form method="post"
+                                            action="{% url 'remove_cart_item' item.id %}">
+                                            {% csrf_token %}
+                                            <button
+                                                class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors p-1">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                    <path
+                                                        d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                    <path
+                                                        d="M18.85 9.14L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79C6 22 5.91 20.78 5.8 19.21L5.15 9.14"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                        </form>
+
                                     </div>
-                                    <button
-                                        class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors p-1">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M18.85 9.14L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79C6 22 5.91 20.78 5.8 19.21L5.15 9.14"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </div>
 
-                                <!-- Item 3 -->
-                                <div
-                                    class="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-[16px] hover:bg-[#F3F4F6] transition-colors">
-                                    <img src="{% static 'assets/images/laptop-holder.webp' %}" alt=""
-                                        class="w-[60px] h-[60px] object-cover rounded-[12px]">
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-[13px] text-[#181E25] font-medium truncate">پایه نگه دارنده لپ
-                                            تاپ
-                                        </p>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span class="text-[12px] text-[#ACB8C4] line-through">۴۰۰,۰۰۰</span>
-                                            <span
-                                                class="text-[10px] text-white bg-[#FA5C64] rounded-[8px] px-2 py-0.5">۲۰٪</span>
-                                        </div>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <span class="text-[13px] text-[#6294ff] font-semibold">۳۲۰,۰۰۰
-                                                تومان</span>
-                                            <div x-data="{ count: 1 }"
-                                                class="flex items-center gap-1 bg-white rounded-[8px] border border-[#E7EAF0] px-2 py-1">
+                                    {% endfor %}
 
-                                                <button @click="count > 1 && count--"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    −
-                                                </button>
+                                {% else %}
 
-                                                <span x-text="count" class="text-[12px] text-[#181E25] w-5 text-center">
-                                                    ۱
-                                                </span>
-
-                                                <button @click="count++"
-                                                    class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors text-[14px]">
-                                                    +
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="text-center py-8 text-gray-400">
+                                        سبد خرید خالی است
                                     </div>
-                                    <button
-                                        class="text-[#ACB8C4] cursor-pointer hover:text-[#6294ff] transition-colors p-1">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M18.85 9.14L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79C6 22 5.91 20.78 5.8 19.21L5.15 9.14"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </div>
+
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>

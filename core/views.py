@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ContactForm
+from cart.models import Cart
+
 # Create your views here.
 
 def home_page(request):
@@ -20,3 +22,15 @@ def contact_view(request):
         'form': form,
     }
     return render(request, 'contact-us.html', context)
+
+
+def cart_context(request):
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+    else:
+        cart = None
+
+    return {
+        'cart': cart
+    }
+
