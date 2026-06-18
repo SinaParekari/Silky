@@ -43,60 +43,119 @@ class CartItem(models.Model):
         return self.variant.price * self.quantity
     
 class Discount(models.Model):
-    code = models.CharField(max_length=50, unique=True)
-    is_active = models.BooleanField(default=False)
-    expires_at = models.DateTimeField(null=True, blank=True)
-    max_uses = models.PositiveIntegerField(default=0)
 
-    allowed_users = models.ManyToManyField(User, blank=True , related_name='allowed_discounts')
-    class Meta:
-        pass
+    PERCENT = 'percent'
+    FIXED = 'fixed'
+
+    DISCOUNT_TYPES = [
+        (PERCENT, 'Percentage'),
+        (FIXED, 'Fixed Amount'),
+    ]
+
+    code = models.CharField(
+        max_length=50,
+        unique=True
+    )
+
+    discount_type = models.CharField(
+        max_length=10,
+        choices=DISCOUNT_TYPES,
+        default=PERCENT
+    )
+
+    value = models.PositiveIntegerField()
+
+    is_active = models.BooleanField(
+        default=False
+    )
+
+    expires_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    max_uses = models.PositiveIntegerField(
+        default=0
+    )
+
+    allowed_users = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='allowed_discounts'
+    )
 
     def __str__(self):
         return self.code
 
+    def get_used_count(self):
+        return self.usages.count()
+
     def is_valid(self, user=None):
-        # چک فعال بودن
+
         if not self.is_active:
             return False, 'کد تخفیف غیرفعال است'
 
-        # چک تاریخ انقضا
         if self.expires_at and self.expires_at < timezone.now():
             return False, 'کد تخفیف منقضی شده است'
 
-        # چک حداکثر استفاده کل
         if self.max_uses > 0 and self.get_used_count() >= self.max_uses:
             return False, 'کد تخفیف به حداکثر استفاده رسیده است'
 
-        if user and user.is_authenticated:
-            # چک کاربر مجاز
-            if self.allowed_users.exists() and not self.allowed_users.filter(id=user.id).exists():
-                return False, 'شما مجاز به استفاده از این کد نیستید'
+        if not user or not user.is_authenticated:
+            return False, 'ابتدا وارد حساب کاربری شوید'
 
-            # چک استفاده قبلی این کاربر
-            if self.usages.filter(user=user).exists():
-                return False, 'شما قبلاً از این کد تخفیف استفاده کرده‌اید'
-        else:
-            return False, 'برای استفاده از کد تخفیف باید وارد شوید'
+        if (
+            self.allowed_users.exists()
+            and not self.allowed_users.filter(id=user.id).exists()
+        ):
+            return False, 'شما مجاز به استفاده از این کد نیستید'
+
+        if self.usages.filter(user=user).exists():
+            return False, 'قبلاً از این کد استفاده کرده‌اید'
 
         return True, 'کد تخفیف معتبر است'
 
-    def get_used_count(self):
-        return self.usages.count()
-    
-class DiscountUsage(models.Model):
-    discount = models.ForeignKey(Discount, on_delete=models.CASCADE, related_name='usages')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='discount_usages')
-    used_at = models.DateTimeField(auto_now_add=True)
+    def calculate_discount(self, total_price):
 
-    # وقتی سفارش ثبت شد اینجا ذخیره میشه
-    order_id = models.PositiveIntegerField(null=True, blank=True)
+        if self.discount_type == self.PERCENT:
+            return (total_price * self.value) / 100
+
+        if self.discount_type == self.FIXED:
+            return min(self.value, total_price)
+
+        return 0
+    
+    def save(self, *args, **kwargs):
+        if self.code:
+            self.code = self.code.lower().strip()
+        super().save(*args, **kwargs)
+
+
+class DiscountUsage(models.Model):
+
+    discount = models.ForeignKey(
+        Discount,
+        on_delete=models.CASCADE,
+        related_name='usages'
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='discount_usages'
+    )
+
+    used_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    order_id = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
 
     class Meta:
-        verbose_name = 'استفاده از تخفیف'
-        verbose_name_plural = 'استفاده‌های تخفیف'
-        unique_together = ['discount', 'user']  # هر کاربر فقط یکبار
+        unique_together = ['discount', 'user']
 
     def __str__(self):
         return f'{self.user.username} - {self.discount.code}'
-

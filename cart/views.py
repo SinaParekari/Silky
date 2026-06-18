@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
 from product.models import Product, ProductVariant
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Discount
 from user.models import Address
 
 
@@ -145,3 +145,44 @@ def set_main_address(request, address_id):
     address.save()
 
     return JsonResponse({"success": True})
+
+
+def apply_coupon(request):
+
+    code = request.POST.get('code')
+
+    try:
+        discount = Discount.objects.get(
+            code=code,
+            is_active=True
+        )
+
+    except Discount.DoesNotExist:
+
+        return JsonResponse({
+            'success': False,
+            'message': 'کد تخفیف معتبر نیست'
+        })
+
+    valid, message = discount.is_valid(request.user)
+
+    if not valid:
+        return JsonResponse({
+            'success': False,
+            'message': message
+        })
+
+    if discount.discount_type == 'percent':
+        label = f'{discount.value}% تخفیف'
+    else:
+        label = f'{discount.value:,} تومان تخفیف'
+
+    return JsonResponse({
+        'success': True,
+        'code': discount.code,
+        'label': label,
+        'value': discount.value,
+        'type': discount.discount_type
+    })
+
+
