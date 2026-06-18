@@ -1,10 +1,11 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
 from product.models import Product, ProductVariant
 from .models import Cart, CartItem
+from user.models import Address
 
 
 
@@ -97,3 +98,50 @@ def remove_cart_item(request, item_id):
     item.delete()
 
     return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def cart_view(request):
+
+    cart, created = Cart.objects.get_or_create(
+        user=request.user
+    )
+    addresses = request.user.addresses.all()
+
+
+    context = {
+        "cart": cart,
+        "addresses": addresses,
+    }
+
+    return render(request, "cart.html",context)
+
+@login_required
+def clear_cart(request):
+
+    cart = Cart.objects.filter(user=request.user).first()
+
+    if cart:
+        cart.items.all().delete()
+
+    return redirect('cart')
+
+@login_required
+def set_main_address(request, address_id):
+
+    if request.method != "POST":
+        return JsonResponse({"success": False})
+
+    address = get_object_or_404(
+        Address,
+        id=address_id,
+        user=request.user
+    )
+
+    Address.objects.filter(
+        user=request.user
+    ).update(is_default=False)
+
+    address.is_default = True
+    address.save()
+
+    return JsonResponse({"success": True})

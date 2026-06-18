@@ -489,7 +489,8 @@
                     </div>
 
                     <!-- Cart Dropdown -->
-                    <div class="relative group" x-data="{ cartOpen: false }">
+                     <a href="{% url "cart" %}">
+                        <div class="relative group" x-data="{ cartOpen: false }">
                         <div @click="cartOpen = !cartOpen" @mouseenter="cartOpen = true"
                             class="w-[44px] h-[44px] sm:w-[56px] sm:h-[56px] bg-[#6294ff4f] rounded-[12px] sm:rounded-[16px] flex items-center justify-center cursor-pointer relative">
 
@@ -629,6 +630,8 @@
                             </div>
                         </div>
                     </div>
+                     </a>
+
 
                     <!-- Login Button - Desktop -->
                     <div class="hidden md:flex items-center gap-2">
