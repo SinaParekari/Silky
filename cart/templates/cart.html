@@ -55,10 +55,9 @@
       </nav>
 
       <!-- ══ GRID ══ -->
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-
-        <!-- ════ LEFT COL ════ -->
-        <div x-data="cartComponent()" class="xl:col-span-2 space-y-4">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-5" x-data="cartComponent()">
+          <!-- ════ LEFT COL ════ -->
+        <div class="xl:col-span-2 space-y-4">
 
           <!-- ── Cart Header Card ── -->
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -143,154 +142,154 @@
 
             <!-- Items list -->
             <div class="divide-y divide-gray-50 custom-scroll" style="max-height:700px;overflow-y:auto">
-{% for item in cart.items.all %}
+          {% for item in cart.items.all %}
 
-<div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-5">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-5">
 
-    <div class="flex gap-4">
+              <div class="flex gap-4">
 
-        <!-- تصویر محصول -->
-        <div class="w-28 h-28 rounded-2xl overflow-hidden bg-slate-100 shrink-0">
+                  <!-- تصویر محصول -->
+                  <div class="w-28 h-28 rounded-2xl overflow-hidden bg-slate-100 shrink-0">
 
-            {% if item.product.main_image %}
-                <img
-                    src="{{ item.product.main_image.image.url }}"
-                    alt="{{ item.product.name }}"
-                    class="w-full h-full object-cover">
-            {% else %}
-                <div class="w-full h-full flex items-center justify-center text-slate-400">
-                    بدون تصویر
-                </div>
-            {% endif %}
+                      {% if item.product.main_image %}
+                          <img
+                              src="{{ item.product.main_image.image.url }}"
+                              alt="{{ item.product.name }}"
+                              class="w-full h-full object-cover">
+                      {% else %}
+                          <div class="w-full h-full flex items-center justify-center text-slate-400">
+                              بدون تصویر
+                          </div>
+                      {% endif %}
 
-        </div>
+                  </div>
 
-        <!-- اطلاعات -->
-        <div class="flex-1">
+                  <!-- اطلاعات -->
+                  <div class="flex-1">
 
-            <div class="flex justify-between items-start">
+                      <div class="flex justify-between items-start">
 
-                <div>
-                    <h3 class="font-black text-lg text-slate-800">
-                        {{ item.product.name }}
-                    </h3>
+                          <div>
+                              <h3 class="font-black text-lg text-slate-800">
+                                  {{ item.product.name }}
+                              </h3>
 
-                    <p class="text-sm text-slate-500 mt-1">
-                        رنگ:
-                        <span class="font-bold">
-                            {{ item.variant.color }}
-                        </span>
-                    </p>
+                              <p class="text-sm text-slate-500 mt-1">
+                                  رنگ:
+                                  <span class="font-bold">
+                                      {{ item.variant.color }}
+                                  </span>
+                              </p>
 
-                    <!-- وضعیت موجودی -->
-                    {% if item.variant.stock > 0 %}
-                        <span class="inline-block mt-2 bg-green-100 text-green-600 px-3 py-1 rounded-lg text-xs font-bold">
-                            موجود
-                        </span>
-                    {% else %}
-                        <span class="inline-block mt-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-xs font-bold">
-                            ناموجود
-                        </span>
-                    {% endif %}
+                              <!-- وضعیت موجودی -->
+                              {% if item.variant.stock > 0 %}
+                                  <span class="inline-block mt-2 bg-green-100 text-green-600 px-3 py-1 rounded-lg text-xs font-bold">
+                                      موجود
+                                  </span>
+                              {% else %}
+                                  <span class="inline-block mt-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-xs font-bold">
+                                      ناموجود
+                                  </span>
+                              {% endif %}
 
-                </div>
+                          </div>
 
-                <!-- حذف -->
-                <a
-                    href="{% url 'remove_cart_item' item.id %}"
-                    class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition">
+                          <!-- حذف -->
+                          <a
+                              href="{% url 'remove_cart_item' item.id %}"
+                              class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition">
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
+                              <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="w-5 h-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor">
 
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7L18.133 19.142A2 2 0 0116.138 21H7.862A2 2 0 015.867 19.142L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-7 0h8"/>
+                                  <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 7L18.133 19.142A2 2 0 0116.138 21H7.862A2 2 0 015.867 19.142L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-7 0h8"/>
 
-                    </svg>
+                              </svg>
 
-                </a>
+                          </a>
 
-            </div>
+                      </div>
 
-            <!-- تعداد -->
-            <div class="mt-4 flex justify-between items-center">
+                      <!-- تعداد -->
+                      <div class="mt-4 flex justify-between items-center">
 
-                <span class="text-slate-500">
-                    تعداد
-                </span>
+                          <span class="text-slate-500">
+                              تعداد
+                          </span>
 
-                <span class="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold">
-                    {{ item.quantity }}
-                </span>
+                          <span class="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold">
+                              {{ item.quantity }}
+                          </span>
 
-            </div>
+                      </div>
 
-            <!-- قیمت واحد -->
-            <div class="mt-3 flex justify-between items-center">
+                      <!-- قیمت واحد -->
+                      <div class="mt-3 flex justify-between items-center">
 
-                <span class="text-slate-500">
-                    قیمت واحد
-                </span>
+                          <span class="text-slate-500">
+                              قیمت واحد
+                          </span>
 
-                <span class="font-bold">
-                    {{ item.variant.price|intcomma }}
-                    تومان
-                </span>
+                          <span class="font-bold">
+                              {{ item.variant.price|intcomma }}
+                              تومان
+                          </span>
 
-            </div>
+                      </div>
 
-            <!-- مجموع -->
-            <div class="mt-3 flex justify-between items-center pt-3">
+                      <!-- مجموع -->
+                      <div class="mt-3 flex justify-between items-center pt-3">
 
-                <span class="font-bold text-slate-700">
-                    مجموع
-                </span>
+                          <span class="font-bold text-slate-700">
+                              مجموع
+                          </span>
 
-                <span class="font-black text-green-600 text-lg">
-                    {{ item.get_total_price|intcomma }}
-                    تومان
-                </span>
+                          <span class="font-black text-green-600 text-lg">
+                              {{ item.get_total_price|intcomma }}
+                              تومان
+                          </span>
 
-            </div>
+                      </div>
 
-        </div>
+                  </div>
 
-    </div>
+              </div>
 
-</div>
+          </div>
 
-{% empty %}
+          {% empty %}
 
-<div class="bg-white rounded-3xl p-10 text-center shadow-sm">
+          <div class="bg-white rounded-3xl p-10 text-center shadow-sm">
 
-    <svg
-        class="w-16 h-16 mx-auto text-slate-300"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24">
+              <svg
+                  class="w-16 h-16 mx-auto text-slate-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
 
-        <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+                  <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
 
-    </svg>
+              </svg>
 
-    <h3 class="mt-4 text-lg font-black text-slate-700">
-        سبد خرید خالی است
-    </h3>
+              <h3 class="mt-4 text-lg font-black text-slate-700">
+                  سبد خرید خالی است
+              </h3>
 
-</div>
+          </div>
 
-{% endfor %}
+          {% endfor %}
 
               <!-- Empty state -->
               <div x-show="activeItems.length===0" class="py-20 flex flex-col items-center text-center fade-up">
@@ -346,71 +345,71 @@
             </div>
 
             <!-- Address block -->
-<div class="mt-4 space-y-3">
+          <div class="mt-4 space-y-3">
 
-  {% for address in addresses %}
+            {% for address in addresses %}
 
-  <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 flex items-start gap-3">
+            <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 flex items-start gap-3">
 
-    <!-- Icon -->
-    <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-      <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    </div>
+              <!-- Icon -->
+              <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
 
-    <!-- Address Text -->
-    <div class="flex-1">
-      <p class="text-xs font-bold text-gray-700 mb-0.5">
-        آدرس {{ forloop.counter }}
-      </p>
+              <!-- Address Text -->
+              <div class="flex-1">
+                <p class="text-xs font-bold text-gray-700 mb-0.5">
+                  آدرس {{ forloop.counter }}
+                </p>
 
-      <p class="text-xs text-gray-600 leading-relaxed">
-        {{ address.province }}، {{ address.city }}،
-        {{ address.address }}،
-        پلاک {{ address.building_number }}
-        {% if address.unit %}، واحد {{ address.unit }}{% endif %}
-      </p>
-    </div>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                  {{ address.province }}، {{ address.city }}،
+                  {{ address.address }}،
+                  پلاک {{ address.building_number }}
+                  {% if address.unit %}، واحد {{ address.unit }}{% endif %}
+                </p>
+              </div>
 
-    <!-- Edit -->
-      <button
-          id="addr-btn-{{ address.id }}"
-          onclick="setMainAddress({{ address.id }})"
-          class="
-              px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200
-              {% if address.is_default %}
-                  bg-green-500 text-white shadow-md
-              {% else %}
-                  bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700
-              {% endif %}
-          "
-      >
-          {% if address.is_default %}
-              ✓ اصلی
-          {% else %}
-              انتخاب به عنوان اصلی
-          {% endif %}
-      </button>
+              <!-- Edit -->
+                <button
+                    id="addr-btn-{{ address.id }}"
+                    onclick="setMainAddress({{ address.id }})"
+                    class="
+                        px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200
+                        {% if address.is_default %}
+                            bg-green-500 text-white shadow-md
+                        {% else %}
+                            bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700
+                        {% endif %}
+                    "
+                >
+                    {% if address.is_default %}
+                        ✓ اصلی
+                    {% else %}
+                        انتخاب به عنوان اصلی
+                    {% endif %}
+                </button>
 
-        </div>
+                  </div>
 
-        {% empty %}
+                  {% empty %}
 
-        <div class="text-xs text-gray-500">
-          هیچ آدرسی ثبت نشده است
-        </div>
+                  <div class="text-xs text-gray-500">
+                    هیچ آدرسی ثبت نشده است
+                  </div>
 
-        {% endfor %}
+                  {% endfor %}
 
-      </div>
+           </div>
           </div>
 
           <!-- ── Coupon Component ── -->
-          <div x-data="couponComponent()" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
             <h2 class="font-bold text-gray-900 mb-3 flex items-center gap-2 text-sm">
               <div class="w-8 h-8 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -467,76 +466,6 @@
               </button>
             </div>
           </div>
-
-          <script>
-          function couponComponent() {
-              return {
-                  couponCode: '',
-                  couponErr: '',
-                  applying: false,
-                  appliedCoupon: null,
-
-                  async applyCoupon() {
-
-                      this.couponCode = this.couponCode.trim();
-
-                      if (!this.couponCode) {
-                          this.couponErr = 'لطفاً کد تخفیف را وارد کنید';
-                          return;
-                      }
-
-                      this.applying = true;
-                      this.couponErr = '';
-
-                      try {
-
-                          const response = await fetch(
-                              '{% url "apply_coupon" %}',
-                              {
-                                  method: 'POST',
-                                  headers: {
-                                      'X-CSRFToken': '{{ csrf_token }}',
-                                      'Content-Type': 'application/x-www-form-urlencoded',
-                                  },
-                                  body: new URLSearchParams({
-                                      code: this.couponCode
-                                  })
-                              }
-                          );
-
-                          const data = await response.json();
-
-                          if (data.success) {
-
-                              this.appliedCoupon = {
-                                  code: data.code,
-                                  label: data.label
-                              };
-
-                          } else {
-
-                              this.couponErr = data.message;
-                              this.appliedCoupon = null;
-
-                          }
-
-                      } catch (error) {
-
-                          this.couponErr = 'خطا در ارتباط با سرور';
-
-                      }
-
-                      this.applying = false;
-                  },
-
-                  removeCoupon() {
-                      this.appliedCoupon = null;
-                      this.couponCode = '';
-                      this.couponErr = '';
-                  }
-              }
-          }
-          </script>
 
           <!-- ── Order Notes ── -->
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
@@ -686,14 +615,18 @@
                   در این خرید <span class="font-black price" x-text="fmt(totalSaving+couponDisc)"></span> تومان صرفه‌جویی کردید!
                 </p>
               </div>
-<button class="w-full text-white font-black py-4 rounded-xl text-base flex items-center justify-center gap-2.5 shadow-lg mt-1 bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 hover:-translate-y-0.5 active:scale-95">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-    </svg>
-    تکمیل خرید و پرداخت
-</button>
-            </div>
+          <button class="w-full text-white font-black py-4 rounded-xl text-base flex items-center justify-center gap-2.5 shadow-lg mt-1 bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 hover:-translate-y-0.5 active:scale-95">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              تکمیل خرید و پرداخت
+          </button>
+        </div>
+
+      </div>
+
+      
 
             <!-- Trust badges -->
             <div class="border-t border-gray-100 p-4">
@@ -747,8 +680,8 @@
           {% for p in related_products %}
           <div class="prod-card flex-shrink-0 w-52 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="relative h-40 bg-gray-50 overflow-hidden">
-              {% if p.image %}
-              <img src="{{ p.image.url }}" alt="{{ p.name }}" class="w-full h-full object-cover">
+              {% if p.main_image %}
+              <img src="{{ p.main_image.image.url }}" alt="{{ p.name }}" class="w-full h-full object-cover">
               {% endif %}
               {% if p.discount %}
               <div class="absolute top-2.5 right-2.5 bg-rose-500 text-white text-xs font-black px-2 py-0.5 rounded-lg">-{{ p.discount }}٪</div>
@@ -776,6 +709,18 @@
 
     </main>
 
+
+    <script>
+      const CART_DATA = {
+          csrf: '{{ csrf_token }}',
+          items: {{ cart_items_json|safe }},
+          discount: {% if discount_amount %}{
+              code: '{{ discount_code }}',
+              amount: {{ discount_amount }},
+              label: 'تخفیف'
+          }{% else %}null{% endif %},
+      };
+      </script>
     <script>
       const STATIC_IMGS = {
         asusLaptop: "{% static 'assets/images/asus-laptop.webp' %}",
@@ -783,207 +728,178 @@
         laptopHolder: "{% static 'assets/images/laptop-holder.webp' %}",
       };
 
-function cartComponent() {
-  return {
-    freeShipThreshold: 1000000,
-    sortBy: 'newest',
-    notes: '',
+        function cartComponent() {
+          return {
+            freeShipThreshold: 1000000,
+            notes: '',
+            selShip: 1,
+            
+            activeItems: CART_DATA.items,
+            
+            shipMethods: [
+              { id: 1, name: 'ارسال عادی', icon: '🚚', time: '۳ تا ۵ روز کاری', price: 45000, popular: true, express: false },
+              { id: 2, name: 'پست پیشتاز', icon: '📬', time: '۱ تا ۲ روز کاری', price: 65000, popular: false, express: false },
+              { id: 3, name: 'ارسال فوری', icon: '⚡', time: 'همان روز', price: 95000, popular: false, express: true }
+            ],
 
-    sortOpts: [
-      { l: 'جدیدترین', v: 'newest' },
-      { l: 'ارزان‌ترین', v: 'cheapest' },
-      { l: 'گران‌ترین', v: 'most_expensive' }
-    ],
+            appliedCoupon: CART_DATA.discount,
 
-    activeItems: [
-      {
-        id: 1,
-        name: 'کفش ورزشی نایک مدل Air Max',
-        brand: 'Nike',
-        img: STATIC_IMGS.asusLaptop,
-        price: 2500000,
-        discount: 10,
-        qty: 1,
-        stock: 5,
-        selected: true
-      },
-      {
-        id: 2,
-        name: 'تیشرت نخی ساده',
-        brand: 'Zara',
-        img: STATIC_IMGS.mouseTesco,
-        price: 450000,
-        discount: 0,
-        qty: 2,
-        stock: 2,
-        selected: true
-      }
-    ],
+            trustBadges: [
+              { ico: '🔒', l: 'پرداخت امن' },
+              { ico: '↩️', l: 'بازگشت ۷ روزه' },
+              { ico: '🛡️', l: 'گارانتی اصل' }
+            ],
+            payGates: ['ملت', 'سامان', 'زرین‌پال', 'آپ'],
 
-    savedItems: [],
+            // ── کوپن ──
+            couponCode: '',
+            couponErr: '',
+            applying: false,
 
-    selShip: 1,
-    shipMethods: [
-      { id: 1, name: 'ارسال عادی', price: 45000 },
-      { id: 2, name: 'پست پیشتاز', price: 65000 },
-      { id: 3, name: 'ارسال فوری', price: 95000 }
-    ],
+            // ── computed ──
+            get freeShipReached() {
+              return this.subtotal - this.totalSaving - this.couponDisc >= this.freeShipThreshold;
+            },
 
-    couponCode: '',
-    couponErr: '',
-    applying: false,
-    appliedCoupon: null,
+            get freeShipPct() {
+              return ((this.subtotal - this.totalSaving - this.couponDisc) / this.freeShipThreshold) * 100;
+            },
 
-    coupons: [
-      { code: 'OFF50', discountAmt: 50000 },
-      { code: 'YALDA', discountAmt: 100000 }
-    ],
+            get totalQty() {
+              return this.activeItems.reduce((s, i) => s + Number(i.qty || 0), 0);
+            },
 
-    trustBadges: [],
-    payGates: ['ملت', 'سامان', 'زرین‌پال', 'آپ'],
+            get subtotal() {
+              return this.activeItems.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            },
 
-    // =========================
-    // CORE CALCULATIONS (FIXED)
-    // =========================
+            get totalSaving() {
+              return 0;
+            },
 
-    get totalQty() {
-      return this.activeItems
-        .filter(i => i.selected)
-        .reduce((s, i) => s + Number(i.qty || 0), 0);
-    },
+            get couponDisc() {
+              return this.appliedCoupon ? Number(this.appliedCoupon.amount || this.appliedCoupon.discountAmt || 0) : 0;
+            },
 
-    // ✔ RAW PRICE (NOT discounted)
-    get subtotal() {
-      return this.activeItems
-        .filter(i => i.selected)
-        .reduce((s, i) => {
-          return s + (Number(i.price || 0) * Number(i.qty || 0));
-        }, 0);
-    },
+            get shipCost() {
+              if (this.freeShipReached) return 0;
+              const m = this.shipMethods.find(m => m.id === this.selShip);
+              return m ? m.price : 0;
+            },
 
-    // ✔ product discount only
-    get totalSaving() {
-      return this.activeItems
-        .filter(i => i.selected)
-        .reduce((s, i) => {
-          return s + (
-            Number(i.price || 0) *
-            (Number(i.discount || 0) / 100) *
-            Number(i.qty || 0)
-          );
-        }, 0);
-    },
+            get taxAmt() {
+              return Math.max(0, this.subtotal - this.totalSaving - this.couponDisc) * 0.09;
+            },
 
-    // ✔ coupon discount
-    get couponDisc() {
-      return this.appliedCoupon ? Number(this.appliedCoupon.discountAmt || 0) : 0;
-    },
+            get finalTotal() {
+              return Math.max(
+                0,
+                this.subtotal
+                - this.totalSaving
+                - this.couponDisc
+                + this.shipCost
+                + this.taxAmt
+              );
+            },
 
-    // ✔ shipping
-    get shipCost() {
-      const total = this.subtotal - this.totalSaving - this.couponDisc;
-      if (total >= this.freeShipThreshold) return 0;
+            // ── helpers ──
+            fmt(n) {
+              return new Intl.NumberFormat('fa-IR').format(n || 0);
+            },
 
-      const m = this.shipMethods.find(m => m.id === this.selShip);
-      return m ? m.price : 0;
-    },
+            finalP(item) {
+              return Number(item.price);
+            },
 
-    // ✔ tax
-    get taxAmt() {
-      return Math.max(0, this.subtotal - this.totalSaving - this.couponDisc) * 0.09;
-    },
+            // ── cart actions ──
+            incQty(item) {
+              if (item.qty < item.stock) {
+                item.qty++;
+                this.updateQty(item);
+              }
+            },
 
-    // ✔ FINAL TOTAL (clean)
-    get finalTotal() {
-      return Math.max(
-        0,
-        this.subtotal
-        - this.totalSaving
-        - this.couponDisc
-        + this.shipCost
-        + this.taxAmt
-      );
-    },
+            decQty(item) {
+              if (item.qty > 1) {
+                item.qty--;
+                this.updateQty(item);
+              }
+            },
 
-    // =========================
-    // HELPERS
-    // =========================
+            async updateQty(item) {
+              await fetch(`/cart/update/${item.key}/`, {
+                method: 'POST',
+                headers: {
+                  'X-CSRFToken': CART_DATA.csrf,
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `quantity=${item.qty}`
+              });
+            },
 
-    fmt(n) {
-      return new Intl.NumberFormat('fa-IR').format(n || 0);
-    },
+            removeItem(id) {
+              this.activeItems = this.activeItems.filter(i => i.key !== id);
+            },
 
-    finalP(item) {
-      return item.price - (item.price * (item.discount || 0) / 100);
-    },
+            openConfirm(actionId, title, desc, callback) {
+              if (confirm(`${title}\n${desc}`)) callback();
+            },
 
-    // =========================
-    // CART ACTIONS
-    // =========================
+            scrollProds(dir) {
+              const el = document.getElementById('prodScroll');
+              if (el) el.scrollBy({ left: dir * 220, behavior: 'smooth' });
+            },
 
-    incQty(item) {
-      if (item.qty < item.stock) item.qty++;
-    },
+            // ── coupon actions ──
+            async applyCoupon() {
+              this.couponCode = this.couponCode.trim();
 
-    decQty(item) {
-      if (item.qty > 1) item.qty--;
-    },
+              if (!this.couponCode) {
+                this.couponErr = 'لطفاً کد تخفیف را وارد کنید';
+                return;
+              }
 
-    removeItem(id) {
-      this.activeItems = this.activeItems.filter(i => i.id !== id);
-    },
+              this.applying = true;
+              this.couponErr = '';
 
-    clearCart() {
-      this.activeItems = [];
-    },
+              try {
+                const response = await fetch('/cart/apply-coupon/', {
+                  method: 'POST',
+                  headers: {
+                    'X-CSRFToken': CART_DATA.csrf,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  body: new URLSearchParams({ code: this.couponCode })
+                });
 
-    saveForLater(item) {
-      this.removeItem(item.id);
-      this.savedItems.push(item);
-    },
+                const data = await response.json();
 
-    // =========================
-    // COUPON (FIXED FLOW)
-    // =========================
+                if (data.success) {
+                  this.appliedCoupon = {
+                    code: data.code,
+                    label: data.label,
+                    discountAmt: data.amount,
+                  };
+                } else {
+                  this.couponErr = data.message;
+                  this.appliedCoupon = null;
+                }
 
-    applyCoupon() {
-      if (!this.couponCode.trim()) {
-        this.couponErr = 'لطفا کد تخفیف را وارد کنید.';
-        return;
-      }
+              } catch (error) {
+                this.couponErr = 'خطا در ارتباط با سرور';
+              }
 
-      this.couponErr = '';
-      this.applying = true;
+              this.applying = false;
+            },
 
-      setTimeout(() => {
-        const found = this.coupons.find(
-          c => c.code.toUpperCase() === this.couponCode.trim().toUpperCase()
-        );
-
-        if (found) {
-          this.appliedCoupon = found;
-        } else {
-          this.appliedCoupon = null;
-          this.couponErr = 'کد تخفیف نامعتبر است.';
+            removeCoupon() {
+              this.appliedCoupon = null;
+              this.couponCode = '';
+              this.couponErr = '';
+            },
+          };
         }
-
-        this.applying = false;
-      }, 600);
-    },
-
-    removeCoupon() {
-      this.appliedCoupon = null;
-      this.couponCode = '';
-      this.couponErr = '';
-    },
-
-    openConfirm(actionId, title, desc, callback) {
-      if (confirm(`${title}\n${desc}`)) callback();
-    }
-  };
-}
-    </script>
-</script>
+      </script>
 
 <script>
 async function setMainAddress(addressId) {
@@ -1037,5 +953,6 @@ async function setMainAddress(addressId) {
     }
 }
 </script>
+
 
 {% endblock content %}

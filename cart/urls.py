@@ -7,6 +7,7 @@ urlpatterns = [
     path('clear/', views.clear_cart, name='clear_cart'),
     path("address/main/<int:address_id>/",views.set_main_address,name="set_main_address"),
     path('coupon/apply/',views.apply_coupon,name='apply_coupon'),
+    path('apply-coupon/', views.apply_discount, name='apply_coupon'),
     ]
 
 # urlpatterns = [

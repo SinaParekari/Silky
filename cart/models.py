@@ -101,8 +101,8 @@ class Discount(models.Model):
         if self.max_uses > 0 and self.get_used_count() >= self.max_uses:
             return False, 'کد تخفیف به حداکثر استفاده رسیده است'
 
-        if not user or not user.is_authenticated:
-            return False, 'ابتدا وارد حساب کاربری شوید'
+        # if not user or not user.is_authenticated:
+        #     return False, 'ابتدا وارد حساب کاربری شوید'
 
         if (
             self.allowed_users.exists()

@@ -101,20 +101,43 @@ def remove_cart_item(request, item_id):
 
 @login_required
 def cart_view(request):
+    # ← از مدل دیتابیس بگیر نه Cart(request)
+    cart = Cart.objects.filter(user=request.user).first()
+    
+    discount_amount = request.session.get('discount_amount', 0)
+    discount_code = request.session.get('discount_code', '')
 
-    cart, created = Cart.objects.get_or_create(
-        user=request.user
-    )
-    addresses = request.user.addresses.all()
+    cart_items_json = []
+    
+    if cart:
+        for item in cart.items.all():  # ← items رو از دیتابیس بگیر
+            cart_items_json.append({
+                'key': str(item.id),
+                'name': item.product.name,
+                'color': item.variant.color,
+                'color_code': item.variant.color_code,
+                'price': float(item.variant.price),
+                'qty': item.quantity,
+                'stock': item.variant.stock,
+                'image': item.product.main_image.image.url if item.product.main_image else '',
+                'total_price': float(item.get_total_price()),
+            })
 
+    addresses = []
+    if request.user.is_authenticated:
+        addresses = request.user.addresses.all()
+
+    related_products = Product.objects.filter(is_active=True)[:8]
 
     context = {
-        "cart": cart,
-        "addresses": addresses,
+        'cart': cart,
+        'cart_items_json': cart_items_json,
+        'discount_amount': discount_amount,
+        'discount_code': discount_code,
+        'addresses': addresses,
+        'related_products': related_products,
     }
-
-    return render(request, "cart.html",context)
-
+    return render(request, 'cart.html', context)
 @login_required
 def clear_cart(request):
 
@@ -185,4 +208,27 @@ def apply_coupon(request):
         'type': discount.discount_type
     })
 
-
+def apply_discount(request):
+    if request.method == 'POST':
+        code = request.POST.get('code', '').strip().lower() 
+        print(code)
+        try:
+            discount = Discount.objects.get(code=code)
+            is_valid, message = discount.is_valid(user=request.user)  # ← user
+            print(is_valid)
+            if is_valid:
+                request.session['discount_amount'] = int(discount.value)
+                request.session['discount_code'] = code
+                request.session['discount_id'] = discount.id
+                return JsonResponse({
+                    'success': True,
+                    'code': code,
+                    'label': f'{int(discount.value):,} تومان تخفیف',
+                    'amount': int(discount.value),
+                    'message': message
+                })
+            else:
+                return JsonResponse({'success': False, 'message': message})
+        except Discount.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'کد تخفیف معتبر نیست'})
+    return JsonResponse({'success': False})
