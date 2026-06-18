@@ -102,7 +102,7 @@ class ProductAttributeValue(models.Model):
     value = models.CharField(max_length=200)
 
     class Meta:
-        unique_together = ['product', 'attribute']  # هر attribute فقط یه بار برای هر محصول
+        unique_together = ['product', 'attribute'] 
 
     def __str__(self):
         return f'{self.product.name} - {self.attribute.name}: {self.value}'
@@ -117,7 +117,17 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['product', 'user']  # هر کاربر فقط یه نظر برای هر محصول
+        unique_together = ['product', 'user'] 
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name} - {self.rating}'
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=20)
+    product = models.ManyToManyField(Product, blank=True, related_name='tags')
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+    
+    

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductImage, ProductVariant, ProductAttributeValue, Review
+from .models import Product, ProductImage, ProductVariant, ProductAttributeValue, Review, Tag
 
 
 class ProductImageInline(admin.TabularInline):
@@ -57,3 +57,8 @@ class ProductAdmin(admin.ModelAdmin):
                     product=obj,
                     attribute=attr
                 )
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['__str__','is_active']
+    search_fields = ['name']

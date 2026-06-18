@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import Http404
 from django.views.generic import ListView
-from .models import Product, ProductImage, Review, ProductAttributeValue
+from .models import Product, ProductImage, Review, Tag
 from category.models import Category
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required
@@ -41,6 +41,8 @@ class ProductListView(ListView):
 def product_detail_view(request, *args, **kwargs):
     slug = kwargs['slug']
     product = Product.objects.get_product_by_slug(slug)
+    tags = product.tags.all()
+    print(tags)
 
     if product is None:
         raise Http404("product not found")
@@ -76,6 +78,7 @@ def product_detail_view(request, *args, **kwargs):
         'review_form': ReviewForm(instance=user_review),
         'user_review': user_review,
         'brand' : brand.value if brand else None, 
+        'tags' : tags
     }
     return render(request, 'product_detial.html', context)
 
