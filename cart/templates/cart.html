@@ -770,7 +770,9 @@
             },
 
             get subtotal() {
-              return this.activeItems.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+                return this.activeItems
+                    .filter(i => i.stock > 0)
+                    .reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
             },
 
             get totalSaving() {

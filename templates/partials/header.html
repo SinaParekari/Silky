@@ -322,79 +322,85 @@
                 <!-- Search - Hidden on mobile, visible on md+ -->
                 <div class="hidden md:block flex-1 max-w-[400px] lg:max-w-[500px] relative"
                     x-data="{ searchFocused: false }">
-                    <div class="relative">
-                        <div class="border-[1px] relative rounded-[16px] flex py-[12px] lg:py-[15px] px-[20px] lg:px-[25px] gap-3 transition-all duration-300"
-                            :class="searchFocused ? 'border-[#6294ff] shadow-[0_0_0_3px_rgba(50,201,138,0.1)]' : 'border-[#E7EAF0]'">
-                            <div class="flex-shrink-0">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" :class="searchFocused ? 'stroke-[#6294ff]' : ''">
-                                    <path
-                                        d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                                        :stroke="searchFocused ? '#6294ff' : '#ACB8C4'" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M22 22L20 20" :stroke="searchFocused ? '#6294ff' : '#ACB8C4'"
-                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div class="w-full">
-                                <input x-model="searchQuery" @focus="searchFocused = true"
-                                    @blur="setTimeout(() => searchFocused = false, 200)"
-                                    class="w-full h-full outline-0 text-[#181E25] text-[16px] placeholder:text-[#ACB8C4] bg-transparent"
-                                    placeholder="جستجو لپتاپ، لباس، اکسسوری..." type="search">
-                            </div>
-                            <div x-show="searchQuery" class="flex-shrink-0">
-                                <button @click="searchQuery = ''"
-                                    class="text-[#ACB8C4] hover:text-[#6294ff] transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
+
+                    <form method="GET" action="{% url 'search_products' %}">
+                        <div class="relative">
+
+                            <div class="border-[1px] relative rounded-[16px] flex py-[12px] lg:py-[15px] px-[20px] lg:px-[25px] gap-3 transition-all duration-300"
+                                :class="searchFocused ? 'border-[#6294ff] shadow-[0_0_0_3px_rgba(98,148,255,0.1)]' : 'border-[#E7EAF0]'">
+
+                                <button type="submit" class="flex-shrink-0">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                                            stroke="#ACB8C4"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"/>
+                                        <path
+                                            d="M22 22L20 20"
+                                            stroke="#ACB8C4"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"/>
                                     </svg>
                                 </button>
-                            </div>
-                        </div>
 
-                        <!-- Search Dropdown -->
-                        <div x-show="searchFocused" x-cloak x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 -translate-y-2"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            class="absolute top-full right-0 left-0 mt-2 bg-white rounded-[16px] shadow-[0_8px_40px_rgba(0,0,0,0.12)] z-50 overflow-hidden">
-
-                            <!-- Quick Categories -->
-                            <div class="p-4 border-b border-[#E7EAF0]">
-                                <p class="text-[12px] text-[#67788E] mb-3">جستجوی سریع</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <a href="#"
-                                        class="text-[11px] bg-[#F3F4F6] hover:bg-[#6294ff] hover:text-white text-[#67788E] px-3 py-1.5 rounded-full transition-colors">💻
-                                        لپتاپ</a>
-                                    <a href="#"
-                                        class="text-[11px] bg-[#F3F4F6] hover:bg-[#6294ff] hover:text-white text-[#67788E] px-3 py-1.5 rounded-full transition-colors">📱
-                                        موبایل</a>
-                                    <a href="#"
-                                        class="text-[11px] bg-[#F3F4F6] hover:bg-[#6294ff] hover:text-white text-[#67788E] px-3 py-1.5 rounded-full transition-colors">📖
-                                        رمان</a>
-                                    <a href="#"
-                                        class="text-[11px] bg-[#F3F4F6] hover:bg-[#6294ff] hover:text-white text-[#67788E] px-3 py-1.5 rounded-full transition-colors">🧒
-                                        کودک</a>
+                                <div class="w-full">
+                                    <input
+                                        name="q"
+                                        value="{{ request.GET.q }}"
+                                        @focus="searchFocused = true"
+                                        @blur="setTimeout(() => searchFocused = false, 200)"
+                                        class="w-full h-full outline-0 text-[#181E25] text-[16px] placeholder:text-[#ACB8C4] bg-transparent"
+                                        placeholder="جستجو محصول، برند یا تگ..."
+                                        type="search">
                                 </div>
+
+                                {% if request.GET.q %}
+                                <div class="flex-shrink-0">
+                                    <a href="{% url 'search_products' %}"
+                                    class="text-[#ACB8C4] hover:text-[#6294ff] transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                {% endif %}
                             </div>
 
-                            <!-- Recent Searches -->
-                            <div class="p-4">
-                                <p class="text-[12px] text-[#67788E] mb-2">جستجوهای اخیر</p>
-                                <template x-for="term in recentSearches" :key="term">
-                                    <a href="#"
-                                        class="flex items-center gap-2 py-2 hover:bg-[#F9FAFB] px-2 rounded-lg transition-colors">
-                                        <svg class="w-4 h-4 text-[#ACB8C4]" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span class="text-[13px] text-[#384656]" x-text="term"></span>
-                                    </a>
-                                </template>
+                            <div x-show="searchFocused"
+                                x-cloak
+                                class="absolute top-full right-0 left-0 mt-2 bg-white rounded-[16px] shadow-[0_8px_40px_rgba(0,0,0,0.12)] z-50 overflow-hidden">
+
+                                <div class="p-4">
+                                    <p class="text-[12px] text-[#67788E] mb-3">
+                                        جستجو در:
+                                    </p>
+
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="text-[11px] bg-[#F3F4F6] text-[#67788E] px-3 py-1.5 rounded-full">
+                                            نام محصول
+                                        </span>
+
+                                        <span class="text-[11px] bg-[#F3F4F6] text-[#67788E] px-3 py-1.5 rounded-full">
+                                            توضیحات
+                                        </span>
+
+                                        <span class="text-[11px] bg-[#F3F4F6] text-[#67788E] px-3 py-1.5 rounded-full">
+                                            برچسب‌ها
+                                        </span>
+                                    </div>
+                                </div>
+
                             </div>
+
                         </div>
-                    </div>
+                    </form>
+
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-3">
@@ -693,26 +699,55 @@
             </div>
 
             <!-- Mobile Search Panel -->
-            <div x-show="searchOpen" x-cloak x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
-                class="md:hidden mt-4 relative">
-                <div
-                    class="border border-[#E7EAF0] rounded-[12px] flex items-center py-3 px-4 gap-3 focus-within:border-[#6294ff] focus-within:shadow-[0_0_0_3px_rgba(50,201,138,0.1)] transition-all">
-                    <svg class="w-5 h-5 text-[#ACB8C4] flex-shrink-0" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input class="flex-1 outline-none text-[14px] text-[#181E25] placeholder:text-[#ACB8C4]"
-                        type="search" placeholder="جستجو کتاب، نویسنده...">
-                    <button @click="searchOpen = false" class="text-[#ACB8C4] hover:text-[#6294ff]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
+                <div x-show="searchOpen" x-cloak
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 -translate-y-4"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    class="md:hidden mt-4 relative">
+
+                    <form action="{% url 'search_products' %}" method="GET"
+                        class="border border-[#E7EAF0] rounded-[12px] flex items-center py-3 px-4 gap-3 focus-within:border-[#6294ff] focus-within:shadow-[0_0_0_3px_rgba(50,201,138,0.1)] transition-all">
+
+                        <svg class="w-5 h-5 text-[#ACB8C4] flex-shrink-0"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                    </button>
+
+                        <input
+                            name="q"
+                            class="flex-1 outline-none text-[14px] text-[#181E25] placeholder:text-[#ACB8C4]"
+                            type="search"
+                            placeholder="جستجو محصول، برند، تگ..."
+                            value="{{ request.GET.q }}">
+
+                        <button type="submit"
+                            class="text-[#6294ff] font-medium text-sm px-2">
+                            جستجو
+                        </button>
+
+                        <button type="button"
+                            @click="searchOpen = false"
+                            class="text-[#ACB8C4] hover:text-[#6294ff]">
+
+                            <svg class="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
+
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+
+                        </button>
+
+                    </form>
+
                 </div>
-            </div>
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center justify-between mt-[25px] lg:mt-[35px]">
@@ -1340,76 +1375,151 @@
                 </div>
 
                 <!-- Mobile Search with Live Results -->
-                <div class="px-4 py-4 border-b border-[#E7EAF0]">
+                <div class="px-4 py-4 border-b border-[#E7EAF0]"
+                    x-data="mobileSearch()">
+
                     <div class="relative">
-                        <div
-                            class="bg-[#F5F7FA] border border-[#E7EAF0] rounded-xl flex py-3 px-4 gap-3 items-center focus-within:border-[#6294ff] focus-within:bg-white transition-all duration-300">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
-                                <path
-                                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                                    stroke="#ACB8C4" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M22 22L20 20" stroke="#ACB8C4" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            <input x-model="mobileSearchQuery" @focus="showSearchResults = true"
-                                @blur="setTimeout(() => showSearchResults = false, 200)"
-                                class="w-full bg-transparent outline-0 text-[#181E25] text-[14px] placeholder:text-[#ACB8C4]"
-                                placeholder="جستجو کتاب، لپتاپ ..." type="search">
-                            <button x-show="mobileSearchQuery" @click="mobileSearchQuery = ''"
-                                class="text-[#ACB8C4] hover:text-[#67788E] transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
+
+                        <form action="{% url 'search_products' %}" method="GET">
+
+                            <div class="bg-[#F5F7FA] border border-[#E7EAF0] rounded-xl flex py-3 px-4 gap-3 items-center focus-within:border-[#6294ff] focus-within:bg-white transition-all">
+
+                                <!-- icon -->
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                                    <path d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 6.25329 21 11.5Z"
+                                        stroke="#ACB8C4" stroke-width="1.5"/>
+                                    <path d="M22 22L20 20" stroke="#ACB8C4" stroke-width="1.5"/>
                                 </svg>
-                            </button>
-                        </div>
 
-                        <!-- Search Suggestions Dropdown -->
-                        <div x-show="showSearchResults && mobileSearchQuery.length > 0"
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 -translate-y-2"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-[#E7EAF0] z-10 overflow-hidden">
-                            <div class="p-3 space-y-2">
-                                <a href="#"
-                                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F5F7FA] transition-colors">
-                                    <div class="w-8 h-8 bg-[#F0FDF4] rounded-lg flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-[#6294ff]" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm text-[#67788E]" x-text="mobileSearchQuery"></span>
-                                </a>
+                                <!-- input -->
+                                <input
+                                    name="q"
+                                    x-model="query"
+                                    @input="search()"
+                                    @focus="open = true"
+                                    class="w-full bg-transparent outline-0 text-[#181E25] text-[14px]"
+                                    placeholder="جستجو کتاب، لپتاپ ..."
+                                    type="search">
+
+                                <!-- clear -->
+                                <button type="button"
+                                        x-show="query"
+                                        @click="query=''; results=[]"
+                                        class="text-[#ACB8C4] hover:text-[#67788E]">
+                                    ✕
+                                </button>
+
                             </div>
+                        </form>
+
+                        <!-- dropdown -->
+                        <div x-show="open && results.length"
+                            @click.outside="open=false"
+                            class="absolute top-full left-0 right-0 mt-2 bg-white border rounded-xl shadow-lg z-10">
+
+                            <template x-for="item in results" :key="item.id">
+
+                                <a :href="item.url"
+                                class="flex items-center gap-3 p-3 hover:bg-[#F5F7FA]">
+
+                                    <div class="w-10 h-10 bg-gray-100 rounded-lg"></div>
+
+                                    <div>
+                                        <p class="text-sm font-medium" x-text="item.name"></p>
+                                        <p class="text-xs text-gray-400" x-text="item.price + ' تومان'"></p>
+                                    </div>
+
+                                </a>
+
+                            </template>
+
                         </div>
+
                     </div>
 
-                    <!-- Quick Tags -->
+                    <!-- quick tags -->
                     <div class="flex flex-wrap gap-2 mt-3">
-                        <span
-                            class="text-[11px] text-[#67788E] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer hover:bg-[#6294ff] hover:text-white transition-colors">لپتاپ</span>
-                        <span
-                            class="text-[11px] text-[#67788E] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer hover:bg-[#6294ff] hover:text-white transition-colors">کودکان</span>
-                        <span
-                            class="text-[11px] text-[#67788E] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer hover:bg-[#6294ff] hover:text-white transition-colors">پوشاک</span>
-                        <span
-                            class="text-[11px] text-[#67788E] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer hover:bg-[#6294ff] hover:text-white transition-colors">مانیتور</span>
+                        <span @click="query='لپتاپ'; search()"
+                            class="text-[11px] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer">
+                            لپتاپ
+                        </span>
+
+                        <span @click="query='پوشاک'; search()"
+                            class="text-[11px] bg-[#F5F7FA] px-3 py-1.5 rounded-full cursor-pointer">
+                            پوشاک
+                        </span>
                     </div>
+
                 </div>
 
                 <!-- Mobile Navigation Links -->
                 <div class="flex-1 px-4 py-4 space-y-1">
+                    <p class="text-[11px] text-[#ACB8C4] font-medium mb-3 px-2">{% if request.user.is_authenticated %}پروفایل{% else %}ورود{% endif %}</p>
+                    {% if request.user.is_authenticated %}
+                    
+                    <a href="{% url "profile" %}"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/profile/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
+                        :class="activeNav === 'home' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/profile/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
+                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M20.59 22C20.59 18.13 16.74 15 12 15C7.26 15 3.41 18.13 3.41 22"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="text-[14px] font-medium">پروفایل</span>
+                        {% if request.path == '/profile/'%}
+                        <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% else %}
+                        <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        {% endif %}
+                    </a>
+                    
+                    {% else %}
+                    
+                        <a href="{% url "login" %}"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/login/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
+                        :class="activeNav === 'home' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/login/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
+                                 <svg class="w-[20px] h-[20px] lg:w-[24px] lg:h-[24px] group-hover:scale-110 transition-transform"
+                                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.90039 7.55999C9.21039 3.95999 11.0604 2.48999 15.1104 2.48999H15.2404C19.7104 2.48999 21.5004 4.27999 21.5004 8.74999V15.27C21.5004 19.74 19.7104 21.53 15.2404 21.53H15.1104C11.0904 21.53 9.24039 20.08 8.91039 16.54"
+                                        stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M2 12H14.88" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M12.6504 8.64999L16.0004 12L12.6504 15.35" stroke="white" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                        </div>
+                        <span class="text-[14px] font-medium">ورود</span>
+                        {% if request.path == '/login/'%}
+                        <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% else %}
+                        <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                        
+
                     <p class="text-[11px] text-[#ACB8C4] font-medium mb-3 px-2">صفحات</p>
 
                     <a href="{% url "home" %}"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'home' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                            :class="activeNav === 'home' ? 'bg-[#6294ff] text-white' : 'bg-[#F5F7FA]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1421,16 +1531,21 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">صفحه اصلی</span>
+                        {% if request.path == '/'%}
+                        <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% else %}
                         <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
+                        {% endif %}
                     </a>
 
                     <a href="{% url "shop" %}"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/shop/' or request.path == '/shop/product_detail' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'shop' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                            :class="activeNav === 'shop' ? 'bg-[#6294ff] text-white' : 'bg-[#F5F7FA]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/shop/' or request.path == '/shop/product_detail' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1455,12 +1570,21 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">فروشگاه</span>
-                        <span class="mr-auto bg-[#FF6B6B] text-white text-[10px] px-2 py-0.5 rounded-full">جدید</span>
+                        {% if request.path == '/shop/' or request.path == '/shop/product_detail' %}
+                            <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        {% else %}
+                            <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        {% endif %}
                     </a>
 
-                    <a href="./weblog.html" @click="activeNav = 'blog'"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-[#6294ff] text-white">
+                    <a href="./weblog.html"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/weblog' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
+                        :class="activeNav === 'shop' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center {% if request.path == '/weblog/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 2V5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"
@@ -1476,16 +1600,21 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">وبلاگ</span>
+                        {% if request.path == '/weblog/'%}
                         <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
+                        {% else %}
+                        <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        {% endif %}
                     </a>
 
                     <a href="./about.html"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/about/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'about' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                            :class="activeNav === 'about' ? 'bg-[#6294ff] text-white' : 'bg-[#F5F7FA]'">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/about/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1498,17 +1627,21 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">درباره ما</span>
+                        {% if request.path == '/about/'%}
+                        <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% else %}
                         <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
+                        {% endif %}
                     </a>
 
                     <a href="{% url "contact" %}"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/contact/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'contact' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                            :class="activeNav === 'contact' ? 'bg-[#6294ff] text-white' : 'bg-[#F5F7FA]'">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/contact/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M21.97 18.33C21.97 18.69 21.89 19.06 21.72 19.42C21.55 19.78 21.33 20.12 21.04 20.44C20.55 20.98 20.01 21.37 19.4 21.62C18.8 21.87 18.15 22 17.45 22C16.43 22 15.34 21.76 14.19 21.27C13.04 20.78 11.89 20.12 10.75 19.29C9.6 18.45 8.51 17.52 7.47 16.49C6.44 15.45 5.51 14.36 4.68 13.22C3.86 12.08 3.2 10.94 2.72 9.81C2.24 8.67 2 7.58 2 6.54C2 5.86 2.12 5.21 2.36 4.61C2.6 4 2.98 3.44 3.51 2.94C4.15 2.31 4.85 2 5.59 2C5.87 2 6.15 2.06 6.4 2.18C6.66 2.3 6.89 2.48 7.07 2.74L9.39 6.01C9.57 6.26 9.7 6.49 9.79 6.71C9.88 6.92 9.93 7.13 9.93 7.32C9.93 7.56 9.86 7.8 9.72 8.03C9.59 8.26 9.4 8.5 9.16 8.74L8.4 9.53C8.29 9.64 8.24 9.77 8.24 9.93C8.24 10.01 8.25 10.08 8.27 10.16C8.3 10.24 8.33 10.3 8.35 10.36C8.53 10.69 8.84 11.12 9.28 11.64C9.73 12.16 10.21 12.69 10.73 13.22C11.27 13.75 11.79 14.24 12.32 14.69C12.84 15.13 13.27 15.43 13.61 15.61C13.66 15.63 13.72 15.66 13.79 15.69C13.87 15.72 13.95 15.73 14.04 15.73C14.21 15.73 14.34 15.67 14.45 15.56L15.21 14.81C15.46 14.56 15.7 14.37 15.93 14.25C16.16 14.11 16.39 14.04 16.64 14.04C16.83 14.04 17.03 14.08 17.25 14.17C17.47 14.26 17.7 14.39 17.95 14.56L21.26 16.91C21.52 17.09 21.7 17.3 21.81 17.55C21.91 17.8 21.97 18.05 21.97 18.33Z"
@@ -1516,9 +1649,15 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">تماس با ما</span>
+                        {% if request.path == '/contact/' %}
+                        <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% else %}
                         <svg class="w-4 h-4 mr-auto opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
+                        {% endif %}
                     </a>
                 </div>
 

@@ -3,9 +3,10 @@ from django.http import Http404
 from django.views.generic import ListView
 from .models import Product, ProductImage, Review, Tag
 from category.models import Category
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Q
 from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -103,3 +104,31 @@ def add_review_view(request, slug):
                 )
     
     return redirect('product_detail', slug=slug)
+
+def search_product(request):
+    query = request.GET.get('q','').strip()
+
+    product = Product.objects.none()
+    print(query)
+
+    if query:
+        product = Product.objects.filter(
+            Q(name__icontains=query)|
+            Q(description__icontains=query)|
+            Q(tags__name__icontains=query)
+        ).distinct()
+
+    paginator = Paginator(product, 3) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    context = {
+        'query' : query,
+        'page_obj' : page_obj,
+        'is_paginated': page_obj.has_other_pages(),
+        'categories' : Category.objects.filter(parent=None)
+
+    }
+
+    return render(request,'shop.html',context)
