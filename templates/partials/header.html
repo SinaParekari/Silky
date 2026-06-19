@@ -813,7 +813,7 @@
                                     </svg>
                                     <span class="text-white text-[16px] font-semibold">دسته‌بندی محصولات</span>
                                 </div>
-                                <a href="#"
+                                <a href="{% url "shop" %}"
                                     class="bg-white/20 hover:bg-white/30 text-white text-[13px] px-4 py-1.5 rounded-full transition-colors flex items-center gap-2">
                                     مشاهده همه
                                     <svg class="rotate-180" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -828,10 +828,12 @@
 
                             <!-- Categories Grid -->
                             <div class="p-6 grid grid-cols-4 gap-4">
-                                <div class="group/cat">
+                                {% for cat in header_categories %}
+                                    <div class="group/cat">
                                     <div
-                                        class="bg-[#6294ff15] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
+                                        class="bg-[#F0F7FF] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
                                         <div class="flex items-center gap-3 mb-3">
+                                            {% if cat.icon == 'laptop' %}
                                             <div
                                                 class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
                                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -849,41 +851,12 @@
                                                         stroke-width="1.5" stroke-linecap="round" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">لپتاپ</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6294ff] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>
-                                                    سامسونگ</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6294ff] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>
-                                                    اچ پی</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6294ff] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>ایسوز
-                                                </a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6294ff] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>مک بوک
-                                                </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#F0F7FF] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
+                                            {% elif cat.icon == 'phone' %}
                                             <div
                                                 class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
                                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <!-- Phone body -->
+                                                    <!-- cat body -->
                                                     <rect x="6" y="2" width="12" height="20" rx="2" stroke="#3B82F6"
                                                         stroke-width="1.5" stroke-linecap="round"
                                                         stroke-linejoin="round" />
@@ -894,37 +867,7 @@
                                                     <circle cx="12" cy="19" r="0.8" fill="#3B82F6" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">موبایل</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#3B82F6] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>سامسونگ</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#3B82F6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>اپل</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#3B82F6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>ریل
-                                                    می</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#3B82F6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span> هوآوی
-
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#F0FDF4] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
+                                            {% elif cat.icon == 'monitor' %}
                                             <div
                                                 class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
                                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -941,35 +884,7 @@
                                                         stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">مانیتور</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#22C55E] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>سامسونگ</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#22C55E] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>گیمینگ</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#22C55E] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>ایسوز</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#22C55E] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>
-                                                    HD</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#FFF7ED] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
+                                            {% elif cat.icon == 'keyboard' %}
                                             <div
                                                 class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
                                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -998,222 +913,26 @@
                                                         stroke-width="1.5" stroke-linecap="round" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">لباس</h3>
+                                            {% endif %}
+                                            <h3 class="text-[15px] text-[#181E25] font-semibold">{{cat.name}}</h3>
                                         </div>
                                         <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#4681ff] transition-colors flex items-center gap-2">
+                                            {% for child in cat.children.all|slice:":3" %}
+                                                <li><a href="{% url "search_category" child.slug %}"
+                                                    class="text-[13px] text-[#67788E] hover:text-[#3B82F6] transition-colors flex items-center gap-2">
                                                     <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>مردانه</a>
+                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>{{child.name}}</a>
                                             </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#4681ff] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>زنانه</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#4681ff] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>دخترانه</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#4681ff] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>پسرانه</a>
-                                            </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
+                                {% endfor %}
 
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#EEF2FF] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
-                                            <div
-                                                class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M6.5 9.5C8.15685 9.5 9.5 8.15685 9.5 6.5C9.5 4.84315 8.15685 3.5 6.5 3.5C4.84315 3.5 3.5 4.84315 3.5 6.5C3.5 8.15685 4.84315 9.5 6.5 9.5Z"
-                                                        stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M7 13L3.5 21" stroke="#6366F1" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M11.5 13L8 21H16L11 9.5" stroke="#6366F1"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M20.5 21L17 13" stroke="#6366F1" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">ورزش ذهن</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6366F1] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>کتاب
-                                                    فکری</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6366F1] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>بازی های
-                                                    فکری</a></li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6366F1] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>کتاب های
-                                                    معمایی</a></li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#6366F1] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>بازی های
-                                                    رومیزی</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <!-- Category 6 - لوازم خانه -->
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#FDF2F8] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
-                                            <div
-                                                class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M9.02 2.84L3.63 7.04C2.73 7.74 2 9.23 2 10.36V17.77C2 20.09 3.89 21.99 6.21 21.99H17.79C20.11 21.99 22 20.09 22 17.78V10.5C22 9.29 21.19 7.74 20.2 7.05L14.02 2.72C12.62 1.74 10.37 1.79 9.02 2.84Z"
-                                                        stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M12 17.99V14.99" stroke="#EC4899" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">آموزش آنلاین</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EC4899] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>
-                                                    دوره برنامه‌نویسی</a></li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EC4899] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>
-                                                    دوره طراحی دوخت</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EC4899] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>دوره کار
-                                                    با
-                                                    هوش مصنوعی</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EC4899] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>سایر دوره
-                                                    های
-                                                    اینترنتی</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#FEFCE8] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
-                                            <div
-                                                class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                                                        stroke="#EAB308" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path
-                                                        d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51"
-                                                        stroke="#EAB308" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">اکسسوری</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EAB308] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>ساعت
-                                                    مچی</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EAB308] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>گردنبند</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EAB308] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>دستبند</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#EAB308] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>انگشتر</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="group/cat">
-                                    <div
-                                        class="bg-[#F0FDFA] rounded-[16px] p-4 hover:shadow-lg transition-all duration-300">
-                                        <div class="flex items-center gap-3 mb-3">
-                                            <div
-                                                class="w-[44px] h-[44px] bg-white rounded-[12px] flex items-center justify-center shadow-sm">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                                                        stroke="#14B8A6" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path
-                                                        d="M3.41 22C3.41 18.13 7.26 15 12 15C12.96 15 13.89 15.13 14.76 15.37"
-                                                        stroke="#14B8A6" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path
-                                                        d="M22 18C22 18.32 21.96 18.63 21.88 18.93C21.79 19.33 21.63 19.72 21.42 20.06C20.73 21.22 19.46 22 18 22C16.97 22 16.04 21.61 15.34 20.97C15.04 20.71 14.78 20.4 14.58 20.06C14.21 19.46 14 18.75 14 18C14 16.92 14.43 15.93 15.13 15.21C15.86 14.46 16.88 14 18 14C19.18 14 20.25 14.51 20.97 15.33C21.61 16.04 22 16.98 22 18Z"
-                                                        stroke="#14B8A6" stroke-width="1.5" stroke-miterlimit="10"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M16.44 18L17.43 18.99L19.56 17.02" stroke="#14B8A6"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-[15px] text-[#181E25] font-semibold">کودک و نوزاد</h3>
-                                        </div>
-                                        <ul class="space-y-2">
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#14B8A6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>لباس
-                                                    کودک</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#14B8A6] transition-colors flex items-center gap-2">
-                                                    <span
-                                                        class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>اسباب‌بازی</a>
-                                            </li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#14B8A6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>لوازم
-                                                    نوزاد</a></li>
-                                            <li><a href="#"
-                                                    class="text-[13px] text-[#67788E] hover:text-[#14B8A6] transition-colors flex items-center gap-2">
-                                                    <span class="w-1.5 h-1.5 bg-[#E7EAF0] rounded-full"></span>کفش
-                                                    کودک</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Footer Banner -->
-                            <div
+                            {% comment %} <div
                                 class="mx-6 mb-6 bg-gradient-to-l from-[#6294ff30] to-[#6294ff60] rounded-[16px] p-4 flex items-center justify-between">
                                 <div class="flex items-center gap-3">
                                     <div
@@ -1260,7 +979,7 @@
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                     </div>
 

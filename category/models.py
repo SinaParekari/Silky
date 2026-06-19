@@ -16,6 +16,20 @@ class Category(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    ICON_CHOICES = [
+        ('laptop', 'Laptop'),
+        ('phone', 'Phone'),
+        ('monitor', 'Monitor'),
+        ('keyboard', 'Keyboard'),
+    ]
+
+    icon = models.CharField(
+        max_length=50,
+        choices=ICON_CHOICES,
+        blank=True,
+        null=True
+    )
+
     class Meta:
         db_table = 'category'
 
