@@ -1275,9 +1275,9 @@
                         </a>
 {% comment %} href="{% url 'shop' %} {% endcomment %}
                         <a href="{% url 'shop' %}"
-                            class="relative text-[14px] {% if request.path == '/shop/' or request.path == '/shop/product_detail' %}text-[#6294ff] font-medium{% else %}text-[#67788E] hover:text-[#6294ff]{% endif %} mx-[20px] transition-colors group py-2">
+                            class="relative text-[14px] {% if request.path == '/shop/' or request.path == '/shop/product_detail/' or request.path == '/shop/search/' %}text-[#6294ff] font-medium{% else %}text-[#67788E] hover:text-[#6294ff]{% endif %} mx-[20px] transition-colors group py-2">
                             <span>فروشگاه</span>
-                            <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/shop/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
+                            <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/shop/' or request.path == '/shop/search/'%}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
                         </a>
 {% comment %} {% url 'weblog' %} {% endcomment %}
                         <a href="#"
@@ -1543,9 +1543,9 @@
                     </a>
 
                     <a href="{% url "shop" %}"
-                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/shop/' or request.path == '/shop/product_detail' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
+                        class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/shop/' or request.path == '/shop/product_detail/' or request.path == '/shop/search/'%} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'shop' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/shop/' or request.path == '/shop/product_detail' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/shop/' or request.path == '/shop/product_detail' or request.path == '/shop/search/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1570,7 +1570,7 @@
                             </svg>
                         </div>
                         <span class="text-[14px] font-medium">فروشگاه</span>
-                        {% if request.path == '/shop/' or request.path == '/shop/product_detail' %}
+                        {% if request.path == '/shop/' or request.path == '/shop/product_detail' or request.path == '/shop/search/'%}
                             <svg class="w-4 h-4 mr-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>

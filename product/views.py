@@ -67,6 +67,14 @@ class ProductListView(ListView):
             queryset = queryset.order_by('-avg_rating')
 
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['categories'] = Category.objects.filter(parent=None)
+
+        return context
+
 
 def product_detail_view(request, *args, **kwargs):
     slug = kwargs['slug']
