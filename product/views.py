@@ -71,7 +71,7 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['categories'] = Category.objects.filter(parent=None)
+        context['categories'] = Category.objects.all()
 
         return context
 
@@ -214,10 +214,25 @@ def search_product(request):
         'query': query,
         'page_obj': page_obj,
         'is_paginated': page_obj.has_other_pages(),
-        'categories': Category.objects.filter(parent=None),
+        'categories': Category.objects.all()
     }
 
     return render(request, 'shop.html', context)
 
+def search_product_by_category(request, slug):
+    category = Category.objects.get(slug=slug)
 
+    products = Product.objects.get_products_by_category(category)
+
+    paginator = Paginator(products, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj' : page_obj,
+        'is_paginated' : page_obj.has_other_pages(),
+        'categories' : Category.objects.all()
+    }
+
+    return render(request, 'shop.html', context)
 

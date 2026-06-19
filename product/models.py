@@ -17,6 +17,9 @@ class ProductManager(models.Manager):
         qs = self.get_queryset().filter(slug=slug, is_active=True)
         if qs.count() == 1:
             return qs.first()
+        
+    def get_products_by_category(self, category):
+        return (self.get_active_products().filter(category_id__in=category.get_descendants_ids()))
     
 
 class Product(models.Model):

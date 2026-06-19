@@ -55,6 +55,14 @@ class Category(models.Model):
     def __str__(self):
         return self.get_full_path()
     
+    def get_descendants_ids(self):
+        ids = [self.id]
+
+        for child in self.children.all():
+            ids.extend(child.get_descendants_ids())
+
+        return ids
+    
 class CategoryAttribute(models.Model):
     ATTRIBUTE_TYPES = [
         ('text', 'متن'),

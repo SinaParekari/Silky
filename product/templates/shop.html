@@ -87,24 +87,38 @@
     <!-- Category Chips -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8" dir="rtl">
         <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
-            <button @click="selectCategory('همه')"
-                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300"
-                :class="selectedCategory === 'همه' ? 'bg-violet-600 text-white shadow-lg shadow-violet-200' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-violet-200'">
+
+            <a href="{% url "shop" %}">
+            <button
+                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold
+                bg-white text-slate-600 border border-slate-200
+                transition-all duration-300
+                hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300
+                hover:shadow-md">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                     </path>
                 </svg>
-                همه محصولات
-            </button> 
+                <span>همه محصولات</span>
+
+            </button>
+
+            </a>
             {% comment %} todo: click and see category products {% endcomment %}
             {% for cat in categories %}
+            <a href="{% url "search_category" cat.slug %}">
             <button
-                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold bg-white text-slate-600 border border-slate-200">
-
+                class="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold
+                bg-white text-slate-600 border border-slate-200
+                transition-all duration-300
+                hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300
+                hover:shadow-md">
                 <span>{{ cat.name }}</span>
 
             </button>
+
+            </a>
             {% endfor %}
         </div>
     </div>
