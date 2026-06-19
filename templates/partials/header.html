@@ -1005,7 +1005,7 @@
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/weblog/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
                         </a>
 {% comment %} {% url 'about' %} {% endcomment %}
-                        <a href="#"
+                        <a href="{% url "about" %}"
                             class="relative text-[14px] {% if request.path == '/about/' %}text-[#6294ff] font-medium{% else %}text-[#67788E] hover:text-[#6294ff]{% endif %} mx-[20px] transition-colors group py-2">
                             <span>درباره ما</span>
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/about/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
@@ -1330,7 +1330,7 @@
                         {% endif %}
                     </a>
 
-                    <a href="./about.html"
+                    <a href="{% url "about" %}"
                         class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/about/' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'about' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors {% if request.path == '/about/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
@@ -1419,54 +1419,14 @@
                     </button>
 
                     <div x-show="mobileCatOpen" x-collapse x-cloak class="mt-3 grid grid-cols-2 gap-2">
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#F0FDF4] hover:bg-[#DCFCE7] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#6294ff] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#166534] font-medium">لپتاپ</span>
-                        </a>
-                        <a href="#"
+                        {% for cat in header_categories %}
+                        <a href="{% url "search_category" cat.slug %}"
                             class="flex items-center gap-2 p-3 bg-[#EFF6FF] hover:bg-[#DBEAFE] rounded-xl transition-all duration-300 group">
                             <span
                                 class="w-2.5 h-2.5 bg-[#3B82F6] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#1E40AF] font-medium">موبایل</span>
+                            <span class="text-[12px] text-[#1E40AF] font-medium">{{cat.name}}</span>
                         </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#FEF3C7] hover:bg-[#FDE68A] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#F59E0B] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#92400E] font-medium">کودکانه</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#FFF7ED] hover:bg-[#FFEDD5] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#4681ff] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#9A3412] font-medium">لوازم تحریر</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#EEF2FF] hover:bg-[#E0E7FF] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#6366F1] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#3730A3] font-medium">ورزش ذهن</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#FCE7F3] hover:bg-[#FBCFE8] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#EC4899] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#9D174D] font-medium">آموزش آنلاین</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#F0FDFA] hover:bg-[#CCFBF1] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#14B8A6] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#115E59] font-medium">اکسسوری</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 p-3 bg-[#FEF2F2] hover:bg-[#FEE2E2] rounded-xl transition-all duration-300 group">
-                            <span
-                                class="w-2.5 h-2.5 bg-[#EF4444] rounded-full group-hover:scale-125 transition-transform"></span>
-                            <span class="text-[12px] text-[#991B1B] font-medium">کودک و نوزاد</span>
-                        </a>
+                        {% endfor %}
                     </div>
                 </div>
 

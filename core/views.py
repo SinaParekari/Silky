@@ -23,6 +23,10 @@ def contact_view(request):
     }
     return render(request, 'contact-us.html', context)
 
+def about_us_view(request):
+    return render(request, 'about-us.html')
 
+def rules_view(request):
+    return render(request,'rules.html')
 
 

@@ -1,6 +1,9 @@
 {% extends "partials/base.html" %}
+{% load static %}
 
 {% block content %}
+
+<script defer src=""></script>
 
     <!-- Hero Section -->
     <div class="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 gradient-animate">
@@ -19,7 +22,10 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24" x-data="{ show: false }"
             x-init="setTimeout(() => show = true, 200)">
             <div class="text-center">
-                <h1 class="text-5xl md:text-7xl font-black text-white mb-6 transition-all duration-1000"
+                <h1
+                    x-data="{ show: false }"
+                    x-init="setTimeout(() => show = true, 100)"
+                    class="text-5xl md:text-7xl font-black text-white mb-6 transition-all duration-1000"
                     :class="show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
                     با ما در ارتباط باشید
                 </h1>

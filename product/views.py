@@ -231,7 +231,7 @@ def search_product_by_category(request, slug):
     context = {
         'page_obj' : page_obj,
         'is_paginated' : page_obj.has_other_pages(),
-        'categories' : Category.objects.all()
+        'categories' : category.children.all()
     }
 
     return render(request, 'shop.html', context)

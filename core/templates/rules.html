@@ -1,0 +1,1524 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════════════════════ -->
+  <section class="relative overflow-hidden bg-gradient-to-br
+                from-violet-950 via-purple-900 to-indigo-950
+                bg-animate pt-16 pb-24">
+
+    <!-- Blob backgrounds -->
+    <!-- Grid overlay -->
+    <div class="absolute inset-0 opacity-[.04]" style="background-image:
+         linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),
+         linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px);
+         background-size:48px 48px"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+
+      <!-- Badge -->
+      <div class="animate-fade-in delay-100 inline-flex items-center gap-2 px-4 py-1.5
+                rounded-full bg-white/10 border border-white/20 text-white/80
+                text-xs font-medium mb-6 backdrop-blur-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+        آخرین به‌روزرسانی: فروردین ۱۴۰۵
+      </div>
+
+      <!-- Title -->
+      <h1 class="animate-fade-in delay-200 text-4xl sm:text-5xl lg:text-6xl
+               font-black text-white leading-tight mb-6">
+        قوانین و
+        <span class="bg-gradient-to-r from-violet-300 via-pink-300 to-indigo-300
+                   bg-clip-text text-transparent">مقررات</span>
+        <br class="hidden sm:block" />
+        سیلکی
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="animate-fade-in delay-300 text-lg text-white/70 max-w-2xl mx-auto
+              leading-relaxed mb-10">
+        این سند حقوق و تعهدات شما را در استفاده از خدمات سیلکی تعریف می‌کند.
+        لطفاً پیش از استفاده از سایت، این قوانین را با دقت مطالعه فرمایید.
+      </p>
+
+      <!-- Quick action buttons -->
+      <div class="animate-fade-in delay-400 flex flex-wrap items-center
+                justify-center gap-3">
+        <button @click="printPage()" class="btn-shine flex items-center gap-2 px-5 py-2.5 rounded-xl
+                     bg-white/15 hover:bg-white/25 border border-white/25
+                     text-white text-sm font-medium transition-all duration-200
+                     backdrop-blur-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0
+                   00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2
+                   2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2
+                   2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          چاپ / دانلود PDF
+        </button>
+        <button @click="copyLink()" class="btn-shine flex items-center gap-2 px-5 py-2.5 rounded-xl
+                     bg-white/15 hover:bg-white/25 border border-white/25
+                     text-white text-sm font-medium transition-all duration-200
+                     backdrop-blur-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0
+                   012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2
+                   2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          کپی لینک
+        </button>
+        <button @click="scrollToSection('acceptance')" class="btn-shine flex items-center gap-2 px-5 py-2.5 rounded-xl
+                     bg-gradient-to-r from-violet-400 to-purple-500
+                     hover:from-violet-500 hover:to-purple-600
+                     text-white text-sm font-bold shadow-lg
+                     shadow-violet-500/30 transition-all duration-200">
+          شروع مطالعه
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Wave bottom -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+        class="w-full h-12">
+        <path d="M0 60L1440 60L1440 20C1200 60 960 0 720 20C480 40 240 0 0 20L0 60Z" fill="#F9FAFB" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+     STATS BAR
+════════════════════════════════════════════════════════ -->
+  <section class="bg-gray-50 py-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <template x-for="(stat, i) in docStats" :key="i">
+          <div class="glass rounded-2xl p-5 text-center shadow-sm border border-white/60
+                    animate-fade-in" :style="`animation-delay:${i*0.1}s`">
+            <div class="text-3xl mb-2" x-text="stat.icon"></div>
+            <div class="text-2xl font-black text-gray-800 mb-1" x-text="stat.value"></div>
+            <div class="text-xs text-gray-500 font-medium" x-text="stat.label"></div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+     MAIN CONTENT (Sidebar + Article)
+════════════════════════════════════════════════════════ -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- ═══ SIDEBAR ═══ -->
+      <aside id="sidebar" class="lg:w-72 flex-shrink-0 no-print">
+        <div class="sticky top-24 space-y-5">
+
+          {% comment %} <!-- Table of Contents -->
+          <div class="glass rounded-2xl shadow-sm border border-white/60 overflow-hidden">
+            <div class="px-5 py-4 bg-gradient-to-r from-violet-500 to-purple-600">
+              <h3 class="text-white font-bold text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 10h16M4 14h10M4 18h6" />
+                </svg>
+                فهرست مطالب
+              </h3>
+            </div>
+            <nav class="p-2">
+              <template x-for="(sec, idx) in sections" :key="sec.id">
+                <button @click="scrollToSection(sec.id)" class="toc-link w-full text-right flex items-center gap-3 px-3 py-2.5
+                       rounded-xl text-sm text-gray-600 hover:text-violet-700
+                       transition-all duration-200" :class="activeSection === sec.id ? 'active' : ''">
+                  <span class="w-6 h-6 rounded-lg bg-violet-100 text-violet-600
+                             flex items-center justify-center text-xs font-bold
+                             flex-shrink-0" x-text="idx + 1"></span>
+                  <span class="flex-1 text-right leading-snug" x-text="sec.title"></span>
+                </button>
+              </template>
+            </nav>
+          </div> {% endcomment %}
+
+          <!-- Reading Progress -->
+          {% comment %} <div class="glass rounded-2xl shadow-sm border border-white/60 p-5">
+            <h3 class="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+              <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              پیشرفت مطالعه
+            </h3>
+            <div class="relative h-2.5 bg-gray-200 rounded-full overflow-hidden mb-2">
+              <div class="absolute inset-y-0 right-0 rounded-full
+                        bg-gradient-to-l from-violet-500 to-purple-600 transition-all duration-300"
+                :style="`width:${readPct}%`"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+              <span x-text="`${Math.round(readPct)}% خوانده شد`"></span>
+              <span x-text="`~${readMins} دقیقه`"></span>
+            </div>
+          </div> {% endcomment %}
+
+          <!-- Quick contact -->
+          <div class="glass rounded-2xl shadow-sm border border-white/60 p-5">
+            <h3 class="text-sm font-bold text-gray-700 mb-3">سوالی دارید؟</h3>
+            <p class="text-xs text-gray-500 mb-4 leading-relaxed">
+              تیم پشتیبانی ما آماده پاسخگویی به سوالات شما درباره قوانین است.
+            </p>
+            <a href="{% url "contact" %}" class="btn-shine flex items-center justify-center gap-2 w-full py-2.5
+                    rounded-xl bg-gradient-to-r from-violet-500 to-purple-600
+                    text-white text-xs font-semibold shadow-md shadow-violet-500/25
+                    hover:shadow-violet-500/40 transition-all duration-200">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0
+                       002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              تماس با پشتیبانی
+            </a>
+          </div>
+
+        </div>
+      </aside>
+      <!-- END SIDEBAR -->
+
+      <!-- ═══ ARTICLE ═══ -->
+      <article class="flex-1 min-w-0 space-y-8 print-full">
+        <!-- ────────────────────────────────────────────
+           SECTION 1: پذیرش قوانین
+      ─────────────────────────────────────────────── -->
+        <div id="acceptance" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8
+                  animate-fade-in delay-100">
+
+          <!-- Section header -->
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-violet-500/25">
+              <span class="text-2xl">📋</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-violet-500 bg-violet-50
+                           px-2 py-0.5 rounded-full">بخش ۱</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">پذیرش قوانین</h2>
+              <p class="text-gray-500 text-sm mt-1">شرایط کلی استفاده از خدمات</p>
+            </div>
+          </div>
+
+          <!-- Important notice -->
+          <div class="highlight-box border-violet-500 bg-violet-50 rounded-2xl p-5 mb-6">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl mt-0.5">⚠️</span>
+              <div>
+                <h4 class="font-bold text-violet-800 mb-1">توجه مهم</h4>
+                <p class="text-violet-700 text-sm leading-relaxed">
+                  با استفاده از وب‌سایت، اپلیکیشن یا هر خدمات سیلکی، شما صریحاً با تمامی
+                  بندهای این قوانین موافقت کرده‌اید. در صورت عدم موافقت، لطفاً از استفاده
+                  از خدمات ما خودداری فرمایید.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-gray-700 text-sm leading-8">
+            <p>
+              سیلکی یک پلتفرم خرده‌فروشی آنلاین است که محصولات متنوعی از جمله کیف،
+              کفش، محصولات زیبایی و لوازم جانبی را به کاربران ارائه می‌دهد. این قوانین
+              و مقررات (از این پس «قرارداد») بین شما («کاربر») و شرکت سیلکی («شرکت»)
+              منعقد می‌گردد.
+            </p>
+            <p>
+              سیلکی حق دارد در هر زمان و بدون اطلاع قبلی، این قوانین را تغییر دهد.
+              تغییرات جدید از لحظه انتشار در وب‌سایت لازم‌الاجرا خواهند بود. استفاده
+              مستمر از خدمات پس از اعمال تغییرات، به منزله پذیرش قوانین جدید است.
+            </p>
+
+            <!-- Checklist -->
+            <div class="bg-gray-50 rounded-2xl p-5 mt-4">
+              <h4 class="font-bold text-gray-800 mb-4 text-base">با استفاده از سیلکی، شما تأیید می‌کنید که:</h4>
+              <ul class="space-y-3">
+                <template x-for="item in acceptanceItems" :key="item">
+                  <li class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-green-100 text-green-600
+                               flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">✓</span>
+                    <span class="text-gray-700" x-text="item"></span>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 2: ثبت‌نام و حساب کاربری
+      ─────────────────────────────────────────────── -->
+        <div id="account" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8
+                  animate-fade-in delay-200">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-blue-500/25">
+              <span class="text-2xl">👤</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-blue-500 bg-blue-50
+                           px-2 py-0.5 rounded-full">بخش ۲</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">ثبت‌نام و حساب کاربری</h2>
+              <p class="text-gray-500 text-sm mt-1">شرایط ایجاد و مدیریت حساب</p>
+            </div>
+          </div>
+
+          <div class="space-y-5 text-sm text-gray-700 leading-8">
+            <p>
+              برخی از خدمات سیلکی نیاز به ایجاد حساب کاربری دارند. برای ثبت‌نام
+              باید اطلاعات صحیح، کامل و به‌روز ارائه دهید.
+            </p>
+
+            <!-- Two column cards -->
+            <div class="grid sm:grid-cols-2 gap-4">
+              <template x-for="card in accountCards" :key="card.title">
+                <div class="rounded-2xl p-5 border-2 transition-all duration-200
+                          hover:border-blue-300 hover:bg-blue-50/50" :class="card.color">
+                  <div class="text-2xl mb-3" x-text="card.icon"></div>
+                  <h4 class="font-bold text-gray-800 mb-2" x-text="card.title"></h4>
+                  <p class="text-xs text-gray-600 leading-relaxed" x-text="card.desc"></p>
+                </div>
+              </template>
+            </div>
+
+            <div class="highlight-box border-amber-400 bg-amber-50 rounded-2xl p-5">
+              <div class="flex items-start gap-3">
+                <span class="text-xl">🔐</span>
+                <div>
+                  <h4 class="font-bold text-amber-800 mb-1">مسئولیت امنیت حساب</h4>
+                  <p class="text-amber-700 text-sm leading-relaxed">
+                    شما مسئول حفظ امنیت اطلاعات ورود خود هستید. هرگونه فعالیت
+                    انجام‌شده از طریق حساب شما، مسئولیت آن بر عهده شماست. در صورت
+                    مشاهده هرگونه دسترسی غیرمجاز، فوراً با پشتیبانی تماس بگیرید.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 3: سفارش‌گذاری و پرداخت
+      ─────────────────────────────────────────────── -->
+        <div id="orders" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8
+                  animate-fade-in delay-300">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-green-500/25">
+              <span class="text-2xl">🛒</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-green-600 bg-green-50
+                           px-2 py-0.5 rounded-full">بخش ۳</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">سفارش‌گذاری و پرداخت</h2>
+              <p class="text-gray-500 text-sm mt-1">فرآیند خرید و روش‌های پرداخت</p>
+            </div>
+          </div>
+
+          <!-- Order steps timeline -->
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-800 mb-4 text-base">فرآیند ثبت سفارش</h4>
+            <div class="relative">
+              <!-- Vertical line -->
+              <div class="absolute right-4 top-4 bottom-4 w-0.5 bg-gradient-to-b
+                        from-green-400 to-emerald-500 opacity-30"></div>
+              <div class="space-y-4">
+                <template x-for="(step, i) in orderSteps" :key="i">
+                  <div class="flex items-start gap-4 pr-12 relative">
+                    <div class="absolute right-0 w-8 h-8 rounded-full
+                              bg-gradient-to-br from-green-400 to-emerald-500
+                              flex items-center justify-center text-white
+                              text-xs font-bold shadow-md flex-shrink-0" x-text="i + 1"></div>
+                    <div class="flex-1 bg-gray-50 rounded-xl p-4">
+                      <h5 class="font-bold text-gray-800 text-sm mb-1" x-text="step.title"></h5>
+                      <p class="text-xs text-gray-600 leading-relaxed" x-text="step.desc"></p>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment methods -->
+          <div class="bg-gradient-to-br from-green-50 to-emerald-50
+                    rounded-2xl p-6 border border-green-100">
+            <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <span>💳</span> روش‌های پرداخت پشتیبانی‌شده
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <template x-for="method in payMethods" :key="method.name">
+                <div class="bg-white rounded-xl p-3 text-center shadow-sm
+                          border border-green-100 hover:border-green-300
+                          transition-all duration-200">
+                  <div class="text-2xl mb-1.5" x-text="method.icon"></div>
+                  <div class="text-xs font-semibold text-gray-700" x-text="method.name"></div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="mt-4 space-y-3 text-sm text-gray-700 leading-8">
+            <p>
+              تمامی قیمت‌ها به تومان و شامل مالیات بر ارزش افزوده هستند. سیلکی
+              حق تغییر قیمت‌ها را در هر زمان برای خود محفوظ می‌دارد، اما قیمت
+              اعمال‌شده در زمان تأیید سفارش، ثابت خواهد ماند.
+            </p>
+            <div class="highlight-box border-green-500 bg-green-50 rounded-2xl p-4">
+              <div class="flex items-start gap-3">
+                <span class="text-lg">✅</span>
+                <p class="text-green-800 text-sm leading-relaxed">
+                  <strong>تضمین امنیت پرداخت:</strong> تمامی تراکنش‌ها از طریق
+                  درگاه‌های پرداخت معتبر و با رمزنگاری SSL انجام می‌شوند.
+                  اطلاعات کارت بانکی شما در سرورهای ما ذخیره نمی‌شود.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 4: ارسال و تحویل
+      ─────────────────────────────────────────────── -->
+        <div id="shipping" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8
+                  animate-fade-in delay-400">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-orange-500/25">
+              <span class="text-2xl">🚚</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-orange-500 bg-orange-50
+                           px-2 py-0.5 rounded-full">بخش ۴</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">ارسال و تحویل</h2>
+              <p class="text-gray-500 text-sm mt-1">شرایط و زمان‌بندی ارسال</p>
+            </div>
+          </div>
+
+          <!-- Shipping table -->
+          <div class="overflow-x-auto mb-6 rounded-2xl border border-gray-200">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
+                  <th class="px-5 py-3.5 text-right font-bold">روش ارسال</th>
+                  <th class="px-5 py-3.5 text-center font-bold">زمان تحویل</th>
+                  <th class="px-5 py-3.5 text-center font-bold">هزینه</th>
+                  <th class="px-5 py-3.5 text-center font-bold">رهگیری</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template x-for="(row, i) in shippingTable" :key="i">
+                  <tr :class="i % 2 === 0 ? 'bg-white' : 'bg-orange-50/40'"
+                    class="border-t border-gray-100 hover:bg-orange-50 transition-colors">
+                    <td class="px-5 py-3.5 font-medium text-gray-800">
+                      <div class="flex items-center gap-2">
+                        <span x-text="row.icon"></span>
+                        <span x-text="row.method"></span>
+                      </div>
+                    </td>
+                    <td class="px-5 py-3.5 text-center text-gray-600" x-text="row.time"></td>
+                    <td class="px-5 py-3.5 text-center">
+                      <span :class="row.free ? 'text-green-600 font-bold' : 'text-gray-600'" x-text="row.cost"></span>
+                    </td>
+                    <td class="px-5 py-3.5 text-center">
+                      <span x-text="row.track ? '✅' : '❌'"></span>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4 text-sm">
+            <div class="bg-orange-50 rounded-2xl p-5 border border-orange-100">
+              <h4 class="font-bold text-orange-800 mb-3 flex items-center gap-2">
+                <span>📍</span> مناطق تحت پوشش
+              </h4>
+              <ul class="space-y-2 text-orange-700 text-xs">
+                <li class="flex items-center gap-2">
+                  <span class="text-green-500">●</span> تهران و کرج — ارسال فوری
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-blue-500">●</span> سایر کلان‌شهرها — ۲-۳ روز
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-amber-500">●</span> شهرستان‌ها — ۳-۷ روز
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-red-400">●</span> مناطق محروم — ۷-۱۴ روز
+                </li>
+              </ul>
+            </div>
+            <div class="bg-amber-50 rounded-2xl p-5 border border-amber-100">
+              <h4 class="font-bold text-amber-800 mb-3 flex items-center gap-2">
+                <span>⚡</span> ارسال رایگان
+              </h4>
+              <p class="text-amber-700 text-xs leading-relaxed">
+                برای سفارش‌های بالای <strong>۵۰۰,۰۰۰ تومان</strong> در تهران و بالای
+                <strong>۸۰۰,۰۰۰ تومان</strong> در سایر شهرها، ارسال کاملاً رایگان است.
+                اعضای ویژه از ارسال رایگان بدون حداقل خرید بهره‌مند می‌شوند.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 5: مرجوعی و استرداد
+      ─────────────────────────────────────────────── -->
+        <div id="returns" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8
+                  animate-fade-in delay-500">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-pink-500/25">
+              <span class="text-2xl">↩️</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-pink-500 bg-pink-50
+                           px-2 py-0.5 rounded-full">بخش ۵</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">مرجوعی و استرداد وجه</h2>
+              <p class="text-gray-500 text-sm mt-1">سیاست بازگشت کالا و پول</p>
+            </div>
+          </div>
+
+          <!-- Return policy timeline -->
+          <div class="bg-gradient-to-br from-pink-50 to-rose-50
+                    rounded-2xl p-6 mb-6 border border-pink-100">
+            <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <span>📅</span> بازه زمانی مرجوعی
+            </h4>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <template x-for="period in returnPeriods" :key="period.days">
+                <div class="flex-1 rounded-xl p-4 text-center border-2 transition-all" :class="period.color">
+                  <div class="text-2xl mb-2" x-text="period.icon"></div>
+                  <div class="text-lg font-black mb-1" x-text="period.days"></div>
+                  <div class="text-xs font-semibold mb-1.5" x-text="period.title"></div>
+                  <div class="text-xs opacity-80" x-text="period.desc"></div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Returnable vs non-returnable -->
+          <div class="grid sm:grid-cols-2 gap-4 mb-5">
+            <div class="bg-green-50 rounded-2xl p-5 border border-green-200">
+              <h4 class="font-bold text-green-800 mb-3 flex items-center gap-2 text-sm">
+                <span>✅</span> کالاهای قابل مرجوع
+              </h4>
+              <ul class="space-y-2 text-xs text-green-700">
+                <template x-for="item in returnableItems" :key="item">
+                  <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0"></span>
+                    <span x-text="item"></span>
+                  </li>
+                </template>
+              </ul>
+            </div>
+            <div class="bg-red-50 rounded-2xl p-5 border border-red-200">
+              <h4 class="font-bold text-red-800 mb-3 flex items-center gap-2 text-sm">
+                <span>❌</span> کالاهای غیرقابل مرجوع
+              </h4>
+              <ul class="space-y-2 text-xs text-red-700">
+                <template x-for="item in nonReturnableItems" :key="item">
+                  <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0"></span>
+                    <span x-text="item"></span>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </div>
+
+          <div class="highlight-box border-pink-500 bg-pink-50 rounded-2xl p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">💰</span>
+              <div>
+                <h4 class="font-bold text-pink-800 mb-1">استرداد وجه</h4>
+                <p class="text-pink-700 text-sm leading-relaxed">
+                  پس از تأیید مرجوعی، مبلغ در مدت <strong>۳ تا ۷ روز کاری</strong>
+                  به روش پرداخت اولیه بازگشت می‌یابد. برای پرداخت‌های کارت‌به‌کارت،
+                  زمان برگشت بسته به بانک ممکن است تا ۱۰ روز طول بکشد.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ────────────────────────────────────────────
+           SECTION 6: حریم خصوصی
+      ─────────────────────────────────────────────── -->
+        <div id="privacy" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-teal-500/25">
+              <span class="text-2xl">🔒</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-teal-600 bg-teal-50
+                           px-2 py-0.5 rounded-full">بخش ۶</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">حریم خصوصی و داده‌ها</h2>
+              <p class="text-gray-500 text-sm mt-1">نحوه جمع‌آوری و استفاده از اطلاعات</p>
+            </div>
+          </div>
+
+          <div class="space-y-5">
+            <!-- Data collection -->
+            <div class="bg-teal-50 rounded-2xl p-5 border border-teal-100">
+              <h4 class="font-bold text-teal-800 mb-3 flex items-center gap-2">
+                <span>📊</span> اطلاعاتی که جمع‌آوری می‌کنیم
+              </h4>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <template x-for="item in privacyData" :key="item.cat">
+                  <div class="bg-white rounded-xl p-3.5 shadow-sm border border-teal-100">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span x-text="item.icon"></span>
+                      <span class="text-xs font-bold text-gray-700" x-text="item.cat"></span>
+                    </div>
+                    <ul class="space-y-1">
+                      <template x-for="d in item.data" :key="d">
+                        <li class="text-xs text-gray-600 flex items-center gap-1.5">
+                          <span class="w-1 h-1 rounded-full bg-teal-400 flex-shrink-0"></span>
+                          <span x-text="d"></span>
+                        </li>
+                      </template>
+                    </ul>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- User rights -->
+            <div>
+              <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <span>⚖️</span> حقوق شما بر داده‌هایتان
+              </h4>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <template x-for="right in userRights" :key="right.title">
+                  <div class="bg-gradient-to-br rounded-xl p-4 text-center border
+                            hover:shadow-md transition-all duration-200" :class="right.color">
+                    <div class="text-2xl mb-2" x-text="right.icon"></div>
+                    <div class="font-bold text-sm mb-1" x-text="right.title"></div>
+                    <div class="text-xs opacity-80 leading-relaxed" x-text="right.desc"></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <p class="text-sm text-gray-700 leading-8">
+              سیلکی از کوکی‌ها برای بهبود تجربه کاربری، تجزیه‌وتحلیل ترافیک و
+              شخصی‌سازی تبلیغات استفاده می‌کند. می‌توانید تنظیمات کوکی را از طریق
+              مرورگر خود مدیریت کنید.
+            </p>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 7: مالکیت معنوی
+      ─────────────────────────────────────────────── -->
+        <div id="ip" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-yellow-500/25">
+              <span class="text-2xl">©️</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-yellow-600 bg-yellow-50
+                           px-2 py-0.5 rounded-full">بخش ۷</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">مالکیت معنوی</h2>
+              <p class="text-gray-500 text-sm mt-1">حقوق محتوا و برند</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-sm text-gray-700 leading-8">
+            <p>
+              تمامی محتوای وب‌سایت سیلکی شامل متون، تصاویر، ویدیوها، لوگو،
+              آیکون‌ها، طراحی‌ها و کدهای نرم‌افزاری، مالکیت انحصاری سیلکی
+              یا مجوزدهندگان آن است.
+            </p>
+
+            <!-- Permission table -->
+            <div class="overflow-hidden rounded-2xl border border-gray-200">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                    <th class="px-5 py-3 text-right font-bold">استفاده</th>
+                    <th class="px-5 py-3 text-center font-bold">مجاز</th>
+                    <th class="px-5 py-3 text-right font-bold">شرایط</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="(row, i) in ipTable" :key="i">
+                    <tr :class="i % 2 === 0 ? 'bg-white' : 'bg-yellow-50/30'" class="border-t border-gray-100">
+                      <td class="px-5 py-3 text-gray-700 font-medium" x-text="row.use"></td>
+                      <td class="px-5 py-3 text-center">
+                        <span x-text="row.allowed ? '✅' : '❌'"></span>
+                      </td>
+                      <td class="px-5 py-3 text-xs text-gray-500" x-text="row.cond"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 8: محدودیت مسئولیت
+      ─────────────────────────────────────────────── -->
+        <div id="liability" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-red-500/25">
+              <span class="text-2xl">⚖️</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-red-500 bg-red-50
+                           px-2 py-0.5 rounded-full">بخش ۸</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">محدودیت مسئولیت</h2>
+              <p class="text-gray-500 text-sm mt-1">حدود تعهدات شرکت</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="highlight-box border-red-400 bg-red-50 rounded-2xl p-5">
+              <div class="flex items-start gap-3">
+                <span class="text-xl">📌</span>
+                <p class="text-red-800 text-sm leading-relaxed">
+                  سیلکی تمام تلاش خود را برای ارائه خدمات با کیفیت به‌کار می‌گیرد،
+                  اما در قبال خسارات غیرمستقیم، از دست دادن سود، یا اختلالات سرویس
+                  ناشی از عوامل خارج از کنترل شرکت، مسئولیتی نمی‌پذیرد.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                  <span class="text-green-500">✅</span> مسئولیت‌های ما
+                </h4>
+                <ul class="space-y-2">
+                  <template x-for="item in ourResponsibilities" :key="item">
+                    <li class="flex items-start gap-2 text-xs text-gray-700">
+                      <span class="text-green-500 mt-0.5 flex-shrink-0">●</span>
+                      <span x-text="item"></span>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                  <span class="text-red-400">❌</span> موارد خارج از مسئولیت
+                </h4>
+                <ul class="space-y-2">
+                  <template x-for="item in notOurFault" :key="item">
+                    <li class="flex items-start gap-2 text-xs text-gray-700">
+                      <span class="text-red-400 mt-0.5 flex-shrink-0">●</span>
+                      <span x-text="item"></span>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 9: تخلفات و تعلیق حساب
+      ─────────────────────────────────────────────── -->
+        <div id="violations" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gray-600 to-slate-700
+                      flex items-center justify-center flex-shrink-0 shadow-md">
+              <span class="text-2xl">🚫</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-gray-600 bg-gray-100
+                           px-2 py-0.5 rounded-full">بخش ۹</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">تخلفات و تعلیق حساب</h2>
+              <p class="text-gray-500 text-sm mt-1">رفتارهای ممنوع و پیامدها</p>
+            </div>
+          </div>
+
+          <div class="space-y-5">
+            <p class="text-sm text-gray-700 leading-8">
+              سیلکی حق دارد در صورت مشاهده تخلف از قوانین، حساب کاربری را بدون
+              اطلاع قبلی تعلیق یا حذف کند.
+            </p>
+
+            <!-- Violation levels -->
+            <div class="space-y-3">
+              <h4 class="font-bold text-gray-800 text-sm">سطوح تخلف و پیامدها:</h4>
+              <template x-for="level in violationLevels" :key="level.title">
+                <div class="rounded-2xl p-4 border-2 transition-all duration-200
+                          hover:shadow-md" :class="level.color">
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xl" x-text="level.icon"></span>
+                    <div>
+                      <span class="font-bold text-sm" x-text="level.title"></span>
+                      <span class="mr-2 text-xs px-2 py-0.5 rounded-full font-medium" :class="level.badgeColor"
+                        x-text="level.badge"></span>
+                    </div>
+                  </div>
+                  <ul class="space-y-1 mr-8">
+                    <template x-for="ex in level.examples" :key="ex">
+                      <li class="text-xs flex items-center gap-1.5">
+                        <span class="w-1 h-1 rounded-full bg-current opacity-50 flex-shrink-0"></span>
+                        <span x-text="ex"></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           SECTION 10: تغییرات و حقوق قانونی
+      ─────────────────────────────────────────────── -->
+        <div id="legal" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-indigo-500/25">
+              <span class="text-2xl">📜</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-indigo-500 bg-indigo-50
+                           px-2 py-0.5 rounded-full">بخش ۱۰</span>
+              </div>
+              <h2 class="text-xl font-black text-gray-800">حقوق قانونی و حل اختلاف</h2>
+              <p class="text-gray-500 text-sm mt-1">چارچوب قانونی و رویه حل تعارض</p>
+            </div>
+          </div>
+
+          <div class="space-y-5 text-sm text-gray-700 leading-8">
+            <div class="grid sm:grid-cols-3 gap-4">
+              <template x-for="item in legalItems" :key="item.title">
+                <div class="text-center p-5 bg-indigo-50 rounded-2xl border border-indigo-100
+                          hover:border-indigo-300 transition-all duration-200">
+                  <div class="text-3xl mb-3" x-text="item.icon"></div>
+                  <h4 class="font-bold text-indigo-800 mb-2 text-sm" x-text="item.title"></h4>
+                  <p class="text-xs text-indigo-600 leading-relaxed" x-text="item.desc"></p>
+                </div>
+              </template>
+            </div>
+            <p>
+              این قرارداد تحت قوانین جمهوری اسلامی ایران تفسیر و اجرا می‌شود.
+              هرگونه اختلاف ابتدا از طریق مذاکره دوستانه حل می‌شود و در صورت
+              عدم توافق، مراجع قضایی ذی‌صلاح ایران حاکم خواهند بود.
+            </p>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           FAQ ACCORDION
+      ─────────────────────────────────────────────── -->
+        <div id="faq" class="section-card glass rounded-3xl shadow-sm border border-white/60 p-8">
+
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600
+                      flex items-center justify-center flex-shrink-0 shadow-md
+                      shadow-violet-500/25">
+              <span class="text-2xl">❓</span>
+            </div>
+            <div>
+              <h2 class="text-xl font-black text-gray-800">سوالات متداول</h2>
+              <p class="text-gray-500 text-sm mt-1">پاسخ به رایج‌ترین پرسش‌ها</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <template x-for="(faq, i) in termsFaqs" :key="i">
+              <div class="border-2 border-gray-100 rounded-2xl overflow-hidden
+                        hover:border-violet-200 transition-all duration-200">
+                <button @click="toggleFaq(i)" class="w-full flex items-center justify-between px-5 py-4
+                       text-right bg-white cursor-pointer hover:bg-violet-50/50 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-xl bg-violet-100 text-violet-600
+                               flex items-center justify-center text-xs font-black
+                               flex-shrink-0" x-text="i + 1"></span>
+                    <span class="font-semibold text-gray-800 text-sm" x-text="faq.q"></span>
+                  </div>
+                  <svg class="w-5 h-5 text-violet-500 flex-shrink-0 transition-transform duration-300"
+                    :class="openFaq === i ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div x-show="openFaq === i" x-transition:enter="transition ease-out duration-250"
+                  x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+                  x-transition:leave="transition ease-in duration-150"
+                  x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+                  class="px-5 pb-4 bg-violet-50/50 border-t border-violet-100">
+                  <p class="text-sm text-gray-700 leading-8 pt-3" x-text="faq.a"></p>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────
+           ACCEPTANCE CTA
+      ─────────────────────────────────────────────── -->
+        <div class="glass rounded-3xl shadow-sm border border-white/60 p-8 text-center
+                  bg-gradient-to-br from-violet-50 to-purple-50">
+          <div class="text-5xl mb-4">🤝</div>
+          <h3 class="text-2xl font-black text-gray-800 mb-3">
+            با قوانین موافقید؟
+          </h3>
+          <p class="text-gray-600 text-sm mb-6 max-w-md mx-auto leading-relaxed">
+            با کلیک روی دکمه زیر، تأیید می‌کنید که قوانین را مطالعه کرده
+            و با تمام مفاد آن موافقید.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <a href="auth.html" class="btn-shine flex items-center gap-2 px-8 py-3.5 rounded-xl
+                    bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500
+                    text-white font-bold text-sm shadow-lg shadow-violet-500/30
+                    hover:shadow-violet-500/50 transition-all duration-200
+                    hover:scale-105 active:scale-[.98]">
+              <span>✅</span>
+              موافقم — ثبت‌نام
+            </a>
+            <a href="index.html" class="flex items-center gap-2 px-6 py-3.5 rounded-xl
+                    border-2 border-gray-200 text-gray-700 font-semibold text-sm
+                    hover:border-violet-300 hover:text-violet-700 hover:bg-violet-50
+                    transition-all duration-200">
+              <span>🏠</span>
+              بازگشت به فروشگاه
+            </a>
+          </div>
+          <!-- Last updated -->
+          <p class="mt-6 text-xs text-gray-400">
+            آخرین به‌روزرسانی: ۱ فروردین ۱۴۰۵ | نسخه ۲.۴
+          </p>
+        </div>
+
+      </article>
+      <!-- END ARTICLE -->
+
+    </div>
+  </div>
+  <!-- END MAIN CONTENT -->
+  <!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+
+  <!-- ─── Back to top ─── -->
+  <button id="back-to-top" x-show="scrolled" @click="window.scrollTo({top:0,behavior:'smooth'})"
+    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-75"
+    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-75" class="fixed bottom-6 left-6 z-40 w-11 h-11 rounded-xl no-print
+               bg-gradient-to-br from-violet-500 to-purple-600
+               text-white shadow-lg shadow-violet-500/30
+               hover:scale-110 active:scale-95 transition-transform duration-200
+               flex items-center justify-center">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════
+     ALPINE.JS
+════════════════════════════════════════════════════════ -->
+  <script>
+    function termsApp() {
+      return {
+        /* ── UI State ── */
+        scrolled: false,
+        mobileMenu: false,
+        readPct: 0,
+        readMins: 12,
+        activeSection: 'acceptance',
+        openFaq: null,
+        toasts: [],
+        _toastId: 0,
+        newsletterEmail: '',
+
+        /* ── Cart (shared state) ── */
+        cart: JSON.parse(localStorage.getItem('luna_cart') || '[]'),
+        get cartCount() {
+          return this.cart.reduce((s, i) => s + i.qty, 0);
+        },
+
+        /* ── Nav links ── */
+        navLinks: [
+          { href: 'index.html', icon: '🏠', label: 'خانه' },
+          { href: 'index.html#products', icon: '🛍️', label: 'محصولات' },
+          { href: 'index.html#cats', icon: '📂', label: 'دسته‌بندی‌ها' },
+          { href: 'auth.html', icon: '👤', label: 'حساب کاربری' },
+          { href: 'terms.html', icon: '📋', label: 'قوانین' },
+        ],
+
+        /* ── Footer links ── */
+        footerLinks: [
+          { href: 'index.html', label: 'صفحه اصلی' },
+          { href: 'index.html#products', label: 'محصولات' },
+          { href: 'auth.html', label: 'ورود / ثبت‌نام' },
+          { href: 'terms.html', label: 'قوانین و مقررات' },
+          { href: '#faq', label: 'سوالات متداول' },
+          { href: 'mailto:support@lunashop.ir', label: 'تماس با ما' },
+        ],
+
+        /* ── Sections list (for TOC) ── */
+        sections: [
+          { id: 'acceptance', title: 'پذیرش قوانین' },
+          { id: 'account', title: 'ثبت‌نام و حساب کاربری' },
+          { id: 'orders', title: 'سفارش‌گذاری و پرداخت' },
+          { id: 'shipping', title: 'ارسال و تحویل' },
+          { id: 'returns', title: 'مرجوعی و استرداد' },
+          { id: 'privacy', title: 'حریم خصوصی' },
+          { id: 'ip', title: 'مالکیت معنوی' },
+          { id: 'liability', title: 'محدودیت مسئولیت' },
+          { id: 'violations', title: 'تخلفات و تعلیق حساب' },
+          { id: 'legal', title: 'حقوق قانونی' },
+          { id: 'faq', title: 'سوالات متداول' },
+        ],
+
+        /* ── Doc stats ── */
+        docStats: [
+          { icon: '📖', value: '۱۱ بخش', label: 'تعداد بخش‌ها' },
+          { icon: '⏱️', value: '۱۲ دقیقه', label: 'زمان مطالعه' },
+          { icon: '📅', value: '۱۴۰۵/۱/۱', label: 'تاریخ به‌روزرسانی' },
+          { icon: '🔢', value: 'نسخه ۲.۴', label: 'نسخه سند' },
+        ],
+
+        /* ── Section 1: acceptance items (ادامه) ── */
+        acceptanceItems: [
+          'حداقل ۱۸ سال سن دارید یا با اجازه والدین/سرپرست قانونی استفاده می‌کنید',
+          'اطلاعاتی که در هنگام ثبت‌نام ارائه می‌دهید صحیح، کامل و به‌روز است',
+          'استفاده از خدمات سیلکی را برای اهداف قانونی انجام می‌دهید',
+          'قوانین جمهوری اسلامی ایران را در تمام تعاملات خود رعایت می‌کنید',
+          'مسئولیت حفظ امنیت اطلاعات ورود به حساب کاربری‌تان را می‌پذیرید',
+          'با سیاست حریم خصوصی سیلکی موافقت کامل دارید',
+        ],
+
+        /* ── Section 2: account cards ── */
+        accountCards: [
+          {
+            icon: '📝',
+            title: 'اطلاعات دقیق',
+            desc: 'نام، ایمیل، شماره موبایل و آدرس باید دقیق و معتبر باشند. اطلاعات نادرست موجب لغو سفارش می‌شود.',
+            color: 'border-blue-200 bg-blue-50/50',
+          },
+          {
+            icon: '🔑',
+            title: 'رمز عبور قوی',
+            desc: 'از رمز عبوری حداقل ۸ کاراکتر شامل حروف بزرگ، کوچک، عدد و نماد استفاده کنید.',
+            color: 'border-indigo-200 bg-indigo-50/50',
+          },
+          {
+            icon: '👥',
+            title: 'یک حساب برای هر نفر',
+            desc: 'هر کاربر مجاز به داشتن تنها یک حساب فعال است. حساب‌های تکراری مسدود می‌شوند.',
+            color: 'border-purple-200 bg-purple-50/50',
+          },
+          {
+            icon: '🚸',
+            title: 'کاربران زیر ۱۸ سال',
+            desc: 'استفاده از سیلکی برای افراد زیر ۱۸ سال فقط با نظارت و رضایت والدین مجاز است.',
+            color: 'border-pink-200 bg-pink-50/50',
+          },
+        ],
+
+        /* ── Section 3: order steps ── */
+        orderSteps: [
+          {
+            title: 'انتخاب محصول',
+            desc: 'محصول دلخواه را انتخاب کنید، رنگ و سایز مناسب را مشخص کرده و به سبد خرید اضافه کنید.',
+          },
+          {
+            title: 'تکمیل سبد خرید',
+            desc: 'محتوای سبد را بررسی کنید. کد تخفیف خود را وارد کرده و هزینه نهایی را مشاهده کنید.',
+          },
+          {
+            title: 'ثبت اطلاعات ارسال',
+            desc: 'آدرس دقیق، کد پستی و اطلاعات گیرنده را با دقت وارد کنید. این اطلاعات پس از تأیید قابل تغییر نیست.',
+          },
+          {
+            title: 'انتخاب روش پرداخت',
+            desc: 'روش پرداخت مناسب را انتخاب کنید. درگاه پرداخت امن ما از تمام کارت‌های عضو شتاب پشتیبانی می‌کند.',
+          },
+          {
+            title: 'تأیید نهایی سفارش',
+            desc: 'پس از پرداخت موفق، کد پیگیری سفارش از طریق پیامک و ایمیل برای شما ارسال می‌شود.',
+          },
+        ],
+
+        /* ── Section 3: payment methods ── */
+        payMethods: [
+          { icon: '💳', name: 'کارت‌های شتاب' },
+          { icon: '🏦', name: 'کارت به کارت' },
+          { icon: '📱', name: 'پرداخت موبایلی' },
+          { icon: '💰', name: 'کیف پول سیلکی' },
+          { icon: '🔄', name: 'پرداخت اقساطی' },
+          { icon: '🎁', name: 'کارت هدیه' },
+        ],
+
+        /* ── Section 4: shipping table ── */
+        shippingTable: [
+          {
+            icon: '⚡',
+            method: 'ارسال فوری (تهران)',
+            time: 'همان روز',
+            cost: '۳۵,۰۰۰ تومان',
+            free: false,
+            track: true,
+          },
+          {
+            icon: '🚀',
+            method: 'ارسال اکسپرس',
+            time: '۱ روز کاری',
+            cost: '۲۵,۰۰۰ تومان',
+            free: false,
+            track: true,
+          },
+          {
+            icon: '📦',
+            method: 'ارسال معمولی',
+            time: '۳-۵ روز کاری',
+            cost: '۱۵,۰۰۰ تومان',
+            free: false,
+            track: true,
+          },
+          {
+            icon: '🎁',
+            method: 'ارسال رایگان ویژه',
+            time: '۳-۷ روز کاری',
+            cost: 'رایگان',
+            free: true,
+            track: true,
+          },
+          {
+            icon: '🏪',
+            method: 'تحویل حضوری',
+            time: 'بلافاصله',
+            cost: 'رایگان',
+            free: true,
+            track: false,
+          },
+        ],
+
+        /* ── Section 5: return periods ── */
+        returnPeriods: [
+          {
+            days: '۷ روز',
+            icon: '⚡',
+            title: 'مرجوعی سریع',
+            desc: 'بدون ذکر دلیل',
+            color: 'border-green-300 bg-green-50 text-green-800',
+          },
+          {
+            days: '۱۴ روز',
+            icon: '🔧',
+            title: 'نقص فنی',
+            desc: 'با ارائه مدرک',
+            color: 'border-blue-300 bg-blue-50 text-blue-800',
+          },
+          {
+            days: '۳۰ روز',
+            icon: '🛡️',
+            title: 'گارانتی کالا',
+            desc: 'طبق ضمانت‌نامه',
+            color: 'border-violet-300 bg-violet-50 text-violet-800',
+          },
+        ],
+
+        /* ── Section 5: returnable items ── */
+        returnableItems: [
+          'کالاهای معیوب یا آسیب‌دیده هنگام تحویل',
+          'محصولاتی که با توضیحات سایت مطابقت ندارند',
+          'کالاهای بدون استفاده با تگ و بسته‌بندی اصلی',
+          'سفارش‌های اشتباه از طرف سیلکی',
+          'محصولاتی با نقص تولید مشخص',
+          'کالاهایی که در مدت گارانتی دچار مشکل شده‌اند',
+        ],
+
+        /* ── Section 5: non-returnable items ── */
+        nonReturnableItems: [
+          'محصولات بهداشتی و آرایشی پس از باز شدن',
+          'لباس‌های زیر و پوشیدنی‌های بهداشتی',
+          'کالاهای سفارشی و شخصی‌سازی‌شده',
+          'محصولات دیجیتال و لایسنس‌های نرم‌افزاری',
+          'کالاهای فروش ویژه با تخفیف بیش از ۵۰٪',
+          'محصولاتی که بسته‌بندی اصلی آن‌ها آسیب دیده',
+        ],
+
+        /* ── Section 6: privacy data ── */
+        privacyData: [
+          {
+            icon: '👤',
+            cat: 'اطلاعات هویتی',
+            data: ['نام و نام خانوادگی', 'تاریخ تولد', 'کد ملی (اختیاری)', 'جنسیت'],
+          },
+          {
+            icon: '📞',
+            cat: 'اطلاعات تماس',
+            data: ['شماره موبایل', 'آدرس ایمیل', 'آدرس پستی', 'کد پستی'],
+          },
+          {
+            icon: '💳',
+            cat: 'اطلاعات تراکنش',
+            data: ['تاریخچه سفارش‌ها', 'روش‌های پرداخت', 'کیف پول دیجیتال', 'کدهای تخفیف'],
+          },
+          {
+            icon: '🌐',
+            cat: 'اطلاعات فنی',
+            data: ['آدرس IP', 'نوع مرورگر', 'سیستم‌عامل', 'لاگ‌های بازدید'],
+          },
+        ],
+
+        /* ── Section 6: user rights ── */
+        userRights: [
+          {
+            icon: '👁️',
+            title: 'دسترسی',
+            desc: 'می‌توانید در هر زمان از اطلاعات ذخیره‌شده درباره خود مطلع شوید.',
+            color: 'from-teal-50 to-cyan-50 border-teal-200 text-teal-800',
+          },
+          {
+            icon: '✏️',
+            title: 'اصلاح',
+            desc: 'اطلاعات نادرست یا ناقص خود را می‌توانید هر زمان ویرایش کنید.',
+            color: 'from-blue-50 to-indigo-50 border-blue-200 text-blue-800',
+          },
+          {
+            icon: '🗑️',
+            title: 'حذف',
+            desc: 'درخواست حذف کامل اطلاعات شخصی خود را می‌توانید ارسال کنید.',
+            color: 'from-red-50 to-rose-50 border-red-200 text-red-800',
+          },
+          {
+            icon: '📤',
+            title: 'انتقال',
+            desc: 'داده‌های خود را می‌توانید در فرمت‌های استاندارد دریافت کنید.',
+            color: 'from-amber-50 to-orange-50 border-amber-200 text-amber-800',
+          },
+          {
+            icon: '🚫',
+            title: 'مخالفت',
+            desc: 'می‌توانید با پردازش داده‌هایتان برای اهداف بازاریابی مخالفت کنید.',
+            color: 'from-purple-50 to-violet-50 border-purple-200 text-purple-800',
+          },
+          {
+            icon: '🔒',
+            title: 'محدودیت',
+            desc: 'می‌توانید درخواست محدود کردن نوع پردازش داده‌هایتان را بدهید.',
+            color: 'from-gray-50 to-slate-50 border-gray-200 text-gray-800',
+          },
+        ],
+
+        /* ── Section 7: IP table ── */
+        ipTable: [
+          { use: 'مشاهده و بازنشر شخصی', allowed: true, cond: 'با ذکر منبع سیلکی' },
+          { use: 'استفاده تجاری محتوا', allowed: false, cond: 'نیاز به مجوز کتبی شرکت' },
+          { use: 'لینک‌دهی به صفحات سایت', allowed: true, cond: 'بدون تحریف محتوا' },
+          { use: 'دانلود تصاویر محصولات', allowed: false, cond: 'ممنوع — نقض حق مؤلف است' },
+          { use: 'به‌اشتراک‌گذاری در شبکه اجتماعی', allowed: true, cond: 'با حفظ لوگو و برند سیلکی' },
+          { use: 'مهندسی معکوس نرم‌افزار', allowed: false, cond: 'ممنوع — پیگرد قانونی دارد' },
+        ],
+
+        /* ── Section 8: responsibilities ── */
+        ourResponsibilities: [
+          'تحویل کالاهای سالم و مطابق توضیحات سایت',
+          'حفاظت از اطلاعات شخصی کاربران',
+          'پاسخگویی به شکایات در مدت معقول',
+          'اطلاع‌رسانی درباره تغییرات قوانین',
+          'بازگرداندن وجه در صورت لغو سفارش',
+          'ارائه اطلاعات دقیق درباره محصولات',
+        ],
+
+        notOurFault: [
+          'تأخیر ارسال ناشی از شرکت‌های پستی',
+          'خسارات ناشی از بلایای طبیعی و فورس ماژور',
+          'قطعی اینترنت یا اختلال زیرساخت',
+          'سوءاستفاده از اطلاعات ورود توسط شخص ثالث',
+          'تغییر قیمت ارز و نوسانات بازار',
+          'خرابی سخت‌افزار کاربر هنگام استفاده',
+        ],
+
+        /* ── Section 9: violation levels ── */
+        violationLevels: [
+          {
+            icon: '⚠️',
+            title: 'تخلف سطح اول — اخطار',
+            badge: 'قابل بخشش',
+            examples: [
+              'ارسال نظرات نامناسب یا توهین‌آمیز به سایر کاربران',
+              'استفاده از کدهای تخفیف به شیوه غیرمجاز',
+              'ثبت اطلاعات ناقص یا نادرست در پروفایل',
+            ],
+            color: 'border-amber-200 bg-amber-50 text-amber-800',
+            badgeColor: 'bg-amber-100 text-amber-700',
+          },
+          {
+            icon: '🚫',
+            title: 'تخلف سطح دوم — تعلیق موقت',
+            badge: 'جدی',
+            examples: [
+              'تلاش برای دور زدن سیستم پرداخت',
+              'سوءاستفاده از سیاست مرجوعی به صورت مکرر',
+              'نقض حریم خصوصی سایر کاربران',
+            ],
+            color: 'border-orange-200 bg-orange-50 text-orange-800',
+            badgeColor: 'bg-orange-100 text-orange-700',
+          },
+          {
+            icon: '🔴',
+            title: 'تخلف سطح سوم — مسدودسازی دائم',
+            badge: 'غیرقابل بخشش',
+            examples: [
+              'کلاهبرداری، جعل هویت یا پولشویی',
+              'حمله سایبری یا تلاش برای نفوذ به سیستم',
+              'فروش کالاهای غیرقانونی یا مجرمانه',
+            ],
+            color: 'border-red-300 bg-red-50 text-red-800',
+            badgeColor: 'bg-red-100 text-red-700',
+          },
+        ],
+
+        /* ── Section 10: legal items ── */
+        legalItems: [
+          {
+            icon: '🏛️',
+            title: 'قانون حاکم',
+            desc: 'قوانین جمهوری اسلامی ایران، به‌ویژه قانون تجارت الکترونیک مصوب ۱۳۸۲، بر این قرارداد حاکم است.',
+          },
+          {
+            icon: '🤝',
+            title: 'حل دوستانه',
+            desc: 'اختلافات ابتدا از طریق مذاکره مستقیم با تیم پشتیبانی سیلکی حل می‌شوند.',
+          },
+          {
+            icon: '⚖️',
+            title: 'مرجع قضایی',
+            desc: 'در صورت عدم توافق، دادگاه‌های صالح تهران به عنوان مرجع نهایی تعیین می‌شوند.',
+          },
+        ],
+
+        /* ── FAQ data ── */
+        termsFaqs: [
+          {
+            q: 'آیا می‌توانم بدون ثبت‌نام از سیلکی خرید کنم؟',
+            a: 'بله، امکان خرید مهمان (Guest Checkout) در سیلکی وجود دارد. اما برای دسترسی به تاریخچه سفارش‌ها، استفاده از کیف پول دیجیتال، امتیازات وفاداری و پیشنهادات شخصی‌سازی‌شده، ثبت‌نام توصیه می‌شود.',
+          },
+          {
+            q: 'اگر کالا معیوب به دستم رسید چه کار کنم؟',
+            a: 'در صورت دریافت کالای معیوب یا آسیب‌دیده، تصویر آن را تهیه کرده و ظرف ۴۸ ساعت از طریق بخش "سفارش‌های من" یا تماس با پشتیبانی اطلاع دهید. هزینه ارسال مرجوعی در این موارد کاملاً به عهده سیلکی است.',
+          },
+          {
+            q: 'آیا اطلاعات کارت بانکی من در سایت ذخیره می‌شود؟',
+            a: 'خیر. سیلکی هیچ اطلاعاتی از کارت بانکی شما ذخیره نمی‌کند. تمامی تراکنش‌ها مستقیماً از طریق درگاه‌های پرداخت معتبر با رمزنگاری SSL انجام می‌شوند.',
+          },
+          {
+            q: 'چگونه می‌توانم حساب کاربری‌ام را حذف کنم؟',
+            a: 'برای حذف حساب، وارد پروفایل خود شوید و از بخش تنظیمات، گزینه "حذف حساب" را انتخاب کنید. پس از تأیید، اطلاعات شما ظرف ۳۰ روز کاری به طور کامل از سرورهای ما پاک می‌شود، مگر اطلاعاتی که برای اهداف قانونی باید نگهداری شوند.',
+          },
+          {
+            q: 'آیا سیلکی اطلاعات من را به شرکت‌های دیگر می‌فروشد؟',
+            a: 'خیر، به هیچ وجه. سیلکی اطلاعات شخصی کاربران را برای اهداف تجاری به اشخاص ثالث نمی‌فروشد. اطلاعات تنها با شرکای خدماتی ضروری مانند شرکت‌های حمل‌ونقل، در حد نیاز و با رعایت محرمانگی به اشتراک گذاشته می‌شود.',
+          },
+          {
+            q: 'در صورت تغییر قوانین چطور مطلع می‌شوم؟',
+            a: 'سیلکی تغییرات مهم را از طریق ایمیل، پیامک و اعلان در سایت به کاربران اطلاع می‌دهد. همچنین تاریخ آخرین به‌روزرسانی همیشه در بالای این صفحه نمایش داده می‌شود.',
+          },
+          {
+            q: 'کد تخفیف چطور اعمال می‌شود و آیا محدودیتی دارد؟',
+            a: 'کدهای تخفیف در مرحله تکمیل سبد خرید وارد می‌شوند. هر کد برای هر کاربر تنها یک بار قابل استفاده است، مگر اینکه شرایط خاصی اعلام شده باشد. کدها قابل انتقال به دیگران نبوده و با سایر تخفیف‌ها قابل ترکیب نیستند.',
+          },
+        ],
+
+        /* ════════════════════════════════════════
+           INIT
+        ════════════════════════════════════════ */
+        init() {
+          /* ─ Scroll listeners ─ */
+          window.addEventListener('scroll', () => {
+            this.scrolled = window.scrollY > 60;
+            this._updateReadProgress();
+            this._updateActiveSection();
+          }, { passive: true });
+
+          /* ─ Keyboard shortcuts ─ */
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.mobileMenu = false;
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+              e.preventDefault();
+              this.printPage();
+            }
+          });
+
+          /* ─ Initial progress calc ─ */
+          this.$nextTick(() => this._updateReadProgress());
+
+          /* ─ Welcome toast ─ */
+          setTimeout(() => {
+            this.addToast(
+              'برای مطالعه سریع‌تر از فهرست کناری استفاده کنید! 📖',
+              'info'
+            );
+          }, 1500);
+        },
+
+        /* ════════════════════════════════════════
+           READING PROGRESS
+        ════════════════════════════════════════ */
+        _updateReadProgress() {
+          const el = document.documentElement;
+          const top = el.scrollTop || document.body.scrollTop;
+          const h = el.scrollHeight - el.clientHeight;
+          this.readPct = h > 0 ? Math.min(100, (top / h) * 100) : 0;
+
+          /* estimate remaining reading time */
+          const remaining = 100 - this.readPct;
+          this.readMins = Math.max(1, Math.round((remaining / 100) * 12));
+        },
+
+        /* ════════════════════════════════════════
+           ACTIVE SECTION DETECTION
+        ════════════════════════════════════════ */
+        _updateActiveSection() {
+          const offset = 120;
+          let current = this.sections[0].id;
+
+          for (const sec of this.sections) {
+            const el = document.getElementById(sec.id);
+            if (!el) continue;
+            if (el.getBoundingClientRect().top <= offset) {
+              current = sec.id;
+            }
+          }
+          this.activeSection = current;
+        },
+
+        /* ════════════════════════════════════════
+           SCROLL TO SECTION
+        ════════════════════════════════════════ */
+        scrollToSection(id) {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const offset = 88; /* navbar height */
+          const top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+          this.mobileMenu = false;
+        },
+
+        /* ════════════════════════════════════════
+           FAQ ACCORDION
+        ════════════════════════════════════════ */
+        toggleFaq(i) {
+          this.openFaq = this.openFaq === i ? null : i;
+        },
+
+        /* ════════════════════════════════════════
+           PRINT PAGE
+        ════════════════════════════════════════ */
+        printPage() {
+          this.addToast('در حال آماده‌سازی برای چاپ...', 'info');
+          setTimeout(() => window.print(), 400);
+        },
+
+        /* ════════════════════════════════════════
+           COPY LINK
+        ════════════════════════════════════════ */
+        async copyLink() {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            this.addToast('لینک صفحه کپی شد! 🔗', 'success');
+          } catch {
+            /* fallback for older browsers */
+            const ta = document.createElement('textarea');
+            ta.value = window.location.href;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            this.addToast('لینک صفحه کپی شد! 🔗', 'success');
+          }
+        },
+
+        /* ════════════════════════════════════════
+           NEWSLETTER SUBSCRIBE
+        ════════════════════════════════════════ */
+        subscribeNewsletter() {
+          const email = this.newsletterEmail.trim();
+
+          if (!email) {
+            this.addToast('لطفاً آدرس ایمیل را وارد کنید.', 'warn');
+            return;
+          }
+
+          const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRe.test(email)) {
+            this.addToast('آدرس ایمیل معتبر نیست.', 'error');
+            return;
+          }
+
+          /* simulate API call */
+          this.addToast('🎉 با موفقیت در خبرنامه عضو شدید!', 'success');
+          this.newsletterEmail = '';
+        },
+
+        /* ════════════════════════════════════════
+           TOAST SYSTEM
+        ════════════════════════════════════════ */
+        addToast(msg, type = 'info', duration = 4000) {
+          const id = ++this._toastId;
+          this.toasts.push({ id, msg, type });
+
+          if (duration > 0) {
+            setTimeout(() => this.dismissToast(id), duration);
+          }
+          return id;
+        },
+
+        dismissToast(id) {
+          this.toasts = this.toasts.filter(t => t.id !== id);
+        },
+
+      }; /* end return */
+    } /* end termsApp() */
+  </script>
+
+{% endblock content %}
