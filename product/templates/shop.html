@@ -205,21 +205,37 @@
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <!-- Sort -->
                         <!-- کانتینر اصلی با آلپاین جی‌اس -->
-                        <div x-data="{
-        isOpen: false,
-        sortBy: 'default',
-        options: {
-            'default': 'مرتب‌سازی: پیش‌فرض',
-            'price-asc': 'ارزان‌ترین',
-            'price-desc': 'گران‌ترین',
-            'rating': 'بهترین امتیاز',
-            'newest': 'جدیدترین'
-        },
-        applyFilters() {
-            // تابع شما در اینجا فراخوانی می‌شود
-            console.log('Selected:', this.sortBy);
+<div x-data="{
+    isOpen: false,
+
+    sortBy: 'default',
+
+    options: {
+        'default': 'مرتب‌سازی: پیش‌فرض',
+        'price-asc': 'ارزان‌ترین',
+        'price-desc': 'گران‌ترین',
+        'rating': 'بهترین امتیاز',
+        'newest': 'جدیدترین'
+    },
+
+    init() {
+        const params = new URLSearchParams(window.location.search);
+        this.sortBy = params.get('sort') || 'default';
+    },
+
+    applyFilters() {
+        const params = new URLSearchParams(window.location.search);
+
+        if (this.sortBy === 'default') {
+            params.delete('sort');
+        } else {
+            params.set('sort', this.sortBy);
         }
-    }" class="relative w-full sm:w-64 font-sans" dir="rtl">
+
+        window.location.href = `${window.location.pathname}?${params.toString()}`;
+    }
+}"
+class="relative w-full sm:w-64 font-sans" dir="rtl">
 
                             <!-- دکمه اصلی (حالت گلس) -->
                             <button @click="isOpen = !isOpen" type="button"

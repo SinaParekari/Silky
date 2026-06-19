@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
 from django.http import Http404
 from django.views.generic import ListView
-from .models import Product, ProductImage, Review, Tag
+from .models import Product, ProductImage, Review, ProductVariant
 from category.models import Category
 from django.db.models import Avg, Count, Q
 from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
 from django.core.paginator import Paginator
+from django.db.models import Avg, Count, Min, F, Case, When, OuterRef, Subquery, DecimalField
 
 # Create your views here.
+
 
 class ProductListView(ListView):
     template_name = 'shop.html'
@@ -16,28 +18,55 @@ class ProductListView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        return (
+
+        Variant = ProductVariant 
+
+        default_price = Variant.objects.filter(
+            product=OuterRef('pk'),
+            is_default=True
+        ).values('price')[:1]
+
+        first_price = Variant.objects.filter(
+            product=OuterRef('pk')
+        ).order_by('id').values('price')[:1]
+
+        queryset = (
             Product.objects
             .get_active_products()
             .annotate(
                 avg_rating=Avg('reviews__rating'),
-                review_count=Count('reviews')
+                review_count=Count('reviews'),
+
+                price_default=Subquery(default_price, output_field=DecimalField()),
+
+                price_first=Subquery(first_price, output_field=DecimalField()),
+            )
+            .annotate(
+                sort_price=Case(
+                    When(price_default__isnull=False, then=F('price_default')),
+                    default=F('price_first'),
+                    output_field=DecimalField()
+                )
             )
             .select_related('category')
-            .prefetch_related(
-                'images',
-                'variants',
-                'attribute_values'
-            )
+            .prefetch_related('images', 'variants', 'attribute_values')
         )
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
-        context['categories'] = Category.objects.filter(parent=None)
+        sort = self.request.GET.get('sort', 'default')
 
-        return context
+        if sort == 'price-asc':
+            queryset = queryset.order_by('sort_price')
 
+        elif sort == 'price-desc':
+            queryset = queryset.order_by('-sort_price')
+
+        elif sort == 'newest':
+            queryset = queryset.order_by('-created_at')
+
+        elif sort == 'rating':
+            queryset = queryset.order_by('-avg_rating')
+
+        return queryset
 
 def product_detail_view(request, *args, **kwargs):
     slug = kwargs['slug']
@@ -106,29 +135,81 @@ def add_review_view(request, slug):
     return redirect('product_detail', slug=slug)
 
 def search_product(request):
-    query = request.GET.get('q','').strip()
+    query = request.GET.get('q', '').strip()
+    sort = request.GET.get('sort', 'default')
 
-    product = Product.objects.none()
-    print(query)
+    Variant = ProductVariant
+
+    products = Product.objects.none()
 
     if query:
-        product = Product.objects.filter(
-            Q(name__icontains=query)|
-            Q(description__icontains=query)|
-            Q(tags__name__icontains=query)
-        ).distinct()
+        products = (
+            Product.objects
+            .get_active_products()
+            .filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(tags__name__icontains=query)
+            )
+            .distinct()
+            .annotate(
+                avg_rating=Avg('reviews__rating'),
+                review_count=Count('reviews'),
 
-    paginator = Paginator(product, 3) 
+                # default variant price
+                price_default=Subquery(
+                    Variant.objects.filter(
+                        product=OuterRef('pk'),
+                        is_default=True
+                    ).values('price')[:1],
+                    output_field=DecimalField()
+                ),
+
+                # first variant price
+                price_first=Subquery(
+                    Variant.objects.filter(
+                        product=OuterRef('pk')
+                    ).order_by('id').values('price')[:1],
+                    output_field=DecimalField()
+                ),
+            )
+            .annotate(
+                sort_price=Case(
+                    When(price_default__isnull=False, then=F('price_default')),
+                    default=F('price_first'),
+                    output_field=DecimalField()
+                )
+            )
+            .select_related('category')
+            .prefetch_related('tags', 'images', 'variants')
+        )
+
+        # ---------- SORT LOGIC ----------
+        if sort == 'price-asc':
+            products = products.order_by('sort_price')
+
+        elif sort == 'price-desc':
+            products = products.order_by('-sort_price')
+
+        elif sort == 'newest':
+            products = products.order_by('-created_at')
+
+        elif sort == 'rating':
+            products = products.order_by('-avg_rating')
+
+    # ---------- PAGINATION ----------
+    paginator = Paginator(products, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-
     context = {
-        'query' : query,
-        'page_obj' : page_obj,
+        'query': query,
+        'page_obj': page_obj,
         'is_paginated': page_obj.has_other_pages(),
-        'categories' : Category.objects.filter(parent=None)
-
+        'categories': Category.objects.filter(parent=None),
     }
 
-    return render(request,'shop.html',context)
+    return render(request, 'shop.html', context)
+
+
+
