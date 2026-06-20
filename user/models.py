@@ -32,7 +32,7 @@ class City(models.Model):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True) 
-    phone_number = PhoneNumberField(unique=True, region="IR")
+    phone_number = PhoneNumberField(unique=True, region="IR",blank=True,null=True)
     avatar = models.ImageField(upload_to=upload_image, blank=True, null=True)
     national_code = models.CharField(max_length=10, unique=True, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)

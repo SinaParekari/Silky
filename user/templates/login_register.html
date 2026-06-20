@@ -177,12 +177,12 @@
                             {% endif %}
                         </div>
 
-                        <div class="stagger-item delay-3">
+                        {% comment %} <div class="stagger-item delay-3">
                             {{ register.phone_number }}
                             {% if register.phone_number.errors %}
                                 <p class="text-red-500 text-xs mt-1">{{ register.phone_number.errors.0 }}</p>
                             {% endif %}
-                        </div>
+                        </div> {% endcomment %}
 
                         <div class="stagger-item delay-3">
                             {{ register.email }}

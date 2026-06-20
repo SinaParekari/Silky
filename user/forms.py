@@ -26,17 +26,6 @@ class RegisterForm(forms.ModelForm):
             'class':"w-full bg-white/50 backdrop-blur-sm border border-slate-200 text-slate-800 rounded-2xl px-5 py-3.5 outline-none focus:bg-white focus:border-purple-300 focus:shadow-[0_0_0_4px_rgba(168,85,247,0.1)] transition-all duration-500 placeholder:text-slate-400",
             'placeholder':"تکرار رمز عبور"})
     )
-    phone_number = PhoneNumberFormField(
-        region='IR',
-        error_messages = {                
-            'required': 'این شماره الزامی است',
-            'unique': 'این شماره قبلاً ثبت شده است',
-            'invalid': 'شماره معتبر نیست',},
-
-        widget=forms.TextInput(attrs={
-            'class': 'w-full bg-white/50 backdrop-blur-sm border border-slate-200 text-slate-800 rounded-2xl px-5 py-3.5 outline-none focus:bg-white focus:border-purple-300 focus:shadow-[0_0_0_4px_rgba(168,85,247,0.1)] transition-all duration-500 placeholder:text-slate-400',
-            'placeholder': 'شماره موبایل',
-    }))
 
     class Meta:
         model = User

@@ -3,12 +3,19 @@ from .forms import LoginForm, RegisterForm, ProfileForm, AddressForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from user.models import User, Address, City, Province
-from django.templatetags.static import static
 from django.contrib import messages
 from django.http import JsonResponse
+#rest_framework
+from .serializers import RegisterSerializer
+from rest_framework.response import Response
+from rest_framework.request import Request
+from rest_framework import status
+from rest_framework.decorators import api_view
+
 
 # Create your views here.
 
+#region ------------------------- Web View ---------------------------------------------------------
 def login_register_view(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -130,3 +137,18 @@ def load_cities(request):
     province_id = request.GET.get('province_id')
     cities = City.objects.filter(province_id=province_id).values('id', 'name')
     return JsonResponse(list(cities), safe=False)
+#endregion ----------------------------------------------------------------------------------------
+
+#region -------------------------- API View -------------------------------------------------------
+@api_view(['POST'])
+def register_user_api(request: Request):
+
+    serializer = RegisterSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+        return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#endregion ----------------------------------------------------------------------------------------
