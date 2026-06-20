@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('user.urls')),
     path('shop/', include('product.urls')),
     path('cart/', include('cart.urls')),
+    path("api-auth/", include("rest_framework.urls")),
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:
