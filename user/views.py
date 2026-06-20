@@ -6,12 +6,12 @@ from user.models import User, Address, City, Province
 from django.contrib import messages
 from django.http import JsonResponse
 #rest_framework
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, EmailTokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.decorators import api_view
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 
@@ -151,4 +151,7 @@ def register_user_api(request: Request):
         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginAPIView(TokenObtainPairView):
+    serializer_class = EmailTokenObtainPairSerializer
 #endregion ----------------------------------------------------------------------------------------
