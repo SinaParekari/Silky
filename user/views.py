@@ -6,12 +6,14 @@ from user.models import User, Address, City, Province
 from django.contrib import messages
 from django.http import JsonResponse
 #rest_framework
-from .serializers import RegisterSerializer, EmailTokenObtainPairSerializer
+from .serializers import RegisterSerializer, EmailTokenObtainPairSerializer, LogoutSerializer
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
+
 
 # Create your views here.
 
@@ -154,4 +156,17 @@ def register_user_api(request: Request):
 
 class LoginAPIView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_api(request):
+    serializer = LogoutSerializer(data=request.data)
+
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
+    return Response(
+        {"message": "logged out successfully"},
+        status=status.HTTP_200_OK
+    )
 #endregion ----------------------------------------------------------------------------------------

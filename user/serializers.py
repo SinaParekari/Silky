@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 User = get_user_model()
@@ -44,6 +45,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+#for login
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     username_field = 'email'
@@ -63,3 +65,10 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data = super().validate(attrs)
         return data
+    
+#logout
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def save(self):
+        RefreshToken(self.validated_data['refresh']).blacklist()
