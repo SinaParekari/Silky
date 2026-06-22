@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 #rest_framework
-from .serializers import RegisterSerializer, EmailTokenObtainPairSerializer, LogoutSerializer, AddressSerializers
+from .serializers import RegisterSerializer, EmailTokenObtainPairSerializer, LogoutSerializer, AddressSerializers, UserProfielSerialization
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
@@ -159,10 +159,27 @@ def register_user_api(request: Request):
 class LoginAPIView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
 
+@api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
+def get_user_profile_api(request : Request):
+    user : User = request.user
+
+    if request.method == 'GET':
+        serializer = UserProfielSerialization(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        serializer = UserProfielSerialization(user, data=request.data,partial=True)
+        print(serializer.error_messages)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)    
+
+        
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_api(request):
-    serializer = LogoutSerializer(data=request.data)
+    serializer = LogoutSerializer()
 
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -200,4 +217,6 @@ class AddressAPIView(APIView):
         address.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
 #endregion ----------------------------------------------------------------------------------------
