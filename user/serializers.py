@@ -3,9 +3,37 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Address
 
 
 User = get_user_model()
+
+class UserProfielSerialization(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','username','email','phone_number','avatar','national_code','birth_date']
+
+        read_only_fields = ['id','email']
+
+class AddressSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+        read_only_fields = ['id','user','created_at']
+    
+    def validate(self, attrs):
+
+        request = self.context['request']
+        user = request.user
+
+        if Address.objects.filter(user=user).count() >= 3:
+            raise serializers.ValidationError(
+                "you reached maximum addresses"
+            )
+
+        return attrs
+    
 
 class RegisterSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)

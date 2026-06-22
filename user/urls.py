@@ -10,5 +10,8 @@ urlpatterns = [
     path('ajax/cities/', views.load_cities, name='load_cities'),
     path('register-api/', views.register_user_api, name='login_api'),
     path('login-api/', views.LoginAPIView.as_view(),name='login_api'),
-    path('logout-api/', views.logout_api,name='logout_api')
+    path('logout-api/', views.logout_api,name='logout_api'),
+    path('address-api/',views.AddressAPIView.as_view(),name='address_api'),
+    path('address-api/<int:address_id>',views.AddressAPIView.as_view(),name='address_api_delete'),
+
 ]

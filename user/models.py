@@ -2,6 +2,7 @@ import os, random
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import RegexValidator
 
 # Create your models here.
 
@@ -59,7 +60,14 @@ class Address(models.Model):
     address = models.CharField(max_length=255)
     building_number = models.CharField(max_length=10)
     unit = models.CharField(max_length=10, blank=True, null=True)
-    postal_code = models.CharField(max_length=10)
+    postal_code = models.CharField(max_length=10,
+        validators=[
+        RegexValidator(
+            r'^\d{10}$',
+            'Postal code must be 10 digits'
+        )
+    ]
+    )
 
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
