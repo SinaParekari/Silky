@@ -11,23 +11,9 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from .serializers import CartSerializer, CartItemSerializer
 from rest_framework import status
 
-from django.db import transaction
-
-from rest_framework import generics
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
-from .models import Cart, CartItem, Discount
-from .serializers import (
-    CartSerializer,
-    AddToCartSerializer,
-    UpdateCartSerializer,
-    DiscountSerializer,
-)
+from .serializers import CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer
 
 #region---------------------------------- web views -----------------------------------------------------
 def add_to_cart(request, slug):
@@ -254,4 +240,52 @@ def apply_discount(request):
     return JsonResponse({'success': False})
 #endregion -----------------------------------------------------------------------------------
 #region --------------------------------- API View -----------------------------------------------------
+class CartAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request : Request):
+        cart , created = Cart.objects.get_or_create(user=request.user)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data , status=status.HTTP_200_OK)
+    
+
+class AddCartAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self , request : Request):
+        serializer = AddCartItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        cart , created1 = Cart.objects.get_or_create(user=request.user)
+        product = Product.objects.get(id=serializer.validated_data['product_id'])
+        variant = ProductVariant.objects.get(id=serializer.validated_data['variant_id'])
+        cart_item ,created= CartItem.objects.get_or_create(cart=cart,product=product,variant=variant,quantity=serializer.validated_data['quantity'])    
+
+        if not created:
+            cart_item.quantity = serializer.validated_data["quantity"]
+            cart_item.save()
+        
+        return Response(None, status=status.HTTP_200_OK)
+    
+class UpdateCartAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self , request : Request, pk):
+        serializer = UpdateCartItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        item = CartItem.objects.get(id=pk,cart__user=request.user)
+        item.quantity = serializer.validated_data['quantity']
+        item.save()
+        return Response(None, status=status.HTTP_200_OK)
+    
+class DeleteCartItemAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request : Request , pk):
+        item = CartItem.objects.get(id=pk,cart__user=request.user)
+
+        item.delete()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+
 #endregion ---------------------------------------------------------------------------------------------
