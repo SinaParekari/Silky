@@ -6,10 +6,30 @@ from django.urls import reverse
 from product.models import Product, ProductVariant
 from .models import Cart, CartItem, Discount
 from user.models import Address
+#rest framework
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
+from .serializers import CartSerializer, CartItemSerializer
+from rest_framework import status
 
+from django.db import transaction
 
+from rest_framework import generics
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
+from .models import Cart, CartItem, Discount
+from .serializers import (
+    CartSerializer,
+    AddToCartSerializer,
+    UpdateCartSerializer,
+    DiscountSerializer,
+)
 
+#region---------------------------------- web views -----------------------------------------------------
 def add_to_cart(request, slug):
 
     if not request.user.is_authenticated:
@@ -232,3 +252,6 @@ def apply_discount(request):
         except Discount.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'کد تخفیف معتبر نیست'})
     return JsonResponse({'success': False})
+#endregion -----------------------------------------------------------------------------------
+#region --------------------------------- API View -----------------------------------------------------
+#endregion ---------------------------------------------------------------------------------------------

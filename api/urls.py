@@ -7,5 +7,6 @@ urlpatterns = [
     path('user/',include('user.urls')),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
-    path('product/',include('product.urls'))
+    path('product/',include('product.urls')),
+    path('cart/',include('cart.urls')),
 ]

@@ -193,12 +193,12 @@ class AddressAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request : Request):
         address = request.user.addresses.all()
         serializer = AddressSerializers(address, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    def post(self, request : Request):
         serializer = AddressSerializers(data=request.data,
             context={'request':request}
         )
@@ -208,7 +208,7 @@ class AddressAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, address_id):
+    def delete(self, request : Request, address_id):
         address = get_object_or_404(
             Address,
             id=address_id,
