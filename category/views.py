@@ -16,5 +16,12 @@ def all_categories_api(request : Request):
         category = Category.objects.all()
         Category_serializers = CategorySerializer(category, many=True)
         return Response(Category_serializers.data, status.HTTP_200_OK)
-
+    
+@api_view(['GET'])
+def get_descendants_categories(request : Request, id):
+    if request.method == 'GET':
+        category = Category.objects.get(id=id)
+        categories = category.children.all()
+        category_serializers = CategorySerializer(categories,many=True)
+        return Response(category_serializers.data , status=status.HTTP_200_OK)
 #endregion -------------------------------------------------------------------------------
