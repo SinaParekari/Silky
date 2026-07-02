@@ -8,10 +8,13 @@ from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
 from django.core.paginator import Paginator
 from django.db.models import Avg, Count, Min, F, Case, When, OuterRef, Subquery, DecimalField
-
+#rest framework
+from .serializers import productSerializer, ProductDetailSerializer
+from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
-
+#region ------------------------------- main views -------------------------------------------------------------
 class ProductListView(ListView):
     template_name = 'shop.html'
     context_object_name = 'products'
@@ -235,4 +238,21 @@ def search_product_by_category(request, slug):
     }
 
     return render(request, 'shop.html', context)
+#endregion -----------------------------------------------------------------------------------------------------
 
+#region ------------------------------- API views --------------------------------------------------------------
+class ProductGenericAPIViewPagination(PageNumberPagination):
+    page_size = 3
+
+class ProductListAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.get_active_products()
+    serializer_class = productSerializer
+    pagination_class = ProductGenericAPIViewPagination
+
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.get_active_products()
+    serializer_class = ProductDetailSerializer
+    lookup_field = "slug"
+
+
+#endregion -----------------------------------------------------------------------------------------------------
