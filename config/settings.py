@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'product',
     'django.contrib.humanize',
     'cart',
-    'order'
+    'order',
+    'payment'
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+ZIBAL_MERCHANT = "zibal"
+
+ZIBAL_CALLBACK_URL = "http://127.0.0.1:8000/payment/verify/"

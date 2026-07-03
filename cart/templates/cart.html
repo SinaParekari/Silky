@@ -615,13 +615,29 @@
                   در این خرید <span class="font-black price" x-text="fmt(totalSaving+couponDisc)"></span> تومان صرفه‌جویی کردید!
                 </p>
               </div>
-          <button class="w-full text-white font-black py-4 rounded-xl text-base flex items-center justify-center gap-2.5 shadow-lg mt-1 bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 hover:-translate-y-0.5 active:scale-95">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              تکمیل خرید و پرداخت
-          </button>
+              <form action="{% url 'payment:payment_request' %}" method="post">
+
+                  {% csrf_token %}
+
+                  <button
+                      type="submit"
+                      class="w-full text-white font-black py-4 rounded-xl text-base flex items-center justify-center gap-2.5 shadow-lg mt-1 bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                  >
+
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                          />
+                      </svg>
+
+                      تکمیل خرید و پرداخت
+
+                  </button>
+
+              </form>
         </div>
 
       </div>

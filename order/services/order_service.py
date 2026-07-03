@@ -43,7 +43,7 @@ class OrderService:
                     variant=item.variant,
                     product_name=item.product.name,
                     variant_name=item.variant.color,
-                    unit_price=item.variant.price,
+                    variant_price=item.variant.price,
                     quantity=item.quantity,
                     total_price=item.variant.price * item.quantity,
                 )
