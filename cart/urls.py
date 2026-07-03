@@ -13,4 +13,5 @@ urlpatterns = [
     path('add/',views.AddCartAPIView.as_view(),name='add_cart_api'),
     path('update/<int:pk>',views.UpdateCartAPIView.as_view(),name='update-cart-api'),
     path('delete/<int:pk>',views.DeleteCartItemAPIView.as_view(),name='delete-cart-api'),
+    path('discount/', views.CheckDiscountAPIView.as_view(),name='check-discount-api')
 ]

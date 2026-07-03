@@ -13,7 +13,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer
+from .serializers import CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer, DiscountSerializer
 
 #region---------------------------------- web views -----------------------------------------------------
 def add_to_cart(request, slug):
@@ -286,6 +286,32 @@ class DeleteCartItemAPIView(APIView):
         item.delete()
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+class CheckDiscountAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request : Request):
+        serializer = DiscountSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+
+        discount = Discount.objects.get(code=serializer.validated_data['code'].lower())
+
+        if not discount:
+            return Response(None,status=status.HTTP_404_NOT_FOUND)
+        
+        valid , message = discount.is_valid(request.user)
+
+        if not valid:
+            return Response({"valid" : False, "message" : message})
+        
+        cart = Cart.objects.get(user=request.user)
+
+        total = cart.get_total()
+
+        discount_amount = discount.calculate_discount(total)
+
+        return Response({"valid" : True,"discount" : discount_amount, "final_price" : total - discount_amount})
     
 
 #endregion ---------------------------------------------------------------------------------------------
