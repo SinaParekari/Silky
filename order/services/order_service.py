@@ -19,7 +19,11 @@ class OrderService:
         if discount:
             discount_amount = discount.calculate_discount(total_price)
 
-        final_price = total_price - discount_amount
+        TAX_PERCENT = 9
+
+        tax_amount = int((total_price - discount_amount) * TAX_PERCENT / 100)
+
+        final_price = total_price - discount_amount + tax_amount
 
         order = Order.objects.create(
             user=cart.user,

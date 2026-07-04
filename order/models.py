@@ -6,10 +6,23 @@ from product.models import Product, ProductVariant
 
 class Order(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Pending"
-        PAID = "paid", "Paid"
-        CANCELLED = "cancelled", "Cancelled"
-        FAILED = "failed", "Failed"
+        PENDING = "pending", "در انتظار پرداخت"
+
+        PAID = "paid", "پرداخت شده"
+
+        PROCESSING = "processing", "در حال آماده‌سازی"
+
+        SHIPPED = "shipped", "ارسال شده"
+
+        DELIVERED = "delivered", "تحویل داده شده"
+
+        CANCELLED = "cancelled", "لغو شده"
+
+        FAILED = "failed", "پرداخت ناموفق"
+
+        RETURNED = "returned", "مرجوع شده"
+
+        REFUNDED = "refunded", "بازپرداخت شده"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
 

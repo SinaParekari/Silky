@@ -316,58 +316,81 @@
                     </div>
                 </div>
                 
-                <!-- Recent Orders -->
-                <div class="bg-white rounded-2xl border border-slate-100">
-                    <div class="p-6 flex items-center justify-between border-b border-slate-100">
-                        <h3 class="font-bold text-slate-800">سفارش‌های اخیر</h3>
-                        <button @click="activePage = 'orders'"
-                            class="text-sm text-violet-600 hover:text-violet-700 font-medium cursor-pointer">مشاهده
-                            همه</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-slate-50">
-                                <tr>
-                                    <th class="text-right text-xs text-slate-400 font-medium px-6 py-3">شناسه سفارش</th>
-                                    <th class="text-right text-xs text-slate-400 font-medium px-6 py-3">مشتری</th>
-                                    <th
-                                        class="text-right text-xs text-slate-400 font-medium px-6 py-3 hidden md:table-cell">
-                                        محصول</th>
-                                    <th class="text-right text-xs text-slate-400 font-medium px-6 py-3">مبلغ</th>
-                                    <th class="text-right text-xs text-slate-400 font-medium px-6 py-3">وضعیت</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-50">
-                                <template x-for="order in recentOrders.slice(0, 5)" :key="order.id">
-                                    <tr class="hover:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-mono text-slate-600" x-text="order.id"></td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center gap-3">
-                                                <img :src="'./assets/images/asus laptop.webp'"
-                                                    class="w-8 h-8 rounded-lg" alt="">
-                                                <span class="text-sm font-medium text-slate-700"
-                                                    x-text="order.customer"></span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-slate-500 hidden md:table-cell"
-                                            x-text="order.product"></td>
-                                        <td class="px-6 py-4 text-sm font-semibold text-slate-700"
-                                            x-text="order.amount"></td>
-                                        <td class="px-6 py-4">
-                                            <span :class="{
-                                                'bg-green-100 text-green-600': order.status === 'تحویل شد',
-                                                'bg-blue-100 text-blue-600': order.status === 'در حال ارسال',
-                                                'bg-amber-100 text-amber-600': order.status === 'در انتظار',
-                                                'bg-red-100 text-red-600': order.status === 'لغو شد'
-                                            }" class="px-3 py-1 rounded-full text-xs font-medium"
-                                                x-text="order.status"></span>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
+        <!-- Recent Orders -->
+        {{ orders_json|json_script:"orders-data" }}
+
+        <div class="bg-white rounded-2xl border border-slate-100"
+            x-data="{
+                orderFilter: 'همه',
+                orders: JSON.parse(document.getElementById('orders-data').textContent),
+                statusOptions: ['همه', 'در انتظار پرداخت', 'پرداخت شده', 'در حال آماده‌سازی', 'ارسال شده', 'تحویل داده شده', 'لغو شده', 'پرداخت ناموفق', 'مرجوع شده', 'بازپرداخت شده'],
+                get filteredOrders() {
+                    return this.orderFilter === 'همه'
+                        ? this.orders
+                        : this.orders.filter(o => o.status === this.orderFilter);
+                }
+            }">
+            <div class="p-4 sm:p-6 border-b border-slate-100 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                <h3 class="font-bold text-slate-800 whitespace-nowrap">لیست سفارش‌ها</h3>
+                <div class="flex gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+                    <template x-for="filter in statusOptions" :key="filter">
+                        <button @click="orderFilter = filter"
+                                :class="orderFilter === filter ? 'bg-violet-100 text-violet-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'"
+                                class="text-xs px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap shrink-0"
+                                x-text="filter"></button>
+                    </template>
                 </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-right">
+                    <thead class="bg-slate-50 text-xs text-slate-400 font-medium">
+                        <tr>
+                            <th class="px-4 sm:px-6 py-3 whitespace-nowrap">شناسه</th>
+                            <th class="px-4 sm:px-6 py-3 whitespace-nowrap">محصول</th>
+                            <th class="px-4 sm:px-6 py-3 hidden lg:table-cell whitespace-nowrap">تاریخ</th>
+                            <th class="px-4 sm:px-6 py-3 whitespace-nowrap">مبلغ</th>
+                            <th class="px-4 sm:px-6 py-3 whitespace-nowrap">وضعیت</th>
+                            <th class="px-4 sm:px-6 py-3 whitespace-nowrap">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <template x-for="order in filteredOrders" :key="order.id">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-4 sm:px-6 py-4 text-sm font-mono text-violet-600 font-semibold whitespace-nowrap" x-text="order.id"></td>
+                                <td class="px-4 sm:px-6 py-4 text-sm text-slate-500 whitespace-nowrap" x-text="order.product"></td>
+                                <td class="px-4 sm:px-6 py-4 text-sm text-slate-400 hidden lg:table-cell whitespace-nowrap" x-text="order.date"></td>
+                                <td class="px-4 sm:px-6 py-4 text-sm font-semibold text-slate-700 whitespace-nowrap" x-text="order.amount"></td>
+                                <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                    <span :class="{
+                                        'bg-amber-100 text-amber-600': order.status === 'در انتظار پرداخت',
+                                        'bg-cyan-100 text-cyan-600': order.status === 'پرداخت شده',
+                                        'bg-indigo-100 text-indigo-600': order.status === 'در حال آماده‌سازی',
+                                        'bg-blue-100 text-blue-600': order.status === 'ارسال شده',
+                                        'bg-green-100 text-green-600': order.status === 'تحویل داده شده',
+                                        'bg-red-100 text-red-600': order.status === 'لغو شده',
+                                        'bg-rose-100 text-rose-600': order.status === 'پرداخت ناموفق',
+                                        'bg-orange-100 text-orange-600': order.status === 'مرجوع شده',
+                                        'bg-purple-100 text-purple-600': order.status === 'بازپرداخت شده'
+                                    }" class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap" x-text="order.status"></span>
+                                </td>
+                                <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                    <button class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-violet-100 flex items-center justify-center transition-colors">
+                                        <svg class="w-3.5 h-3.5 text-slate-500 hover:text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr x-show="filteredOrders.length === 0">
+                            <td colspan="6" class="px-4 sm:px-6 py-8 text-center text-sm text-slate-400">سفارشی یافت نشد</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
             </div>
 
             <!-- profile Page -->

@@ -1,0 +1,357 @@
+{% extends "partials/base.html" %}
+
+{% block content %}
+
+<style>
+    .glass {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .gradient-text {
+        background: linear-gradient(90deg, #16A34A 0%, #0EA5A4 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .success-code {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 900;
+        line-height: 1;
+        background: linear-gradient(135deg, #16A34A 0%, #0EA5A4 60%, #6366F1 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .shimmer-btn {
+        background: linear-gradient(90deg, #16A34A, #0EA5A4, #16A34A);
+        background-size: 200% auto;
+        transition: background-position 0.5s ease;
+    }
+    .shimmer-btn:hover { background-position: right center; }
+
+    .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(22, 163, 74, 0.15); }
+
+    .spin-slow { animation: spin 22s linear infinite; }
+    .spin-reverse { animation: spin-rev 18s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+    .bounce-slow { animation: bounce-slow 3.2s ease-in-out infinite; }
+    @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    .orbit-1 { animation: orbit1 9s linear infinite; }
+    .orbit-2 { animation: orbit2 12s linear infinite; }
+    .orbit-3 { animation: orbit3 15s linear infinite reverse; }
+    @keyframes orbit1 { from { transform: rotate(0deg) translateX(140px) rotate(0deg); } to { transform: rotate(360deg) translateX(140px) rotate(-360deg); } }
+    @keyframes orbit2 { from { transform: rotate(120deg) translateX(150px) rotate(-120deg); } to { transform: rotate(480deg) translateX(150px) rotate(-480deg); } }
+    @keyframes orbit3 { from { transform: rotate(240deg) translateX(120px) rotate(-240deg); } to { transform: rotate(600deg) translateX(120px) rotate(-600deg); } }
+
+    .float-1 { animation: float1 4s ease-in-out infinite; }
+    .float-2 { animation: float2 5s ease-in-out infinite; }
+    .float-3 { animation: float3 4.5s ease-in-out infinite; }
+    @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    @keyframes float3 { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-6px) translateX(4px); } }
+
+    .fade-scale { animation: fadeScale 0.6s ease both; }
+    .fade-up-1 { animation: fadeUp 0.6s ease 0.05s both; }
+    .fade-up-2 { animation: fadeUp 0.6s ease 0.15s both; }
+    .fade-up-3 { animation: fadeUp 0.6s ease 0.25s both; }
+    .fade-up-4 { animation: fadeUp 0.6s ease 0.35s both; }
+    .fade-up-5 { animation: fadeUp 0.6s ease 0.45s both; }
+    @keyframes fadeScale { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    .check-pop { animation: checkPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
+    @keyframes checkPop { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+
+    .ring-pulse { animation: ringPulse 2.4s ease-out infinite; }
+    @keyframes ringPulse { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.25); opacity: 0; } }
+
+    .track-id-box { letter-spacing: 0.5px; }
+
+    .copy-flash { animation: copyFlash 0.4s ease; }
+    @keyframes copyFlash { 0% { transform: scale(1); } 40% { transform: scale(0.95); } 100% { transform: scale(1); } }
+</style>
+
+<div x-data="paymentSuccess()" x-cloak class="text-slate-800">
+
+    <main class="relative z-10">
+
+        <section class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-16">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                    <div class="flex justify-center items-center order-1 lg:order-2">
+                        <div class="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 flex items-center justify-center">
+
+                            <div class="absolute inset-0 rounded-full border-2 border-dashed border-emerald-200 spin-slow"></div>
+                            <div class="absolute inset-4 rounded-full border-2 border-dashed border-teal-200 spin-reverse"></div>
+
+                            <div class="absolute inset-8 rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 shadow-inner"></div>
+
+                            <span class="absolute inset-16 rounded-full border-4 border-emerald-300 ring-pulse"></span>
+
+                            <div class="relative z-10 text-center check-pop">
+                                <div class="bounce-slow inline-block">
+                                    <div class="w-28 h-28 rounded-3xl bg-white shadow-2xl flex items-center justify-center mx-auto">
+                                        <svg class="w-14 h-14 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="orbit-1 absolute">
+                                    <div class="w-11 h-11 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                                        <span class="text-xl">🧾</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="orbit-2 absolute">
+                                    <div class="w-10 h-10 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                                        <span class="text-xl">📦</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="orbit-3 absolute">
+                                    <div class="w-9 h-9 bg-white rounded-xl shadow-lg flex items-center justify-center">
+                                        <span class="text-lg">💳</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute -top-3 -right-3 float-1">
+                                <div class="glass rounded-2xl px-3 py-2 shadow-xl">
+                                    <div class="text-[10px] text-slate-500">وضعیت</div>
+                                    <div class="text-sm font-black text-emerald-600">پرداخت موفق</div>
+                                </div>
+                            </div>
+                            <div class="absolute -bottom-3 -left-3 float-2">
+                                <div class="glass rounded-2xl px-3 py-2 shadow-xl">
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                        <div class="text-[10px] text-slate-500">سفارش ثبت شد</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute top-1/2 -left-8 float-3 hidden sm:block">
+                                <div class="glass rounded-xl p-2 shadow-lg">
+                                    <span class="text-2xl">🎉</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="order-2 lg:order-1 text-right">
+
+                        <div class="fade-scale mb-2">
+                            <div class="success-code">پرداخت موفق</div>
+                        </div>
+
+                        <div class="fade-up-1">
+                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-800 mb-3 leading-tight">
+                                ممنون از خرید شما!
+                                <span class="gradient-text">سفارش ثبت شد</span>
+                            </h1>
+                        </div>
+
+                        <div class="fade-up-2">
+                            <p class="text-slate-500 text-base leading-relaxed mb-6 max-w-md">
+                                پرداخت شما با موفقیت انجام شد و سفارش برای پردازش به انبار ارسال شد. کد رهگیری زیر رو
+                                برای پیگیری سفارش نگه دارید.
+                            </p>
+                        </div>
+
+                        <div class="fade-up-3 mb-6">
+                            <div class="glass rounded-2xl p-4 max-w-md shadow-sm">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs font-bold text-slate-500">کد رهگیری سفارش</span>
+                                    <span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-lg">فعال</span>
+                                </div>
+                                <div class="flex items-center gap-2" :class="justCopied ? 'copy-flash' : ''">
+                                    <div class="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-center">
+                                        <span class="track-id-box text-lg sm:text-xl font-black text-slate-800" x-text="trackId" dir="ltr" style="display:inline-block; direction:ltr;"></span>
+                                    </div>
+                                    <button @click="copyTrackId()"
+                                        class="shimmer-btn text-white text-xs font-bold px-4 py-3.5 rounded-xl flex-shrink-0 flex items-center gap-1.5">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                        <span x-text="justCopied ? 'کپی شد' : 'کپی'"></span>
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-100">
+                                    <div>
+                                        <div class="text-[11px] text-slate-400 mb-0.5">شماره سفارش</div>
+                                        <div class="text-sm font-bold text-slate-700" x-text="orderNumber"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400 mb-0.5">مبلغ پرداختی</div>
+                                        <div class="text-sm font-bold text-slate-700" x-text="amount + ' تومان'"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400 mb-0.5">تاریخ پرداخت</div>
+                                        <div class="text-sm font-bold text-slate-700" x-text="paymentDate"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400 mb-0.5">روش پرداخت</div>
+                                        <div class="text-sm font-bold text-slate-700" x-text="paymentMethod"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fade-up-4 flex flex-wrap gap-3 mb-8">
+                            {% comment %} {% url 'order_detail' order.id %} {% endcomment %}
+                            <a href=""
+                                class="shimmer-btn text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-emerald-200 flex items-center gap-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                </svg>
+                                پیگیری سفارش
+                            </a>
+                            {% comment %} {% url 'order_invoice' order.id %} {% endcomment %}
+                            <a href=""
+                                class="bg-white border-2 border-slate-200 hover:border-emerald-300 text-slate-700 font-bold px-6 py-3 rounded-2xl transition-all hover:bg-emerald-50 flex items-center gap-2 text-sm shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H8a2 2 0 01-2-2V5a2 2 0 012-2h6l6 6v11a2 2 0 01-2 2z" />
+                                </svg>
+                                دانلود فاکتور
+                            </a>
+                            <a href="{% url 'home' %}"
+                                class="bg-white border-2 border-slate-200 hover:border-indigo-300 text-slate-700 font-bold px-6 py-3 rounded-2xl transition-all hover:bg-indigo-50 flex items-center gap-2 text-sm shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                بازگشت به فروشگاه
+                            </a>
+                        </div>
+
+                        <div class="fade-up-5">
+                            <div class="text-xs text-slate-400 mb-3 font-medium">دسترسی سریع:</div>
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="link in quickLinks" :key="link.name">
+                                    <a href="#"
+                                        class="flex items-center gap-1.5 bg-white/80 hover:bg-white border border-slate-100 hover:border-emerald-200 rounded-xl px-3 py-1.5 text-xs text-slate-600 hover:text-emerald-600 transition-all shadow-sm font-medium">
+                                        <span x-text="link.icon"></span>
+                                        <span x-text="link.name"></span>
+                                    </a>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="relative z-10 pb-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-lg font-black text-slate-700 mb-5 text-center">مرحله بعدی چیست؟</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <template x-for="card in helpCards" :key="card.title">
+                        <div class="group bg-white rounded-3xl p-5 shadow-sm border border-slate-100 card-hover cursor-pointer text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl flex items-center justify-center transition-all duration-300"
+                                :class="card.bg">
+                                <span class="text-2xl" x-text="card.icon"></span>
+                            </div>
+                            <h3 class="font-bold text-slate-800 text-sm mb-1" x-text="card.title"></h3>
+                            <p class="text-xs text-slate-500 leading-relaxed" x-text="card.desc"></p>
+                            <div class="mt-3 text-emerald-600 text-xs font-semibold flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span x-text="card.action"></span>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div x-show="showToast" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 text-white px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-sm font-medium min-w-[220px] justify-center">
+        <div class="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+        <span x-text="toastMsg"></span>
+    </div>
+
+    {{ payment_context|json_script:"payment-data" }}
+
+</div>
+
+<script>
+    function paymentSuccess() {
+        const data = JSON.parse(document.getElementById('payment-data').textContent);
+        return {
+            trackId: data.track_id,
+            orderNumber: data.order_number,
+            amount: data.amount,
+            paymentDate: data.payment_date,
+            paymentMethod: data.payment_method,
+            justCopied: false,
+            showToast: false,
+            toastMsg: '',
+
+            quickLinks: [
+                { icon: '🏠', name: 'خانه' },
+                { icon: '📦', name: 'سفارش‌های من' },
+                { icon: '🧾', name: 'فاکتورها' },
+                { icon: '👤', name: 'حساب کاربری' },
+                { icon: '🎧', name: 'گجت' },
+                { icon: '💍', name: 'اکسسوری' },
+                { icon: '📞', name: 'تماس' },
+                { icon: '❓', name: 'راهنما' },
+            ],
+
+            helpCards: [
+                { icon: '📦', title: 'پیگیری مرسوله', desc: 'وضعیت ارسال سفارش رو لحظه‌ای ببینید', action: 'پیگیری', bg: 'bg-emerald-50 group-hover:bg-emerald-100' },
+                { icon: '🧾', title: 'دریافت فاکتور', desc: 'فاکتور رسمی رو دانلود یا ایمیل کنید', action: 'دانلود', bg: 'bg-teal-50 group-hover:bg-teal-100' },
+                { icon: '💬', title: 'چت پشتیبانی', desc: 'سوالی درباره سفارش دارید؟ بپرسید', action: 'شروع چت', bg: 'bg-indigo-50 group-hover:bg-indigo-100' },
+                { icon: '↩️', title: 'مرجوعی و تعویض', desc: 'در صورت نیاز، مرجوعی رو ثبت کنید', action: 'ثبت درخواست', bg: 'bg-amber-50 group-hover:bg-amber-100' },
+            ],
+
+            copyTrackId() {
+                navigator.clipboard?.writeText(this.trackId).catch(() => {});
+                this.justCopied = true;
+                this.notify('کد رهگیری کپی شد ✅');
+                setTimeout(() => { this.justCopied = false; }, 1200);
+            },
+
+            notify(msg) {
+                this.toastMsg = msg;
+                this.showToast = true;
+                setTimeout(() => this.showToast = false, 2500);
+            }
+        }
+    }
+</script>
+
+{% endblock content %}

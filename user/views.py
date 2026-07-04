@@ -15,6 +15,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from .utils import get_orders_json
+
 
 
 # Create your views here.
@@ -70,15 +72,12 @@ def login_register_view(request):
     }
     return render(request, 'login_register.html', context)
 
+
 @login_required(login_url='login')
 def profile_view(request):
-
     user = request.user
-
     profile_form = ProfileForm(instance=user)
     address_form = AddressForm()
-
-    # ALWAYS safe query
     addresses = Address.objects.filter(user=user)
 
     if request.method == "POST":
@@ -134,7 +133,7 @@ def profile_view(request):
         'address_form': address_form,
         'addresses': addresses,
         'provinces': Province.objects.all(),
-
+        'orders_json': get_orders_json(user),
     })
 
 def load_cities(request):

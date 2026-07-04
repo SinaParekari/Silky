@@ -14,6 +14,26 @@ from django.utils import timezone
 from order.models import Order
 # Create your views here.
 
+PERSIAN_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+
+
+def to_persian_digits(value: str) -> str:
+    return value.translate(PERSIAN_DIGITS)
+
+
+def build_payment_context(payment) -> dict:
+    """Data injected into the success page via {{ payment_context|json_script }}."""
+    amount = f"{payment.order.final_price:,.0f}"
+    paid_at = payment.paid_at or timezone.now()
+
+    return {
+        "track_id": payment.track_id,
+        "order_number": f"#{payment.order.id}",
+        "amount": to_persian_digits(amount),
+        "payment_date": to_persian_digits(paid_at.strftime("%Y/%m/%d - %H:%M")),
+        "payment_method": payment.get_gateway_display() if hasattr(payment, "get_gateway_display") else "کارت بانکی",
+    }
+
 @login_required
 def payment_request(request):
 
@@ -83,7 +103,11 @@ def payment_verify(request):
     )
 
     if payment.status == Payment.Status.SUCCESS:
-        return HttpResponse("Payment already verified.")
+        return render(
+            request,
+            "payment_success.html",
+            {"order": payment.order, "payment_context": build_payment_context(payment)},
+        )
 
     result = ZibalGateway.verify_payment(track_id)
 
@@ -129,7 +153,6 @@ def payment_verify(request):
                 "order_id": payment.order.id,
             }
         )
-    
 
     cart = Cart.objects.filter(
         user=payment.order.user
@@ -142,4 +165,8 @@ def payment_verify(request):
     request.session.pop("discount_amount", None)
     request.session.pop("discount_code", None)
 
-    return HttpResponse("Payment successful.")
+    return render(
+        request,
+        "payment_success.html",
+        {"payment" : payment,"order": payment.order, "payment_context": build_payment_context(payment)},
+    )
