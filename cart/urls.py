@@ -9,9 +9,9 @@ urlpatterns = [
     path("address/main/<int:address_id>/",views.set_main_address,name="set_main_address"),
     path('coupon/apply/',views.apply_coupon,name='apply_coupon'),
     path('apply-coupon/', views.apply_discount, name='apply_coupon'),
-    path('item/',views.CartAPIView.as_view(),name='cart_api'),
-    path('add/',views.AddCartAPIView.as_view(),name='add_cart_api'),
-    path('update/<int:pk>',views.UpdateCartAPIView.as_view(),name='update-cart-api'),
-    path('delete/<int:pk>',views.DeleteCartItemAPIView.as_view(),name='delete-cart-api'),
-    path('discount/', views.CheckDiscountAPIView.as_view(),name='check-discount-api')
+    path('api/item/',views.CartAPIView.as_view(),name='cart_api'),
+    path('api/add/',views.AddCartAPIView.as_view(),name='add_cart_api'),
+    path('api/update/<int:pk>',views.UpdateCartAPIView.as_view(),name='update-cart-api'),
+    path('api/delete/<int:pk>',views.DeleteCartItemAPIView.as_view(),name='delete-cart-api'),
+    path('api/discount/', views.CheckDiscountAPIView.as_view(),name='check-discount-api')
 ]

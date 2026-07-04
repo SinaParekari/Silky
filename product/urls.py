@@ -7,7 +7,7 @@ urlpatterns = [
     path('add_review/<slug:slug>', views.add_review_view, name='add_review'),
     path('search', views.search_product, name='search_products'),
     path('search_category/<slug:slug>', views.search_product_by_category, name='search_category'),
-    path('product-list-api/',views.ProductListAPIView.as_view(),name='product_list_api'),
-    path('product-detail-api/<slug:slug>',views.ProductDetailAPIView.as_view(),name='product_detail_api'),
+    path('api/product-list-api/',views.ProductListAPIView.as_view(),name='product_list_api'),
+    path('api/product-detail-api/<slug:slug>',views.ProductDetailAPIView.as_view(),name='product_detail_api'),
 
 ]
