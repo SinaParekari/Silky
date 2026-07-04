@@ -28,6 +28,7 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     # path('api/', include('api.urls')),
     path("payment/",include("payment.urls")),
+    path('weblog/', include('weblog.urls'))
 ]
 
 if settings.DEBUG:
