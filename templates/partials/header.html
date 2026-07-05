@@ -999,7 +999,7 @@
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/shop/' or request.path == '/shop/search/'%}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
                         </a>
 {% comment %} {% url 'weblog' %} {% endcomment %}
-                        <a href="#"
+                        <a href="{% url "weblog" %}"
                             class="relative text-[14px] {% if request.path == '/weblog/' %}text-[#6294ff] font-medium{% else %}text-[#67788E] hover:text-[#6294ff]{% endif %} mx-[20px] transition-colors group py-2">
                             <span>وبلاگ</span>
                             <span class="absolute bottom-0 right-0 h-[2px] bg-[#6294ff] transition-all duration-300 {% if request.path == '/weblog/' %}w-full{% else %}w-0 group-hover:w-full{% endif %}"></span>
@@ -1300,7 +1300,7 @@
                         {% endif %}
                     </a>
 
-                    <a href="./weblog.html"
+                    <a href="{% url "weblog" %}"
                         class="flex items-center gap-3 py-3 px-4 rounded-xl transition-all duration-300 {% if request.path == '/weblog' %} bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]{% endif %}"
                         :class="activeNav === 'shop' ? 'bg-gradient-to-l from-[#f0fdf4] to-[#dcfce7] text-[#6294ff]' : 'hover:bg-[#F9FAFB] text-[#67788E]'">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center {% if request.path == '/weblog/' %}bg-[#6294ff] text-white {% else %}bg-[#F5F7FA]{% endif %}">
