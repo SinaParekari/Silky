@@ -3,12 +3,48 @@ from .models import Weblog,WeblogCategory,WeblogLike,WeblogReview,WeblogText
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.http import Http404
+from django.db.models import Count, Q
+from django.core.paginator import Paginator
 from django.utils.text import slugify
 from .forms import WeblogReviewForm
 # Create your views here.
 
 def weblog(request):
-    return render(request,'weblog.html')
+
+    weblogs = (Weblog.objects.get_active_weblogs().annotate(likes_count=Count("likes", distinct=True),reviews_count=Count("reviews", distinct=True),).order_by("-created_at"))
+
+    categories = (WeblogCategory.objects.annotate(weblogs_count=Count("weblogs",filter=Q(weblogs__is_active=True))))
+
+    category = request.GET.get("category")
+
+    sort = request.GET.get("sort", "newest")
+
+    if sort == "newest":
+        weblogs = weblogs.order_by("-created_at")
+
+    elif sort == "oldest":
+        weblogs = weblogs.order_by("created_at")
+
+    elif sort == "views":
+        weblogs = weblogs.order_by("-views")
+
+    elif sort == "likes":
+        weblogs = weblogs.order_by("-likes_count")
+
+    if category:
+        weblogs = weblogs.filter(category_id=category)
+
+    paginator = Paginator(weblogs, 9)  # 9 weblogs per page
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "page_obj" : page_obj,
+        "categories": categories,
+    }
+
+    return render(request,'weblog.html', context)
 
 def single_post(request, slug):
     weblog = get_object_or_404(

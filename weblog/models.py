@@ -31,7 +31,7 @@ class WeblogCategory(models.Model):
 class Weblog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="weblogs")
     title = models.CharField( max_length=50)
-    excerpt = models.CharField(max_length=50)
+    excerpt = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, allow_unicode=True)
     is_active = models.BooleanField(default=False)
     category = models.ForeignKey(WeblogCategory,on_delete=models.CASCADE, related_name="weblogs")

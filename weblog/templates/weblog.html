@@ -22,1096 +22,205 @@
             <div class="lg:col-span-7 mt-[10px] lg:mt-0">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[8px] sm:gap-[12px] md:gap-[20px]">
 
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
+                {% for weblog in page_obj %}
+                    <a href="{% url 'single-post' weblog.slug %}" class="block group relative">
+
                         <div
                             class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
                         </div>
 
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
                         <div
                             class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
 
-                            <!-- افکت نوری متحرک داخل کارت -->
                             <div
                                 class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
                             </div>
 
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src={% static "./assets/images/weblog.webp" %} alt="مقاله روانشناسی" loading="lazy">
+                            <div class="relative overflow-hidden rounded-[1.5rem] shadow-sm">
 
-                                <!-- گرادیانت روی عکس -->
+                                <img
+                                    class="w-full h-[160px] sm:h-[180px] md:h-[200px] object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700"
+                                    src="{{ weblog.image.url }}"
+                                    alt="{{ weblog.title }}"
+                                    loading="lazy">
+
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
                                 </div>
 
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
                                 <div
                                     class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
+
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
+
+                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">
+                                        {{ weblog.readTime }} دقیقه مطالعه
+                                    </span>
                                 </div>
 
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
                                 <span
                                     class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
+
+                                    {{ weblog.category.title }}
+
                                 </span>
                             </div>
 
                             <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
+
                                 <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
+                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700">
                                 </div>
 
                                 <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
+                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2">
+
+                                    {{ weblog.title }}
+
                                 </h3>
 
                                 <p
                                     class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
+
+                                    {{ weblog.excerpt }}
+
                                 </p>
+
                             </div>
 
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
                             <div
                                 class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
+
                                 <div class="flex items-center justify-between">
 
-                                    <!-- تاریخ -->
                                     <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src={% static "./assets/images/blog/calendar-2.svg" %} alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
+                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px]">
+
+                                        <img
+                                            class="w-[14px] sm:w-[16px]"
+                                            src="{% static 'assets/images/blog/calendar-2.svg' %}"
+                                            alt="">
+
+                                        <span>{{ weblog.created_at|date:"Y/m/d" }}</span>
+
                                     </div>
 
                                     <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
+
+                                        <div class="flex items-center gap-1">
+
+                                            <svg class="w-4 h-4 text-red-400" viewBox="0 0 16 16" fill="currentColor">
+                                                <path
+                                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                            </svg>
+
+                                            <span class="text-xs font-bold">
+                                                {{ weblog.likes_count }}
+                                            </span>
+
                                         </div>
 
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
+                                        <div class="flex items-center gap-1">
+
+                                            <svg width="16" height="16" viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8">
+
+                                                <path
+                                                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
+                                            </svg>
+
+                                            <span class="font-bold">
+                                                {{ weblog.reviews_count }}
+                                            </span>
+
                                         </div>
+
                                     </div>
+
                                 </div>
+
                             </div>
 
-                            <!-- خط پایین انیمیشن -->
                             <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
+                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700">
                             </div>
+
                         </div>
+
                     </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="block group relative">
-                        <!-- هاله نوری محو پشت کارت که با هاور فعال‌تر می‌شود -->
-                        <div
-                            class="absolute -inset-0.5 bg-gradient-to-br from-blue-400/0 via-blue-400/0 to-blue-400/0 group-hover:from-blue-400/20 group-hover:via-transparent group-hover:to-blue-400/20 rounded-3xl blur-xl transition-all duration-700 opacity-0 group-hover:opacity-100">
-                        </div>
-
-                        <!-- بدنه اصلی کارت (گلس‌مورفیسم) -->
-                        <div
-                            class="relative bg-white/40 backdrop-blur-xl transition-all duration-500 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(35,219,144,0.15)] group-hover:-translate-y-2 w-full p-4 md:p-5 rounded-[2rem] overflow-hidden border border-white/60 group-hover:border-blue-200/50 group-hover:bg-gradient-to-br group-hover:from-white/60 group-hover:to-blue-50/40 z-10">
-
-                            <!-- افکت نوری متحرک داخل کارت -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/40 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none z-20">
-                            </div>
-
-                            <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[1.5rem] shadow-sm">
-                                <img class="w-full object-cover h-[160px] sm:h-[180px] md:h-[200px] group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out"
-                                    src="{% static './assets/images/weblog.webp' %}" alt="مقاله روانشناسی" loading="lazy">
-
-                                <!-- گرادیانت روی عکس -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.5rem]">
-                                </div>
-
-                                <!-- زمان مطالعه (میکرو-اینتراکشن: ورود از پایین با تاخیر) -->
-                                <div
-                                    class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md border border-white/10 text-white px-3 py-1.5 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 flex items-center gap-1.5 shadow-lg z-10">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-[10px] sm:text-[11px] font-medium mt-[2px]">۸ دقیقه مطالعه</span>
-                                </div>
-
-                                <!-- تگ دسته‌بندی گلس (میکرو-اینتراکشن: پرش به بالا در هاور) -->
-                                <span
-                                    class="absolute top-3 left-3 bg-blue-500/10 backdrop-blur-md border border-blue-400/30 text-blue-700 text-[10px] sm:text-[11px] px-3 py-1 rounded-full font-bold shadow-sm transition-transform duration-500 group-hover:-translate-y-1 z-10">
-                                    روانشناسی
-                                </span>
-                            </div>
-
-                            <div class="mt-4 sm:mt-5 md:mt-6 relative">
-                                <!-- خط تزئینی بالای عنوان -->
-                                <div
-                                    class="absolute -top-2 left-0 w-0 group-hover:w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-700 ease-out">
-                                </div>
-
-                                <h3
-                                    class="text-[14px] sm:text-[15px] font-extrabold text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-blue-600 transition-all duration-300 line-clamp-2 leading-tight md:leading-snug">
-                                    نکاتی که هنگام درس خواندن باید به آن توجه کنیم
-                                </h3>
-
-                                <p
-                                    class="text-[11px] sm:text-[12px] text-gray-500 mt-2 md:mt-3 line-clamp-2 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                                    در این مقاله می‌خوانید چگونه با تمرکز و برنامه‌ریزی صحیح بهترین نتیجه را از مطالعه
-                                    خود بگیرید.
-                                </p>
-                            </div>
-
-                            <!-- بخش فوتر (دارای میکرو-اینتراکشن‌های مجزا برای هر آیکون) -->
-                            <div
-                                class="mt-4 sm:mt-5 md:mt-6 pt-4 border-t border-gray-200/50 group-hover:border-blue-200/50 transition-colors duration-300">
-                                <div class="flex items-center justify-between">
-
-                                    <!-- تاریخ -->
-                                    <div
-                                        class="flex items-center gap-1.5 text-gray-400 text-[10px] sm:text-[11px] group-hover:text-gray-500 transition-colors duration-300">
-                                        <img class="w-[14px] sm:w-[16px] opacity-70 group-hover:opacity-100 transition-opacity"
-                                            src="{% static './assets/images/blog/calendar-2.svg' %}" alt="">
-                                        <span class="mt-0.5">12 فروردین 1400</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <!-- لایک -->
-                                        <div
-                                            class="group/like flex items-center gap-1 text-[11px] sm:text-[12px] cursor-pointer">
-                                            <div
-                                                class="relative inline-flex items-center p-1 rounded-full group-hover/like:bg-red-50 transition-colors duration-300">
-                                                <svg class="w-4 h-4 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-125 transition-all duration-300"
-                                                    viewBox="0 0 16 16" fill="currentColor">
-                                                    <path
-                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="text-xs font-bold text-gray-500 group-hover/like:text-red-500 transition-colors mt-0.5">۱۲</span>
-                                        </div>
-
-                                        <!-- کامنت -->
-                                        <div
-                                            class="group/comment flex items-center gap-1 text-[11px] sm:text-[12px] text-gray-400 cursor-pointer">
-                                            <div
-                                                class="p-1 rounded-full group-hover/comment:bg-blue-50 transition-colors duration-300">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    class="text-gray-400 group-hover/comment:text-blue-500 group-hover/comment:-translate-y-0.5 transition-all duration-300"
-                                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="font-bold group-hover/comment:text-blue-500 transition-colors mt-0.5">45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- خط پایین انیمیشن -->
-                            <div
-                                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/3 h-[3px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                            </div>
-                        </div>
-                    </a>
+                {% endfor %}
 
 
                 </div>
-                <div
-                    class="w-full mt-[15px] sm:mt-[20px] md:mt-[30px] flex justify-between items-center mx-auto bg-white shadow h-[50px] sm:h-[65px] md:h-[88px] rounded-[16px] sm:rounded-[16px] md:rounded-[32px] px-[10px] sm:px-[15px] md:px-[20px]">
-                    <div class="flex justify-center group items-center gap-1 sm:gap-2">
+                <div class="w-full mt-8 flex justify-between items-center bg-white shadow rounded-3xl px-6 py-5">
 
-                        <svg class="rotate-180 transition duration-300 stroke-[#CFD6DF] cursor-pointer group-hover:stroke-[#14396C] w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] md:w-[20px] md:h-[20px]"
-                            viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.97533 4.94165L2.91699 9.99998L7.97533 15.0583" stroke-width="1.5"
-                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.0836 10H3.05859" stroke-width="1.5" stroke-miterlimit="10"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                    <!-- Previous -->
+                    <div>
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}"
+                            class="flex items-center gap-2 text-gray-400 hover:text-[#14396C] transition">
 
-                        <p
-                            class="hidden sm:block text-[#CFD6DF] text-[12px] transition duration-300 group-hover:text-[#14396C] cursor-pointer">
-                            قبلی</p>
+                                <svg class="rotate-180 w-5 h-5" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7.97533 4.94165L2.91699 9.99998L7.97533 15.0583" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M17.0836 10H3.05859" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+
+                                <span>قبلی</span>
+
+                            </a>
+                        {% endif %}
                     </div>
-                    <div
-                        class="flex justify-center items-center gap-[2px] sm:gap-1 md:gap-4 text-[12px] sm:text-[14px] text-[#ACB8C4]">
-                        <span
-                            class="text-[#ffffff] cursor-pointer bg-[#14396C] p-[8px] sm:p-[12px] md:p-[15px] rounded-[8px] sm:rounded-[12px] md:rounded-[16px] mx-[3px] sm:mx-[5px] md:mx-[10px] text-[11px]">1</span>
-                        <span
-                            class="text-[#14396C] cursor-pointer mx-[2px] sm:mx-[3px] md:mx-[5px] p-[5px] sm:p-[7px] md:p-[15px] text-[11px]">2</span>
-                        <span
-                            class="text-[#14396C] cursor-pointer mx-[2px] sm:mx-[3px] md:mx-[5px] p-[5px] sm:p-[7px] md:p-[15px] text-[11px]">3</span>
-                        <span
-                            class="hidden sm:inline text-[#14396C] cursor-pointer mx-[2px] sm:mx-[3px] md:mx-[5px] p-[5px] sm:p-[7px] md:p-[15px] text-[11px]">4</span>
-                        <span
-                            class="text-[#14396C] cursor-pointer mx-[2px] sm:mx-[3px] md:mx-[5px] p-[5px] sm:p-[7px] md:p-[15px] text-[11px]">...</span>
-                        <span
-                            class="text-[#14396C] cursor-pointer mx-[2px] sm:mx-[3px] md:mx-[5px] p-[5px] sm:p-[7px] md:p-[15px] text-[11px]">184</span>
-                    </div>
-                    <div class="flex justify-center group items-center gap-1 sm:gap-2">
-                        <p
-                            class="hidden sm:block text-[#CFD6DF] text-[12px] transition duration-300 group-hover:text-[#14396C] cursor-pointer">
-                            بعدی</p>
 
-                        <svg class="transition duration-300 stroke-[#CFD6DF] cursor-pointer group-hover:stroke-[#14396C] w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] md:w-[20px] md:h-[20px]"
-                            viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.97533 4.94165L2.91699 9.99998L7.97533 15.0583" stroke-width="1.5"
-                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.0836 10H3.05859" stroke-width="1.5" stroke-miterlimit="10"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                    <!-- Pages -->
+                    <div class="flex items-center gap-2">
+
+                        {% for num in page_obj.paginator.page_range %}
+
+                            {% if page_obj.number == num %}
+
+                                <span class="bg-[#14396C] text-white rounded-xl px-4 py-2">
+                                    {{ num }}
+                                </span>
+
+                            {% else %}
+
+                                <a href="?page={{ num }}"
+                                class="text-[#14396C] px-4 py-2 rounded-xl hover:bg-gray-100">
+                                    {{ num }}
+                                </a>
+
+                            {% endif %}
+
+                        {% endfor %}
 
                     </div>
+
+                    <!-- Next -->
+                    <div>
+
+                        {% if page_obj.has_next %}
+
+                            <a href="?page={{ page_obj.next_page_number }}"
+                            class="flex items-center gap-2 text-gray-400 hover:text-[#14396C] transition">
+
+                                <span>بعدی</span>
+
+                                <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7.97533 4.94165L2.91699 9.99998L7.97533 15.0583" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M17.0836 10H3.05859" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
             </div>
             <div class="lg:col-span-3 order-first lg:order-last">
@@ -1121,14 +230,27 @@
                         <p class="text-[14px] sm:text-[16px] text-[#000000]">فیلتر ها</p>
                     </div>
                     <div x-data="{
-          open: false,
-          selected: 'جدیدترین ها',
-          options: ['جدیدترین ها', 'قدیمی‌ترین ها', 'محبوب‌ترین‌ها', 'ارزان‌ترین‌ها'],
-          select(option) {
-            this.selected = option;
-            this.open = false;
-          }
-        }" @click.away="open = false" class="relative w-full mx-auto">
+                                open: false,
+                                selected: 'جدیدترین ها',
+
+                                options: [
+                                    {label: 'جدیدترین ها', value: 'newest'},
+                                    {label: 'قدیمی‌ترین ها', value: 'oldest'},
+                                    {label: 'پربازدیدترین', value: 'views'},
+                                    {label: 'محبوب‌ترین', value: 'likes'},
+                                ],
+
+                                select(option) {
+                                    this.selected = option.label;
+                                    this.open = false;
+
+                                    const url = new URL(window.location);
+                                    url.searchParams.set('sort', option.value);
+
+                                    window.location = url;
+                                }
+                            }"
+                            @click.away="open = false" class="relative w-full mx-auto">
                         <div @click="open = !open"
                             class="w-full border border-[#E7EAF0] text-[#ACB8C4] py-[10px] sm:py-[12px] md:py-[13px] px-[10px] sm:px-[12px] md:px-[15px] mt-[8px] sm:mt-[10px] text-[12px] rounded-[10px] sm:rounded-[13px] md:rounded-[16px] custom-select cursor-pointer flex items-center justify-between">
                             <span x-text="selected"></span>
@@ -1147,10 +269,12 @@
                             x-transition:leave-end="opacity-0 scale-y-0"
                             class="absolute z-10 w-full mt-1 bg-white border border-[#E7EAF0] rounded-[10px] sm:rounded-[13px] md:rounded-[16px] shadow-lg overflow-hidden origin-top"
                             style="transform-origin: top;">
-                            <template x-for="option in options" :key="option">
-                                <div @click="select(option)"
+                            <template x-for="option in options" :key="option.value">
+                                <div
+                                    @click="select(option)"
                                     class="px-[10px] sm:px-[12px] md:px-[15px] py-[8px] sm:py-[10px] md:py-[12px] text-[12px] text-[#ACB8C4] cursor-pointer hover:bg-gray-50"
-                                    x-text="option"></div>
+                                    x-text="option.label">
+                                </div>
                             </template>
                         </div>
                     </div>
@@ -1172,29 +296,21 @@
                         </svg>
                         <p class="text-[14px] sm:text-[16px] text-[#000000]">دسته بندی ها</p>
                     </div>
-                    <a href="#"
-                        class="w-full flex justify-between items-center mt-[12px] sm:mt-[16px] md:mt-[20px]"><span
-                            class="text-[12px] text-[#67788E]">برای دبستانی ها</span><span
-                            class="text-[10px] sm:text-[11px] md:text-[12px] text-[#ACB8C4]">۱۲ مقاله</span></a>
-                    <a href="#"
-                        class="w-full flex justify-between items-center mt-[12px] sm:mt-[20px] md:mt-[30px]"><span
-                            class="text-[12px] text-[#67788E]">نکات کنکوری</span><span
-                            class="text-[10px] sm:text-[11px] md:text-[12px] text-[#ACB8C4]">3
-                            مقاله</span></a>
-                    <a href="#"
-                        class="w-full flex justify-between items-center mt-[12px] sm:mt-[20px] md:mt-[30px]"><span
-                            class="text-[12px] text-[#67788E]">پاسخ های کتاب</span><span
-                            class="text-[10px] sm:text-[11px] md:text-[12px] text-[#ACB8C4]">18 مقاله</span></a>
-                    <a href="#"
-                        class="w-full flex justify-between items-center mt-[12px] sm:mt-[20px] md:mt-[30px]"><span
-                            class="text-[12px] text-[#67788E]">انتشارات برتر
-                            1404</span><span class="text-[10px] sm:text-[11px] md:text-[12px] text-[#ACB8C4]">8
-                            مقاله</span></a>
-                    <a href="#"
-                        class="w-full flex justify-between items-center mt-[12px] sm:mt-[20px] md:mt-[30px]"><span
-                            class="text-[12px] text-[#67788E]">کتاب های قدیمی و
-                            نوستالژی</span><span class="text-[10px] sm:text-[11px] md:text-[12px] text-[#ACB8C4]">4
-                            مقاله</span></a>
+                    {% for category in categories %}
+                        <a
+                            href="?category={{ category.id }}"
+                            class="w-full flex justify-between items-center mt-5">
+
+                            <span class="text-[12px] text-[#67788E]">
+                                {{ category.title }}
+                            </span>
+
+                            <span class="text-[12px] text-[#ACB8C4]">
+                                {{ category.weblogs_count }} مقاله
+                            </span>
+
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
