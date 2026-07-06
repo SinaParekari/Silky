@@ -716,40 +716,46 @@
     <!-- ═══════════════════════════════════
      NEWSLETTER
 ═══════════════════════════════════ -->
-    <section class="py-20 bg-white" id="newsletter">
-        <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
-            <div
-                class="bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 rounded-3xl p-10 sm:p-14 border border-indigo-100">
-                <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5">
-                    📬</div>
-                <h2 class="text-2xl sm:text-3xl font-black text-slate-800">از تخفیف‌ها عقب نمانید!</h2>
-                <p class="text-slate-500 text-sm mt-3 leading-loose">
-                    عضو خبرنامه شوید و اولین نفری باشید که از آفرهای ویژه باخبر می‌شود
-                </p>
-                <div class="mt-7 flex flex-col sm:flex-row gap-3">
-                    <input x-model="email" type="email" placeholder="ایمیل شما..."
-                        class="flex-1 px-5 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all font-semibold"
-                        @keyup.enter="subscribeEmail()">
-                    <button @click="subscribeEmail()"
-                        class="bg-gradient-to-l from-indigo-600 to-purple-600 cursor-pointer text-white px-7 py-3.5 rounded-2xl font-black text-sm hover:shadow-xl hover:shadow-indigo-200 transition-all active:scale-95 shine whitespace-nowrap">
-                        عضویت رایگان 🎁
-                    </button>
-                </div>
-                <p class="text-xs text-slate-400 mt-4">
-                    🔒 اطلاعات شما محفوظ است — هر زمان لغو عضویت کنید
-                </p>
-                <!-- Benefits -->
-                <div class="grid grid-cols-3 gap-3 mt-6">
-                    <template x-for="nb in newsPerks" :key="nb.text">
-                        <div class="bg-white/70 rounded-2xl p-3 border border-white">
-                            <p class="text-xl mb-1" x-text="nb.icon"></p>
-                            <p class="text-[11px] font-bold text-slate-600" x-text="nb.text"></p>
-                        </div>
-                    </template>
+        {% if request.user.is_authenticated %}
+        {% else %}
+                <section class="py-20 bg-white" id="newsletter">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
+                <div
+                    class="bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 rounded-3xl p-10 sm:p-14 border border-indigo-100">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5">
+                        📬</div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-800">از تخفیف‌ها عقب نمانید!</h2>
+                    <p class="text-slate-500 text-sm mt-3 leading-loose">
+                        عضو خبرنامه شوید و اولین نفری باشید که از آفرهای ویژه باخبر می‌شود
+                    </p>
+                    <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                        <input x-model="email" type="email" placeholder="ایمیل شما..."
+                            class="flex-1 px-5 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all font-semibold"
+                            @keyup.enter="subscribeEmail()">
+                        <a href="{% url "login" %}">
+                            <button @click="subscribeEmail()"
+                            class="bg-gradient-to-l from-indigo-600 to-purple-600 cursor-pointer text-white px-7 py-3.5 rounded-2xl font-black text-sm hover:shadow-xl hover:shadow-indigo-200 transition-all active:scale-95 shine whitespace-nowrap">
+                            عضویت رایگان 🎁
+                        </button>
+                        </a>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4">
+                        🔒 اطلاعات شما محفوظ است — هر زمان لغو عضویت کنید
+                    </p>
+                    <!-- Benefits -->
+                    <div class="grid grid-cols-3 gap-3 mt-6">
+                        <template x-for="nb in newsPerks" :key="nb.text">
+                            <div class="bg-white/70 rounded-2xl p-3 border border-white">
+                                <p class="text-xl mb-1" x-text="nb.icon"></p>
+                                <p class="text-[11px] font-bold text-slate-600" x-text="nb.text"></p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        
+        {% endif %}
 
     <!-- ═══════════════════════════════════
      FAQ
