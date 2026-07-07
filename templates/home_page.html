@@ -1078,6 +1078,7 @@
       {{ products|json_script:"products-data" }}
       {{ categories|json_script:"categories-data" }}
       {{ most_visited|json_script:"most-visited-data" }}
+      {{ heroStats|json_script:"heroStats-data" }}
         <script>
         function shop() {
             return {
@@ -1119,12 +1120,8 @@
                 ],
 
                 /* ─── HERO STATS ─── */
-                heroStats: [
-                    { value: '+۳,۵۰۰', label: 'محصول متنوع' },
-                    { value: '+۱۲۰K', label: 'مشتری راضی' },
-                    { value: '+۵۰۰', label: 'برند معتبر' },
-                    { value: '۹۸٪', label: 'رضایت خریداران' }
-                ],
+                heroStats: JSON.parse(document.getElementById("heroStats-data").textContent),
+
 
                 /* ─── TRUST BADGES ─── */
                 trust: [

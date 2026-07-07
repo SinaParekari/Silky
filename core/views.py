@@ -9,7 +9,7 @@ from category.models import Category
 from order.models import Order,OrderItem
 from django.db import models
 from django.db.models import Exists, OuterRef
-
+from settings.models import settings
 # Create your views here.
 
 def home_page(request):
@@ -125,11 +125,22 @@ def home_page(request):
                 for attr in product.attribute_values.select_related("attribute")
             ],
         })
+
+    setting = settings.objects.filter(is_default=True).first()
         
+    heroStats =  [
+                    { "value": f'+{setting.number_of_products}', "label": 'محصول متنوع' },
+                    { "value": f'+{setting.sattisfied_customer}K', "label": 'مشتری راضی' },
+                    { "value": f'+{setting.brand_count}', "label": 'برند معتبر' },
+                    { "value": f'{setting.sattisfy_percent}٪', "label": 'رضایت خریداران' }
+                ]
+
+    
     context = {
             "products" : products,
             "most_visited": most_visited,
             "categories" : categories,
+            "heroStats" : heroStats,
 
         }
     
