@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
+from drf_spectacular.utils import extend_schema
 
 from .serializers import CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer, DiscountSerializer
 
@@ -240,7 +241,12 @@ def apply_discount(request):
     return JsonResponse({'success': False})
 #endregion -----------------------------------------------------------------------------------
 #region --------------------------------- API View -----------------------------------------------------
+@extend_schema(
+summary="Cart",
+description="Returns Cart and CartItems(need authentication)."
+)
 class CartAPIView(APIView):
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request : Request):
@@ -248,7 +254,10 @@ class CartAPIView(APIView):
         serializer = CartSerializer(cart)
         return Response(serializer.data , status=status.HTTP_200_OK)
     
-
+@extend_schema(
+summary="Adding to Cart",
+description="Get's products and add it to User cart."
+)
 class AddCartAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -266,6 +275,10 @@ class AddCartAPIView(APIView):
         
         return Response(None, status=status.HTTP_200_OK)
     
+@extend_schema(
+summary="Update Cart",
+description="Editing Cart, mean increase or decrease the product in Cart."
+)
 class UpdateCartAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -277,6 +290,10 @@ class UpdateCartAPIView(APIView):
         item.save()
         return Response(None, status=status.HTTP_200_OK)
     
+@extend_schema(
+summary="delete Cart Item",
+description="Delete the Cart Item."
+)
 class DeleteCartItemAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -287,6 +304,10 @@ class DeleteCartItemAPIView(APIView):
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
+@extend_schema(
+summary="Checking Discount to apply to the Cart",
+description="takes the code , and check if it's appliable or not."
+)
 class CheckDiscountAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
