@@ -17,6 +17,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .utils import get_orders_json
 
+from django.contrib.auth.hashers import check_password
+
 
 
 # Create your views here.
@@ -32,25 +34,35 @@ def login_register_view(request):
 
     if request.method == 'POST':
         print(request.POST)
-        if 'login_submit' in request.POST:
-            login_form = LoginForm(request.POST)
-            if login_form.is_valid():
-                username = login_form.cleaned_data['username']
-                password = login_form.cleaned_data['password']
-                try:
-                    if '@' in username:
-                        user_obj = User.objects.get(email=username)
-                    else:
-                        user_obj = User.objects.get(phone_number=username)
-                    user = authenticate(request, username=user_obj.username, password=password)
-                    if user:
-                        login(request, user)
-                        return redirect('home')
-                    else:
-                        login_form.add_error(None, 'نام کاربری یا رمز عبور اشتباه است')
-                except User.DoesNotExist:
-                    login_form.add_error(None, 'کاربری با این مشخصات یافت نشد')
+    if 'login_submit' in request.POST:
+        login_form = LoginForm(request.POST)
 
+        if login_form.is_valid():
+            username = login_form.cleaned_data["username"]
+            password = login_form.cleaned_data["password"]
+
+            try:
+                if "@" in username:
+                    user_obj = User.objects.get(email=username)
+                else:
+                    user_obj = User.objects.get(phone_number=username)
+
+            except User.DoesNotExist:
+                login_form.add_error(None, "کاربری با این مشخصات یافت نشد")
+            else:
+                # Authenticate using the actual USERNAME_FIELD (email)
+                user = authenticate(
+                    request,
+                    username=user_obj.email,
+                    password=password,
+                )
+
+                if user is None:
+                    login_form.add_error(None, "نام کاربری یا رمز عبور اشتباه است")
+                else:
+                    login(request, user)
+                    return redirect("home")
+                
         elif 'register_submit' in request.POST:
             register_form = RegisterForm(request.POST) 
             active_tab = 'register'
