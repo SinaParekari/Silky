@@ -21,6 +21,7 @@ class ProductManager(models.Manager):
     def get_products_by_category(self, category):
         return (self.get_active_products().filter(category_id__in=category.get_descendants_ids()))
     
+    
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
