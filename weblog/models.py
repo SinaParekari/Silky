@@ -28,6 +28,7 @@ class WeblogCategory(models.Model):
     def __str__(self):
         return self.title
     
+#
 class Weblog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="weblogs")
     title = models.CharField( max_length=50)
@@ -41,6 +42,13 @@ class Weblog(models.Model):
     views = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to=upload_weblog_image)
     summary = models.CharField(max_length=100)
+
+    products = models.ManyToManyField(
+        Product,
+        through="WeblogRelatedProduct",
+        related_name="weblogs",
+        blank=True,
+    )
 
     objects = WeblogManager()
 
@@ -82,6 +90,7 @@ class WeblogReview(models.Model):
     def __str__(self):
         return f"{self.weblog.title} - {self.user.first_name} {self.user.last_name}"  
     
+#
 class WeblogLike(models.Model):
     weblog = models.ForeignKey(Weblog,on_delete=models.CASCADE,related_name="likes")
 
@@ -99,6 +108,7 @@ class WeblogTag(models.Model):
     def __str__(self):
         return self.title
     
+#
 class WeblogRelatedProduct(models.Model):
     weblog = models.ForeignKey(
         Weblog,

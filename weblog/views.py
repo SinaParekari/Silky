@@ -7,8 +7,17 @@ from django.db.models import Count, Q
 from django.core.paginator import Paginator
 from django.utils.text import slugify
 from .forms import WeblogReviewForm
+#rest framework
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .serializers import WeblogSerializer, CategorySerializer
 # Create your views here.
 
+#region ---------------------- Web Page Views ----------------------------------------------------
 def weblog(request):
 
     weblogs = (Weblog.objects.get_active_weblogs().annotate(likes_count=Count("likes", distinct=True),reviews_count=Count("reviews", distinct=True),).order_by("-created_at"))
@@ -261,3 +270,48 @@ def submit_review(request, slug):
             "message": "Your review has been submitted and is awaiting approval.",
         }
     )
+#endregion ---------------------------------------------------------------------------------
+#region ------------------------ API Views -------------------------------------------------------
+
+class WeblogListAPIView(ListAPIView):
+    serializer_class = WeblogSerializer
+
+    def get_queryset(self):
+        return (
+            Weblog.objects.get_active_weblogs().select_related("user","category",)
+            .prefetch_related("texts","tags","reviews__user","products__images","products__variants",)
+            .annotate(likes_count=Count("likes"))
+            .order_by("-created_at")
+        )
+    
+class WeblogDetailAPIView(RetrieveAPIView):
+    serializer_class = WeblogSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return (
+            Weblog.objects.get_active_weblogs().select_related("user","category")
+            .prefetch_related("texts","tags","reviews__user","products__images","products__variants")
+        )
+    
+class ToggleWebloglikeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request : Request, slug):
+        weblog = Weblog.objects.get_weblog_by_slug(slug)
+        like ,created = WeblogLike.objects.get_or_create(weblog=weblog,user=request.user)
+
+        if created:
+            liked = True
+        else:
+            like.delete()
+            liked = False
+
+        return Response({"liked":liked},status=status.HTTP_200_OK)
+
+    
+class CategoryAPIView(ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = WeblogCategory.objects.all()
+    
+#endregion ---------------------------------------------------------------------------------------
