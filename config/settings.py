@@ -13,22 +13,27 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+from datetime import timedelta
+from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ka)9@jo9*5y@891qkikq*-pcj6o9zxpgf^y2nsjb-mg_d8*3!x'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # Application definition
 
@@ -93,12 +98,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if env("DB_ENGINE") == "django.db.backends.sqlite3":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / env("DB_NAME"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": env("DB_ENGINE"),
+            "NAME": env("DB_NAME"),
+            "USER": env("DB_USER"),
+            "PASSWORD": env("DB_PASSWORD"),
+            "HOST": env("DB_HOST"),
+            "PORT": env("DB_PORT"),
+        }
+    }
 
 
 # Password validation
@@ -125,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = env("TIME_ZONE", default="UTC")
 
 USE_I18N = True
 
@@ -169,6 +186,6 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-ZIBAL_MERCHANT = "zibal"
+ZIBAL_MERCHANT = env("ZIBAL_MERCHANT")
 
-ZIBAL_CALLBACK_URL = "http://127.0.0.1:8000/payment/verify/"
+ZIBAL_CALLBACK_URL = env("ZIBAL_CALLBACK_URL")
